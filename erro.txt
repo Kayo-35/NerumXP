@@ -1,0 +1,5 @@
+PHP Warning:  require(/home/kayo/Documentos/estudos/projetos/NerumXP/vendor/autoload.php): Failed to open stream: No such file or directory in /home/kayo/Documentos/estudos/projetos/NerumXP/artisan on line 10
+PHP Fatal error:  Uncaught Error: Failed opening required '/home/kayo/Documentos/estudos/projetos/NerumXP/vendor/autoload.php' (include_path='.:/usr/share/php') in /home/kayo/Documentos/estudos/projetos/NerumXP/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/kayo/Documentos/estudos/projetos/NerumXP/artisan on line 10
