@@ -12,4 +12,9 @@ class Tipo extends Model
     public $timestamps = false;
 
     protected $fillable = ["nm_tipo"];
+
+    //Relacionamentos
+    public function registro_fixo() {
+        $this->hasMany("registro_fixo","cd_tipo_registro","cd_tipo_registro");
+    }
 }

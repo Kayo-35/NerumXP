@@ -8,8 +8,12 @@ class Assinatura extends Model
 {
     //Definições básicas
     protected $table = "assinatura";
-    protected $primarykey = "cd_assinatura";
+    protected $primaryKey = "cd_assinatura";
     public $timestamps = false;
 
     protected $fillable = ["nm_assinatura"];
+    //Relacionamentos
+    public function usuario() {
+        $this->hasMany("usuario","cd_assinatura","cd_assinatura");
+    }
 }

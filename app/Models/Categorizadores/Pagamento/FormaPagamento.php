@@ -8,7 +8,7 @@ class FormaPagamento extends Model
 {
     //Definições básicas
     protected $table = "forma_pagamento";
-    protected $primarykey = "cd_tipo_forma";
+    protected $primaryKey = "cd_tipo_forma";
     public $timestamps = false;
 
     protected $fillable = ["nm_tipo_metodo"];
