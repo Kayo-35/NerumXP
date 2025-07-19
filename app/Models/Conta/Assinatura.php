@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Models\Conta;
-
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Personas\User;
 
 class Assinatura extends Model
 {
@@ -14,6 +14,6 @@ class Assinatura extends Model
     protected $fillable = ["nm_assinatura"];
     //Relacionamentos
     public function usuario() {
-        $this->hasMany("usuario","cd_assinatura","cd_assinatura");
+        return $this->hasMany(User::class,"cd_assinatura","cd_assinatura");
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Models\Categorizadores\Gerais;
-
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Recursos\Historico;
 
 class Tipo_historico extends Model
 {
@@ -14,6 +14,6 @@ class Tipo_historico extends Model
     protected $fillable = ["nm_tipo_historico"];
     //Relacionamentos
     public function historico() {
-        $this->hasMany("historico","cd_tipo_historico","cd_tipo_historico");
+        return $this->hasMany(Historico::class,"cd_tipo_historico","cd_tipo_historico");
     }
 }

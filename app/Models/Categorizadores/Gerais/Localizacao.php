@@ -3,6 +3,7 @@
 namespace App\Models\Categorizadores\Gerais;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Recursos\RegistroFixo;
 
 class Localizacao extends Model
 {
@@ -14,6 +15,6 @@ class Localizacao extends Model
     protected $fillable = ["nm_localizacao"];
     //Relacionamentos
     public function registro_fixo() {
-        $this->hasMany("registro_fixo","cd_localizacao","cd_localizacao");
+        return $this->hasMany(RegistroFixo::class,"cd_localizacao","cd_localizacao");
     }
 }

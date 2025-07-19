@@ -1,7 +1,7 @@
 <x-layout>
     <div class="container mt-3">
         <h1>Assinaturas</h1>
-        <table class="table">
+        <table class="table text-center">
             <thead class="table-success">
                 <th>Código</th>
                 <th>Nome</th>

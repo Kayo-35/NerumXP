@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Models\Recursos;
-use App\Models\Categorizadores\Gerais;
+use App\Models\Categorizadores\Gerais\Nivel_imp;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\App;
 
 class Metas extends Model
 {
@@ -22,6 +21,6 @@ class Metas extends Model
     );
 
     public function nivel_imp() {
-        $this->belongsTo("nivel_imp","cd_nivel_imp","cd_nivel_imp");
+        return $this->belongsTo(Nivel_imp::class,"cd_nivel_imp","cd_nivel_imp");
     }
 }

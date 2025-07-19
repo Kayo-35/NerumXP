@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Models\Personas;
-
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Recursos\RegistroFixo;
+use App\Models\Recursos\RegistroFlutuante;
 
 class Realizador extends Model
 {
@@ -14,6 +15,9 @@ class Realizador extends Model
     protected $fillable = ["nm_realizador", "ds_realizador"];
     //Relacionamentos
     public function registro_fixo() {
-        $this->hasMany("registro_fixo","cd_realizador","cd_realizador");
+        return $this->hasMany(RegistroFixo::class,"cd_realizador","cd_realizador");
+    }
+    public function registro_flutuante() {
+        return $this->hasMany(RegistroFlutuante::class,"cd_realizador","cd_realizador");
     }
 }

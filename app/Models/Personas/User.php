@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Models\Personas;
-
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Conta\Assinatura;
+use App\Models\Recursos\Panorama;
+use App\Models\Recursos\RegistroFixo;
+use App\Models\Recursos\RegistroFlutuante;
 
 class User extends Model
 {
@@ -19,15 +22,15 @@ class User extends Model
 
     //Relacionamentos
     public function assinatura() {
-        $this->belongsTo("assinatura","cd_assinatura","cd_assinatura");
+        return $this->belongsTo(Assinatura::class,"cd_assinatura","cd_assinatura");
     }
     public function registro_fixo() {
-        $this->hasMany("registro_fixo","cd_usuairo","cd_usuario");
+        return $this->hasMany(RegistroFixo::class,"cd_usuairo","cd_usuario");
     }
     public function registro_flutuante() {
-        $this->hasMany("registro_flutuante","cd_usuario","cd_usuario");
+        return $this->hasMany(RegistroFlutuante::class,"cd_usuario","cd_usuario");
     }
     public function resumoGeral() {
-        $this->hasMany("resumoGeral","cd_usuario","cd_usuario");
+        return $this->hasMany(Panorama::class,"cd_usuario","cd_usuario");
     }
 }

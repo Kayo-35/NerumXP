@@ -2,6 +2,7 @@
 
 namespace App\Models\Recursos;
 
+use App\Models\Personas\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Panorama extends Model
@@ -12,6 +13,6 @@ class Panorama extends Model
 
     //Relacionamentos
     public function usuario() {
-        $this->belongsTo("usuario","cd_usuario","cd_usuario");
+        return $this->belongsTo(User::class,"cd_usuario","cd_usuario");
     }
 }

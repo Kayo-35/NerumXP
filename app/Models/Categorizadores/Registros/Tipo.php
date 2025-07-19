@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Models\Categorizadores\Registros;
-
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Recursos\RegistroFixo;
+use App\Models\Recursos\RegistroFlutuante;
 
 class Tipo extends Model
 {
@@ -15,6 +16,9 @@ class Tipo extends Model
 
     //Relacionamentos
     public function registro_fixo() {
-        $this->hasMany("registro_fixo","cd_tipo_registro","cd_tipo_registro");
+        return $this->hasMany(RegistroFixo::class,"cd_tipo_registro","cd_tipo_registro");
+    }
+    public function registro_flutuante(){
+        return $this->hasMany(RegistroFlutuante::class,"cd_tipo_registro","cd_tipo_registro");
     }
 }

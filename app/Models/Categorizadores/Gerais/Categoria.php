@@ -3,6 +3,7 @@
 namespace App\Models\Categorizadores\Gerais;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Recursos\RegistroFixo;
 
 class Categoria extends Model
 {
@@ -14,6 +15,6 @@ class Categoria extends Model
     protected $fillable = ["nm_categoria"];
     //Relacionamentos
     public function registro_fixo() {
-        $this->hasMany("registro_fixo","cd_categoria","cd_categoria");
+        return $this->hasMany(RegistroFixo::class,"cd_categoria","cd_categoria");
     }
 }

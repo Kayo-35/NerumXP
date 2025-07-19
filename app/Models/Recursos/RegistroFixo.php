@@ -1,6 +1,13 @@
 <?php
 
 namespace App\Models\Recursos;
+use App\Models\Categorizadores\Gerais\Categoria;
+use App\Models\Categorizadores\Gerais\Localizacao;
+use App\Models\Categorizadores\Gerais\Nivel_imp;
+use App\Models\Categorizadores\Registros\Tipo;
+use App\Models\Personas\Realizador;
+use App\Models\Personas\User;
+use App\Models\Recursos\Historico;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,24 +36,24 @@ class RegistroFixo extends Model
     ];
     //Relacionamentos
     public function usuario() {
-        $this->belongsTo("usuario","cd_usuario","cd_usuario");
+        return $this->belongsTo(User::class,"cd_usuario","cd_usuario");
     }
     public function tipo() {
-        $this->belongsTo("tipo_registro","cd_tipo_registro","cd_tipo_registro");
+        return $this->belongsTo(Tipo::class,"cd_tipo_registro","cd_tipo_registro");
     }
     public function nivel_imp() {
-        $this->belongsTo("nivel_imp","cd_nivel_imp","cd_nivel_imp");
+        return $this->belongsTo(Nivel_imp::class,"cd_nivel_imp","cd_nivel_imp");
     }
     public function categoria() {
-        $this->belongsTo("categoria","cd_categoria","cd_categoria");
+        return $this->belongsTo(Categoria::class,"cd_categoria","cd_categoria");
     }
     public function localizacao(){
-        $this->belongsTo("localizacao","cd_localizacao","cd_localizacao");
+        return $this->belongsTo(Localizacao::class,"cd_localizacao","cd_localizacao");
     }
     public function realizador() {
-        $this->belongsTo("realizador_transacao","cd_realizador","cd_realizador");
+        return $this->belongsTo(Realizador::class,"cd_realizador","cd_realizador");
     }
     public function historico() {
-        $this->hasMany("historico","cd_registro_fixo","cd_registro_fixo");
+        return $this->hasMany(Historico::class,"cd_registro_fixo","cd_registro_fixo");
     }
 }
