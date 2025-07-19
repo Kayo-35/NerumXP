@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('historico', function (Blueprint $table) {
             $table->id("cd_historico");
             $table->foreignId("cd_origem_fixo")
+                ->nullable()
                 ->references("cd_registro_fixo")
                 ->on("registro_fixo")
                 ->onDelete("cascade");
             $table->foreignId("cd_origem_flutuante")
+                ->nullable()
                 ->references("cd_registro_flutuante")
                 ->on("registro_flutuante")
                 ->onDelete("cascade");

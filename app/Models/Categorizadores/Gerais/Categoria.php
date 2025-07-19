@@ -4,6 +4,7 @@ namespace App\Models\Categorizadores\Gerais;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Recursos\RegistroFixo;
+use App\Models\Recursos\RegistroFlutuante;
 
 class Categoria extends Model
 {
@@ -16,5 +17,8 @@ class Categoria extends Model
     //Relacionamentos
     public function registro_fixo() {
         return $this->hasMany(RegistroFixo::class,"cd_categoria","cd_categoria");
+    }
+    public function registro_flutuante() {
+        return $this->hasMany(RegistroFlutuante::class,"cd_categoria","cd_categoria");
     }
 }

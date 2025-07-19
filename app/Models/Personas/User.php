@@ -25,7 +25,7 @@ class User extends Model
         return $this->belongsTo(Assinatura::class,"cd_assinatura","cd_assinatura");
     }
     public function registro_fixo() {
-        return $this->hasMany(RegistroFixo::class,"cd_usuairo","cd_usuario");
+        return $this->hasMany(RegistroFixo::class,"cd_usuario","cd_usuario");
     }
     public function registro_flutuante() {
         return $this->hasMany(RegistroFlutuante::class,"cd_usuario","cd_usuario");
