@@ -4,16 +4,17 @@ namespace App\Models\Recursos;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RegistroFixo extends Model
+class RegistroFlutuante extends Model
 {
     //Definições básicas
-    protected $table = "registro_fixo";
-    protected $primaryKey = "cd_registro_fixo";
+    protected $table = "registro_flutuante";
+    protected $primaryKey = "cd_registro_flutuante";
 
     protected $fillable = [
         "cd_usuario",
         "cd_tipo_registro",
         "cd_nivel_imp",
+        "cd_tipo_juro",
         "cd_categoria",
         "cd_localizacao",
         "cd_realizador",
@@ -27,12 +28,16 @@ class RegistroFixo extends Model
         "qt_parcelas",
         "qt_parcelas_pagas",
     ];
+
     //Relacionamentos
     public function usuario() {
         $this->belongsTo("usuario","cd_usuario","cd_usuario");
     }
     public function tipo() {
         $this->belongsTo("tipo_registro","cd_tipo_registro","cd_tipo_registro");
+    }
+    public function juro() {
+        $this->belongsTo("registro_tipo_juros","cd_tipo_juros","cd_tipo_juros");
     }
     public function nivel_imp() {
         $this->belongsTo("nivel_imp","cd_nivel_imp","cd_nivel_imp");
@@ -47,6 +52,6 @@ class RegistroFixo extends Model
         $this->belongsTo("realizador_transacao","cd_realizador","cd_realizador");
     }
     public function historico() {
-        $this->hasMany("historico","cd_registro_fixo","cd_registro_fixo");
+        $this->hasMany("historico","cd_registro_flutuante","cd_registro_flutuante");
     }
 }

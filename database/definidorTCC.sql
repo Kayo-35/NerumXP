@@ -103,12 +103,12 @@ CONSTRAINT pk_projeto
 
 -- Armazena histórico de valores(util para metas)
 CREATE TABLE historico (
-cd_historico INT UNSINGED NOT NULL,
+cd_historico INT UNSIGNED NOT NULL,
 cd_origem_fixo INT UNSIGNED,
-cd_origem_flut INT UNSINGED,
-
+cd_origem_flut INT UNSIGNED,
+cd_tipo_historico INT UNSIGNED,
 vl_valor DECIMAL(9,2) NOT NULL,
-dt_edicao DATE NOT NULL
+-- dt_edicao DATE NOT NULL (TimeStamps)
 
 CONSTRAINT pk_historico
 	PRIMARY KEY(cd_historico)
@@ -193,7 +193,7 @@ vl_valor_registro DECIMAL(9,2),
 ic_pago BOOL NOT NULL,
 nm_registro_flutuante VARCHAR(30),
 ic_status BOOL NOT NULL,
-pc_taxa_juros DECIMAL(5,3) NOT NULL,
+pc_taxa_juros DECIMAL(6,3) NOT NULL,
 dt_pagamento DATE,
 -- dt_registro DATE, TimeStamps já inclui
 dt_vencimento DATE,
