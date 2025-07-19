@@ -24,4 +24,10 @@ class User extends Model
     public function registro_fixo() {
         $this->hasMany("registro_fixo","cd_usuairo","cd_usuario");
     }
+    public function registro_flutuante() {
+        $this->hasMany("registro_flutuante","cd_usuario","cd_usuario");
+    }
+    public function resumoGeral() {
+        $this->hasMany("resumoGeral","cd_usuario","cd_usuario");
+    }
 }

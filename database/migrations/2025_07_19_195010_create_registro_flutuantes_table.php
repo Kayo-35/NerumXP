@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('registro_fixo', function (Blueprint $table) {
-            $table->id("cd_registro_fixo");
+        Schema::create('registro_flutuante', function (Blueprint $table) {
+            $table->id("cd_registro_flutuante");
+            $table->timestamps();
             $table->foreignId("cd_usuario")
                 ->references("cd_usuario")
                 ->on("usuario")
@@ -20,6 +21,11 @@ return new class extends Migration
             $table->foreignId("cd_tipo_registro")
                 ->references("cd_tipo_registro")
                 ->on("tipo_registro")
+                ->onDelete("cascade");
+            $table->foreignId("cd_tipo_juro")
+                ->nullable()
+                ->references("cd_tipo_juro")
+                ->on("registro_tipo_juros")
                 ->onDelete("cascade");
             $table->foreignId("cd_nivel_imp")
                 ->nullable()
@@ -42,19 +48,14 @@ return new class extends Migration
                 ->on("realizador_transacao")
                 ->onDelete("cascade");
 
-            $table->string("nm_registroFixo",30);
-            $table->decimal("vl_valor",9,2);
+            $table->string("nm_registro_flutuante",30);
+            $table->decimal("vl_valor_registro",9,2);
             $table->boolean("ic_pago");
             $table->boolean("ic_status");
-            $table->date("dt_pagamento")
-                ->nullable();
+            $table->decimal("pc_taxa_juros",6,3);
+            $table->date("dt_pagamento")->nullable();
+            $table->date("dt_vencimento")->nullable();
             $table->tinytext("ds_descricao");
-
-            $table->tinyInteger("qt_parcelas")
-                ->nullable();
-            $table->tinyInteger("qt_parcelas_pagas")
-                ->nullable();
-            $table->timestamps();
         });
     }
 
@@ -63,6 +64,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('registro_fixo');
+        Schema::dropIfExists('registro_flutuante');
     }
 };

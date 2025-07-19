@@ -12,4 +12,8 @@ class Tipo_historico extends Model
     public $timestamps = false;
 
     protected $fillable = ["nm_tipo_historico"];
+    //Relacionamentos
+    public function historico() {
+        $this->hasMany("historico","cd_tipo_historico","cd_tipo_historico");
+    }
 }
