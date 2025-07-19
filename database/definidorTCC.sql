@@ -29,7 +29,6 @@ CONSTRAINT pk_realizador
 	PRIMARY KEY(cd_realizador)
 );
 
-
 -- Categorias seriam que áreas os registros financeiros seriam associados
 CREATE TABLE categoria (
 cd_categoria INT NOT NULL,
@@ -84,15 +83,6 @@ CONSTRAINT pk_tipo_juro
 	PRIMARY KEY(cd_tipo_juro)
 );
 
--- Conta ou recuperação?
-CREATE TABLE tipo_email(
-cd_tipo_email INT NOT NULL,
-sg_tipo_email CHAR(3),
-
-CONSTRAINT pk_tipo_email 
-	PRIMARY KEY(cd_tipo_email)
-);
-
 -- Ainda temos de verificar isso, mas seriam os niveis de assinatura
 CREATE TABLE assinatura(
 cd_assinatura INT NOT NULL,
@@ -116,12 +106,11 @@ CREATE TABLE historico (
 cd_historico INT UNSINGED NOT NULL,
 cd_origem_fixo INT UNSIGNED,
 cd_origem_flut INT UNSINGED,
-cd_registro INT UNSIGNED NOT NULL,
 
 vl_valor DECIMAL(9,2) NOT NULL,
 dt_edicao DATE NOT NULL
 
-CONSTRAINT pk_historico 
+CONSTRAINT pk_historico
 	PRIMARY KEY(cd_historico)
 CONSTRAINT fk_fixo_historico
 	FOREIGN KEY(cd_origem_fixo)
@@ -135,11 +124,14 @@ CONSTRAINT fk_flut_historico
 CREATE TABLE metas (
 cd_metas INT NOT NULL,
 cd_nivel_imp INT,
-
-dt_meta_criacao DATE,
+nm_meta VARCHAR(50),
+-- dt_meta_criacao DATE,TimeStamps já inclui
 dt_termino DATE,
 ic_status BOOL,
 ds_descricao TINYTEXT,
+-- TimeStamps Laravel
+created_at TIMESTAMP,
+updated_at TIMESTAMP,
 
 CONSTRAINT pk_metas
 	PRIMARY KEY(cd_metas),
@@ -148,7 +140,7 @@ CONSTRAINT fk_imp_metas
 		REFERENCES nivel_imp(cd_nivel_imp)
 );
 
--- Associa projetos a metas
+-- Associa projetos a metas ****
 CREATE TABLE proj_metas (
 cd_projeto INT NOT NULL,
 cd_metas INT NOT NULL,
@@ -167,46 +159,23 @@ CONSTRAINT fk_metas
 
 -- Bem essa é autoexplicativa
 CREATE TABLE usuario (
-cd_usuario INT NOT NULL,
+cd_usuario INT NOT NULL AUTO_INCREMENT,
 cd_assinatura INT NOT NULL,
+
+password VARCHAR(255),
+email VARCHAR(255) UNIQUE;
+email_verified_at TIMESTAMP,
+remember_token VARCHAR(100),
 nm_usuario VARCHAR(100),
 dt_nascimento DATE,
+created_at TIMESTAMP NULL,
+update_at TIMESTAMP NULL,
 
 CONSTRAINT pk_usuario
 	PRIMARY KEY(cd_usuario),
 CONSTRAINT fk_assinatura_usuario
 	FOREIGN KEY(cd_assinatura)
 		REFERENCES assinatura(cd_assinatura)
-);
-
--- Email dos usuários
-CREATE TABLE email (
-cd_email INT NOT NULL,
-cd_usuario INT NOT NULL,
-cd_tipo_email INT NOT NULL,
-sg_tipo_email CHAR(3),
-
-CONSTRAINT pk_email
-	PRIMARY KEY(cd_email),
-CONSTRAINT fk_tipoEmail_email
-	FOREIGN KEY(cd_tipo_email)
-		REFERENCES tipo_email(cd_tipo_email)
-);
-
--- Informações de segurança dos usuários
-CREATE TABLE credencial (
-cd_credencial INT NOT NULL,
-cd_usuario INT NOT NULL,
-cd_senha VARCHAR(30),
-cd_chave_cript_pub VARCHAR(255),
-cd_chave_cript_priv VARCHAR(255),
-cd_hash VARCHAR(255),
-
-CONSTRAINT pk_credencial
-	PRIMARY KEY(cd_credencial),
-CONSTRAINT fk_usuario_credencial
-	FOREIGN KEY(cd_usuario)
-		REFERENCES usuario(cd_usuario)
 );
 
 -- Registros afetados por juros
@@ -226,7 +195,7 @@ nm_registro_flutuante VARCHAR(30),
 ic_status BOOL NOT NULL,
 pc_taxa_juros DECIMAL(5,3) NOT NULL,
 dt_pagamento DATE,
-dt_registro DATE,
+-- dt_registro DATE, TimeStamps já inclui
 dt_vencimento DATE,
 ds_descricao TINYTEXT,
 
@@ -271,9 +240,12 @@ vl_valor DECIMAL(9,2),
 ic_pago BOOL,
 ic_status BOOL,
 dt_pagamento DATE,
-dt_registro DATE,
 ds_descricao TINYTEXT,
+-- dt_registro DATE, (substituido pelos timestamps)
 
+-- TimeStamps Laravel
+created_at TIMESTAMP,
+updated_at TIMESTAMP,
 -- ATRIBUTOS ABAIXO SERÃO PREENCHIDOS APENAS SE ATENDEREM A CONDIÇÃO LÓGICA DOS TRIGGER 2, A SER CRIADO :)
 qt_parcelas TINYINT,
 qt_parcelas_pagas TINYINT,
@@ -289,7 +261,7 @@ CONSTRAINT fk_categoria_registro_fixo
 CONSTRAINT fk_localizacao_registroFixo
 	FOREIGN KEY(cd_localizacao)
 		REFERENCES localizacao(cd_localizacao),
-CONSTRAINT fk_realizador_fixo 
+CONSTRAINT fk_realizador_fixo
 	FOREIGN KEY(cd_realizador)
 		REFERENCES realizador_transacao(cd_realizador)
 );
@@ -389,7 +361,7 @@ CREATE TABLE resumoGeral (
     vl_debito DECIMAL(9,2),
     vl_superavit DECIMAL(9,2),
     vl_balanco DECIMAL(9,2),
-    
+
     CONSTRAINT pk_resumo_geral
 		PRIMARY KEY(cd_resumo),
 	CONSTRAINT fk_resumo_usuario

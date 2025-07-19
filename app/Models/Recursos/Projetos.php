@@ -8,7 +8,7 @@ class Projetos extends Model
 {
     //Definições básicas
     protected $table = "projeto";
-    protected $primarykey = "cd_projeto";
+    protected $primaryKey = "cd_projeto";
     public $timestamps = false;
 
     protected $fillable = ["ds_tema_projeto"];
