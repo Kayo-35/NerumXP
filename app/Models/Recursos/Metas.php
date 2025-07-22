@@ -1,5 +1,6 @@
 <?php
 namespace App\Models\Recursos;
+use App\Models\Recursos\Projetos;
 use App\Models\Categorizadores\Gerais\Nivel_imp;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Recursos\RegistroFlutuante;
@@ -31,5 +32,8 @@ class Metas extends Model
     public function registro_fixo() {
         return $this->belongsToMany(RegistroFixo::class,"metas_reg_fixo","cd_metas","cd_registro_fixo")
             ->withPivot("created_at","updated_at");
+    }
+    public function projeto() {
+        return $this->belongsToMany(Projetos::class,"metas_projeto","cd_projeto","cd_metas");
     }
 }

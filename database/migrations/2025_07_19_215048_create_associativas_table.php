@@ -87,6 +87,18 @@ return new class extends Migration
             $table->timestamps();
             $table->primary(["cd_tipo_forma","cd_registro_fixo"]);
         });
+        Schema::create("metas_projeto", function(Blueprint $table) {
+            $table->foreignId("cd_metas")
+                ->references("cd_metas")
+                ->on("metas")
+                ->onDelete("cascade");
+            $table->foreignId("cd_projeto")
+                ->references("cd_projeto")
+                ->on("projeto")
+                ->onDelete("cascade");
+            $table->timestamps();
+            $table->primary(["cd_metas","cd_projeto"]);
+        });
     }
 
     /**
@@ -100,5 +112,6 @@ return new class extends Migration
         Schema::dropIfExists('registro_flut_metodoP');
         Schema::dropIfExists('registro_fix_metodoP');
         Schema::dropIfExists('registro_fix_tipoP');
+        Schema::dropIfExists('metas_projeto');
     }
 };
