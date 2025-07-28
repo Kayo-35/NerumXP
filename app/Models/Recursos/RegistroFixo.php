@@ -11,7 +11,6 @@ use App\Models\Personas\Realizador;
 use App\Models\Personas\User;
 use App\Models\Recursos\Historico;
 use App\Models\Recursos\Metas;
-
 use Illuminate\Database\Eloquent\Model;
 
 class RegistroFixo extends Model

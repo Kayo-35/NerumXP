@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg bg-secondary">
     <div class="container">
       <img src="{{ asset('img/buildings.svg') }}" height="70" alt="Logo"/>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">

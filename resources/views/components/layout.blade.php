@@ -6,7 +6,7 @@
     <title>NerumXP</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class='bg-dark text-light'>
     <header>
         @include("components.navbar")
     </header>
