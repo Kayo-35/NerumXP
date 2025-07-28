@@ -20,7 +20,6 @@
             </li>
             <li class="text-danger">Páginas Dinâmicas
                 <ul>
-
                     <li>Resumo</li>
                     <li>Relatórios</li>
                     <li>Registros Fixos/Flutuantes</li>
@@ -39,6 +38,18 @@
             <li>Relatórios Complexos(inclui gráficos)</li>
             <li>Simulações</li>
         </ol>
+        <div class="container w-50 mb-3">
+            <div class="card bg-light text-dark">
+                <h5 class="card-header text-center">O que <span class="fw-bold fst-italic text-danger">DEVERIA</span> estar já concluido?</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Etapas inclusas</h5>
+                    <p class="card-text">
+                        <span class="text-success">Setup de permanência de dados com o banco, procedimentos, modelos e migrations.</span>
+                        <span class="text-danger">Das views: Base e Estáticas codificadas e dinâmicas já com wireframes</span>
+                    </p>
+                </div>
+            </div>
+        </div>
         <h3>Pré Requisitos páginas dinâmicas</h3>
         <h4>Registros Fixos/Flutuantes</h4>
         <p>
@@ -130,9 +141,6 @@
                     <li>Ativou ou não</li>
                 </ul>
             </li>
-
-
-
         </ul>
     </div>
 </x-layout>
