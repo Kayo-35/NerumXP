@@ -53,6 +53,8 @@ return new class extends Migration
             $table->boolean("ic_pago");
             $table->boolean("ic_status");
             $table->decimal("pc_taxa_juros",6,3);
+            $table->tinyInteger("qt_parcelas")->nullable();
+            $table->tinyInteger("qt_parcelas_pagas")->nullable();
             $table->date("dt_pagamento")->nullable();
             $table->date("dt_vencimento")->nullable();
             $table->tinytext("ds_descricao");
