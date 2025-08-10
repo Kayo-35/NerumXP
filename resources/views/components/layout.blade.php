@@ -4,12 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NerumXP</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
 </head>
-<body class='bg-dark text-light'>
+<body>
     <header>
         @include("components.navbar")
     </header>
     {{ $slot }}
+    <footer
+        class="bg-light w-100 m-auto p-4"
+    >
+        @include("components.footer")
+    </footer>
 </body>
 </html>
