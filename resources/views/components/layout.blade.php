@@ -12,7 +12,7 @@
     </header>
     {{ $slot }}
     <footer
-        class="bg-light w-100 m-auto p-4"
+        class="bg-light m-auto p-4"
     >
         @include("components.footer")
     </footer>
