@@ -1,14 +1,19 @@
 <?php
 
 namespace App\Models\Personas;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use App\Models\Conta\Assinatura;
 use App\Models\Recursos\Panorama;
 use App\Models\Recursos\RegistroFixo;
 use App\Models\Recursos\RegistroFlutuante;
 
-class User extends Model
+class User extends Model implements Authenticatable
 {
+    use AuthenticatableTrait;
+
     //Definições básicas
     protected $table = "usuario";
     protected $primaryKey = "cd_usuario";
@@ -17,7 +22,6 @@ class User extends Model
         "cd_assinatura",
         "nm_usuario",
         "dt_nascimento",
-
     ];
 
     //Relacionamentos

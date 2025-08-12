@@ -1,18 +1,18 @@
 <?php
-
-use App\Http\Controllers\registro\fixo;
-use App\Http\Controllers\registro\flutuante;
-use App\Models\Recursos\RegistroFlutuante;
+use App\Http\Controllers\Conta\LoginController;
+use App\Http\Controllers\Conta\RegisterController;
+use App\Http\Controllers\Registro\FixoController;
+use App\Http\Controllers\Registro\FlutuanteController;
 use Illuminate\Support\Facades\Route;
 
 Route::view("/","home")->name("home");
 
 //Registros Fixos
-Route::controller(fixo::class)->group(function() {
+Route::controller(FixoController::class)->group(function() {
     Route::get("registro/fixo","index")
         ->name("registroFixo.index");
 
-    Route::get("registro/fixo/{id}","show")
+    Route::get("registro/fixo/{registroFixo}","show")
         ->whereNumber("id")
         ->name("registroFixo.show");
 
@@ -22,19 +22,29 @@ Route::controller(fixo::class)->group(function() {
     Route::post("registro/fixo","store")
         ->name("registroFixo.store");
 
-    Route::get("registro/fixo/{id}/edit","edit")
+    Route::get("registro/fixo/{registroFixo}/edit","edit")
         ->whereNumber("id")
         ->name("registroFixo.edit");
 
-    Route::put("registro/fixo/{id}","update")
+    Route::put("registro/fixo/{registroFixo}","update")
         ->whereNumber("id")
         ->name("registroFixo.put");
 
-    Route::delete("registro/fixo/{id}","destroy")
+    Route::delete("registro/fixo/{registroFixo}","destroy")
         ->whereNumber("id")
         ->name("registroFixo.destroy");
 });
-
 //Laravel automatiza a criação de rotas CRUD para recursos!
 // A estrutura abaixo replica exatamente a mesma acima, com a exceção da nomenclatura das rotas
-Route::resource('registro/flutuante',flutuante::class);
+Route::resource('registro/flutuante',FlutuanteController::class);
+
+//Registration
+Route::controller(RegisterController::class)->group(function() {
+    Route::get("register/create","create")->name("register.create");
+    Route::post("register","store");
+});
+//Login
+Route::controller(LoginController::class)->group(function() {
+   Route::get("login/create","create")->name("login.create");
+   Route::post("login","store");
+});

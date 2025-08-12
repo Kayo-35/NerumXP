@@ -11,10 +11,10 @@
     <x-nav-link href="#">Dúvidas</x-nav-link>
 </div>
 <div class="navbar-nav ms-auto mb-2 mb-lg-0">
-    <button type="button" class="btn btn-outline-secondary mb-2 me-md-2 mb-md-0">
+    <a class="btn btn-outline-secondary mb-2 me-md-2 mb-md-0" href="/register/create">
         Registre-se
-    </button>
-    <button type="button" class="btn btn-outline-primary">
+    </a>
+    <a class="btn btn-outline-success" href="/login/create">
         Login
-    </button>
+    </a>
 </div>

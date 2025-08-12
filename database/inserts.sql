@@ -63,7 +63,7 @@ INSERT INTO `tipo_registro` (`nm_tipo`) VALUES
 -- Inserções de usuários
 INSERT INTO `usuario` (`cd_assinatura`, `password`, `email`, `email_verified_at`, `remember_token`, `nm_usuario`, `dt_nascimento`, `created_at`, `updated_at`) VALUES
 (1,
-'$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+'$2a$12$o/Xc.kA9OpnLpac5Hipk0OStl1u58rYX.AxhTmwfz4MAX3Pc.TcSa',
 'joao.silva@email.com',
 '2023-01-15 10:00:00',
 NULL,
@@ -74,7 +74,7 @@ NULL,
 
 INSERT INTO `usuario` (`cd_assinatura`, `password`, `email`, `email_verified_at`, `remember_token`, `nm_usuario`, `dt_nascimento`, `created_at`, `updated_at`) VALUES
 (3,
-'$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+'$2a$12$o/Xc.kA9OpnLpac5Hipk0OStl1u58rYX.AxhTmwfz4MAX3Pc.TcSa',
 'maria.souza@email.com',
 '2023-01-15 10:00:00',
 NULL,

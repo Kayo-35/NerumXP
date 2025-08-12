@@ -7,3 +7,8 @@
 .footer-icon:hover {
     color: #007bff;
 }
+
+#painelCards .card:hover {
+    border-color: lightgreen;
+    border-width: 3px;
+}
