@@ -6,13 +6,17 @@
     <title>NerumXP</title>
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         @include("components.navbar")
     </header>
-    {{ $slot }}
+
+    <section class="flex-grow-1">
+        {{ $slot }}
+    </section>
+
     <footer
-        class="bg-light m-auto p-4"
+        class="bg-light p-4"
     >
         @include("components.footer")
     </footer>

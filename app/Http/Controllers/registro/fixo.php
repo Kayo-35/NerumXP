@@ -11,13 +11,15 @@ use App\Models\Categorizadores\Pagamento\MetodoPagamento;
 use App\Models\Categorizadores\Registros\Tipo;
 use App\Models\Personas\Realizador;
 use App\Models\Recursos\RegistroFixo;
+use BcMath\Number;
 use Illuminate\Http\Request;
 
 class fixo extends Controller
 {
     //Métodos de recurso
     public function index() {
-        $registros = RegistroFixo::all();
+        $registros = RegistroFixo::all()
+            ->where('cd_usuario',1);
         return view("registro.fixo.index",[
             "registros" => $registros
         ]);
@@ -36,17 +38,17 @@ class fixo extends Controller
             "realizadores" => Realizador::all(),
         ]);
     }
-    public function store() {
+    public function store(Request $request) {
         //To-do
-        return dd(request()->all());
+        return dd($request->all());
     }
-    public function edit() {
-        //To-do
-    }
-    public function update() {
+    public function edit(int $id) {
         //To-do
     }
-    public function destroy() {
+    public function update(Request $request, int $id) {
+        //To-do
+    }
+    public function destroy(int $id) {
         //To-do
     }
 }
