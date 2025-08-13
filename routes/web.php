@@ -12,12 +12,12 @@ Route::controller(FixoController::class)->group(function() {
     Route::get("registro/fixo","index")
         ->name("registroFixo.index");
 
+    Route::get("registro/fixo/create","create")
+        ->name("registroFixo.create");
+
     Route::get("registro/fixo/{registroFixo}","show")
         ->whereNumber("id")
         ->name("registroFixo.show");
-
-    Route::get("registro/fixo/create","create")
-        ->name("registroFixo.create");
 
     Route::post("registro/fixo","store")
         ->name("registroFixo.store");
@@ -47,4 +47,5 @@ Route::controller(RegisterController::class)->group(function() {
 Route::controller(LoginController::class)->group(function() {
    Route::get("login/create","create")->name("login.create");
    Route::post("login","store");
+   Route::delete("login","destroy");
 });

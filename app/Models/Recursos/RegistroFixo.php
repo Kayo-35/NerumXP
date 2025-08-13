@@ -11,10 +11,12 @@ use App\Models\Personas\Realizador;
 use App\Models\Personas\User;
 use App\Models\Recursos\Historico;
 use App\Models\Recursos\Metas;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class RegistroFixo extends Model
 {
+    use HasFactory;
     //Definições básicas
     protected $table = "registro_fixo";
     protected $primaryKey = "cd_registro_fixo";

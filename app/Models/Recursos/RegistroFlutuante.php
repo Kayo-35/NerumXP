@@ -12,11 +12,12 @@ use App\Models\Categorizadores\Registros\Tipo;
 use App\Models\Personas\Realizador;
 use App\Models\Personas\User;
 use App\Models\Recursos\Historico;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class RegistroFlutuante extends Model
 {
+    use HasFactory;
     //Definições básicas
     protected $table = "registro_flutuante";
     protected $primaryKey = "cd_registro_flutuante";

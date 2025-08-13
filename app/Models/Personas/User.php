@@ -9,9 +9,11 @@ use App\Models\Conta\Assinatura;
 use App\Models\Recursos\Panorama;
 use App\Models\Recursos\RegistroFixo;
 use App\Models\Recursos\RegistroFlutuante;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Model implements Authenticatable
 {
+    use HasFactory;
     use AuthenticatableTrait;
 
     //Definições básicas

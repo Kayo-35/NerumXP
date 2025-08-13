@@ -1,5 +1,5 @@
 <x-layout>
-    <section id="painelCards" class="mx-5 mt-2">
+    <section class="mx-5 mt-5">
         <div class="row">
             @foreach($registros as $registro)
                 <div class="col-md-4 col-sm-12 mt-4 mb-4">
@@ -26,6 +26,11 @@
                     </a>
                 </div>
             @endforeach
+
+            <!-- Paginação com bootstrap-->
+            <div>
+                {{ $registros->links() }}
+            </div>
         </div>
     </section>
 </x-layout>

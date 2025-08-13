@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\registro;
+namespace App\Http\Controllers\Registro;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categorizadores\Gerais\Categoria;
@@ -19,7 +19,7 @@ class FixoController extends Controller
     //Métodos de recurso
     public function index()
     {
-        $registros = RegistroFixo::all()->where("cd_usuario", 1);
+        $registros = RegistroFixo::orderBy('nm_registroFixo')->paginate(9);
         return view("registro.fixo.index", [
             "registros" => $registros,
         ]);
