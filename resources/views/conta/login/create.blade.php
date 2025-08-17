@@ -1,5 +1,4 @@
 <x-layout>
-<!-- No surplus words or unnecessary actions. - Marcus Aurelius -->
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
@@ -14,12 +13,14 @@
                         <div class="mb-3">
                             <label for="email" class="form-label text-secondary fw-bold">Email</label>
                             <input type="email" class="form-control border-success" id="email" name="email" required>
+                            <x-helper.error campo="email"></x-helper.error>
                         </div>
 
                         <!-- Campo Senha -->
                         <div class="mb-3">
                             <label for="senha" class="form-label text-secondary fw-bold">Senha</label>
                             <input type="password" class="form-control border-success" id="senha" name="password" required>
+                            <x-helper.error campo="password"></x-helper.error>
                         </div>
 
                         <div class="d-grid gap-2">

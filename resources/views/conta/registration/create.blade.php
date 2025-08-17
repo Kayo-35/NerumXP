@@ -7,30 +7,34 @@
                     <h3 class="mb-0">Registro de Conta</h3>
                 </div>
                 <div class="card-body p-4">
-                    <form>
+                    <form action="{{ route("register.store") }}" method="POST">
+                        @csrf
                         <!-- Campo Nome -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="nome" class="form-label text-secondary fw-bold">Nome Completo</label>
-                            <input type="text" class="form-control border-success" id="nome" name="nome" required>
-                            <div class="form-text text-muted">Digite seu nome completo</div>
+                            <input type="text" class="form-control border-success" id="nome" name="nm_usuario" placeholder="Digite seu nome completo" required>
+                            <x-helper.error campo="nm_usuario"></x-helper.error>
                         </div>
 
                         <!-- Campo Email -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="email" class="form-label text-secondary fw-bold">Email</label>
-                            <input type="email" class="form-control border-success" id="email" name="email" required>
+                            <input type="mail" class="form-control border-success" id="email" name="email" required>
+                            <x-helper.error campo="email"></x-helper.error>
                         </div>
 
                         <!-- Campo Senha -->
-                        <div class="mb-3">
+                        <div class="mb-4">
                             <label for="senha" class="form-label text-secondary fw-bold">Senha</label>
-                            <input type="password" class="form-control border-success" id="senha" name="senha" required>
+                            <input type="password" class="form-control border-success" id="senha" name="password" required>
+                            <x-helper.error campo="password"></x-helper.error>
                         </div>
 
                         <!-- Campo Data de Nascimento -->
                         <div class="mb-4">
                             <label for="dataNascimento" class="form-label text-secondary fw-bold">Data de Nascimento</label>
-                            <input type="date" class="form-control border-success" id="dataNascimento" name="dataNascimento" required>
+                            <input type="date" class="form-control border-success" id="dataNascimento" name="dt_nascimento" required>
+                            <x-helper.error campo="dt_nascimento"></x-helper.error>
                         </div>
 
                         <!-- Botões -->

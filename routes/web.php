@@ -34,6 +34,7 @@ Route::controller(FixoController::class)->group(function() {
         ->whereNumber("id")
         ->name("registroFixo.destroy");
 });
+
 //Laravel automatiza a criação de rotas CRUD para recursos!
 // A estrutura abaixo replica exatamente a mesma acima, com a exceção da nomenclatura das rotas
 Route::resource('registro/flutuante',FlutuanteController::class);
@@ -41,8 +42,9 @@ Route::resource('registro/flutuante',FlutuanteController::class);
 //Registration
 Route::controller(RegisterController::class)->group(function() {
     Route::get("register/create","create")->name("register.create");
-    Route::post("register","store");
+    Route::post("register","store")->name("register.store");
 });
+
 //Login
 Route::controller(LoginController::class)->group(function() {
    Route::get("login/create","create")->name("login.create");

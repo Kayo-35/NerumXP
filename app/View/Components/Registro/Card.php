@@ -42,30 +42,19 @@ class Card extends Component
 
     public function getCategory(): string
     {
-        switch ($this->icon) {
-            case 1:
-                return "bi-basket-fill";
-            case 2:
-                return "bi-car-front-fill";
-            case 3:
-                return "bi-house-fill";
-            case 4:
-                return "bi-heart-fill";
-            case 5:
-                return "bi-heart-fill";
-            case 6:
-                return "bi-mortarboard-fill";
-            case 7:
-                return "bi-sunglasses";
-            case 8:
-                return "bi-cash-stack";
-            case 9:
-                return "bi-graph-up-arrow";
-            case 10:
-                return "bi-mortarboard-fill";
-            default:
-                return "nothing";
-        }
+        return match($this->icon) {
+            1 => "bi-basket-fill",
+            2 => "bi-car-front-fill",
+            3 => "bi-house-fill",
+            4 => "bi-heart-fill",
+            5 => "bi-heart-fill",
+            6 => "bi-mortarboard-fill",
+            7 => "bi-sunglasses",
+            8 => "bi-cash-stack",
+            9 => "bi-graph-up-arrow",
+            10 => "bi-mortarboard-fill",
+            default => "nothing"
+        };
     }
     /**
      * Get the view / contents that represent the component.

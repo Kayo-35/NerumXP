@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Conta;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -17,7 +16,7 @@ class LoginController extends Controller
         //To-do
         $validated = $request->validate([
             "email" => 'email|required',
-            "password" => 'min:8|required',
+            "password" => 'required',
         ]);
         if(!Auth::attempt($validated)) {
             throw ValidationException::withMessages([

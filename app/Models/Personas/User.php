@@ -23,7 +23,13 @@ class User extends Model implements Authenticatable
     protected $fillable = [
         "cd_assinatura",
         "nm_usuario",
+        "email",
+        "password",
         "dt_nascimento",
+    ];
+
+    protected $casts = [
+        'dt_nascimento' => 'date',
     ];
 
     //Relacionamentos
