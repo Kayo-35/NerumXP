@@ -26,7 +26,9 @@ class FixoController extends Controller
     }
     public function show(RegistroFixo $registroFixo)
     {
-        return view("registro.fixo.show", $registroFixo);
+        return view("registro.fixo.show", [
+            "registro" => $registroFixo
+        ]);
     }
     public function create()
     {

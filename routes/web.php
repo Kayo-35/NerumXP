@@ -16,7 +16,7 @@ Route::controller(FixoController::class)->group(function() {
         ->name("registroFixo.create");
 
     Route::get("registro/fixo/{registroFixo}","show")
-        ->whereNumber("id")
+        ->whereNumber("registroFixo")
         ->name("registroFixo.show");
 
     Route::post("registro/fixo","store")

@@ -24,10 +24,10 @@
 
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             @guest
-                @include('components.guestBar')
+                @include('components.nav.guestBar')
             @endguest
             @auth
-                @include('components.authBar')
+                @include('components.nav.authBar')
             @endauth
         </div>
     </div>

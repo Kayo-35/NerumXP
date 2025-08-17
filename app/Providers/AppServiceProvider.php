@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
@@ -22,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //configs
         Paginator::useBootstrapFive();
+        Blade::component('registro.card', \App\View\Components\Registro\Card::class);;
     }
 }

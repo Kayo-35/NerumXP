@@ -8,7 +8,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
-        @include("components.navbar")
+        @include("components.nav.navbar")
     </header>
 
     <section class="flex-grow-1">
@@ -18,7 +18,7 @@
     <footer
         class="bg-light p-4"
     >
-        @include("components.footer")
+        @include("components.nav.footer")
     </footer>
 </body>
 </html>

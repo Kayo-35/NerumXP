@@ -7,29 +7,21 @@
                 </div>
             @else
                 @foreach($registros as $registro)
-                    <div class="col-md-4 col-sm-12 mt-4 mb-4">
-                        <a class="text-decoration-none"
-                            href="{{ "/registro/fixo/".$registro['cd_registro_fixo'] }}">
-                            <div class="card text-center">
-                                <div class="
-                                    @php
-                                        echo $registro['ic_pago'] == 1 ? 'bg-success' : 'bg-danger'
-                                    @endphp
-                                    "
-                                >
-                                    <h5>{{ $registro['nm_registroFixo'] }}</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        {{ $registro['ds_descricao'] }}
-                                    </p>
-                                </div>
-                                <div class="card-footer text-body-secondary">
-                                    Extras...
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                <a href="{{ route('registroFixo.show',["registroFixo" => $registro->cd_registro_fixo]) }}"
+                    class="col-md-4"
+                    style="text-decoration: none">
+                    <x-registro.card
+                        :title="$registro->nm_registroFixo"
+                        :type="$registro->cd_tipo_registro"
+                        :pago="$registro->ic_pago"
+                        :icon="$registro->cd_categoria"
+                        :stars="$registro->cd_nivel_imp"
+                        :valor="$registro->vl_valor"
+                        :dtCriado="$registro->created_at->format('d/m/Y H:i:s')"
+                        :dtAtualizado="$registro->updated_at->format('d/m/Y H:i:s')"
+                    >
+                    </x-registro.card>
+                </a>
                 @endforeach
             @endempty
             <!-- Paginação com bootstrap-->
