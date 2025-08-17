@@ -28,7 +28,7 @@ class RegistroFixoFactory extends Factory
             'vl_valor' => fake()->randomFloat(2,20,10000),
             'ic_pago' => fake()->numberBetween(1,2),
             'ic_status' => fake()->numberBetween(1,2),
-            'dt_pagamento' => fake()->date('Y-m-d','2026-15-05'),
+            'dt_pagamento' => fake()->date(),
             'ds_descricao' => fake()->text(255),
         ];
     }

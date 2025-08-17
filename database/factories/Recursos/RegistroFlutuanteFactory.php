@@ -29,8 +29,8 @@ class RegistroFlutuanteFactory extends Factory
             "ic_pago" => fake()->numberBetween(1,2),
             "ic_status" => fake()->numberBetween(1,2),
             "pc_taxa_juros" => fake()->randomFloat(2,1,99),
-            "dt_pagamento" => fake()->date(max:'2028-01-01'),
-            "dt_vencimento" => fake()->date(max:'2030-01-01'),
+            "dt_pagamento" => fake()->date(),
+            "dt_vencimento" => fake()->date(),
             "ds_descricao" => fake()->text(255)
         ];
     }
