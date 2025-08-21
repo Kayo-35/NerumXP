@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="container mt-3">
+    <div class="container">
         <h1>NerumXP</h1>
     </div>
 </x-layout>

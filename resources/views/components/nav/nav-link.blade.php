@@ -5,9 +5,9 @@
 ]
 )
 <a class="nav-link
-    {{ $type === "btn" ? 'btn btn-success' : '' }}
+    {{ $type === 'btn' ? 'btn btn-outline-success text-light' : '' }}
     {{ $active === true ? 'active' : '' }}"
-    {{$attributes}}
+    {{ $attributes }}
 >
     {{ $slot }}
 </a>

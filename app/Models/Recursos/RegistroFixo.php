@@ -11,11 +11,12 @@ use App\Models\Personas\Realizador;
 use App\Models\Personas\User;
 use App\Models\Recursos\Historico;
 use App\Models\Recursos\Metas;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class RegistroFixo extends Model
 {
+    use HasFactory;
     //Definições básicas
     protected $table = "registro_fixo";
     protected $primaryKey = "cd_registro_fixo";
@@ -66,10 +67,6 @@ class RegistroFixo extends Model
     }
     public function metodo_pagamento() {
         return $this->belongsToMany(MetodoPagamento::class,"registro_fix_metodoP","cd_registro_fixo","cd_tipo_metodo")
-            ->withPivot("created_at","updated_at");
-    }
-    public function forma_pagamento() {
-        return $this->belongsToMany(FormaPagamento::class,"registro_fix_tipoP","cd_registro_fixo","cd_tipo_forma")
             ->withPivot("created_at","updated_at");
     }
 }

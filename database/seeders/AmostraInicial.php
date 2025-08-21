@@ -31,7 +31,6 @@ class AmostraInicial extends Seeder
             ["nm_categoria" => "Transporte"],
             ["nm_categoria" => "Moradia"],
             ["nm_categoria" => "Saúde"],
-            ["nm_categoria" => "Moradia"],
             ["nm_categoria" => "Educação"],
             ["nm_categoria" => "Lazer"],
             ["nm_categoria" => "Salário"],
@@ -42,6 +41,7 @@ class AmostraInicial extends Seeder
         DB::table("forma_pagamento")->insert([
             ["nm_tipo_metodos" => "Parcelado"],
             ["nm_tipo_metodos" => "A vista"],
+            ["nm_tipo_metodos" => "Recorrente"]
         ]);
 
         DB::table("localizacao")->insert([

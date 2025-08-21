@@ -1,0 +1,14 @@
+.footer-icon {
+    color: #6c757d;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.footer-icon:hover {
+    color: #007bff;
+}
+
+#painelCards .card:hover {
+    border-color: lightgreen;
+    border-width: 3px;
+}
