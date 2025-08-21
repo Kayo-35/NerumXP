@@ -19,7 +19,9 @@ class FixoController extends Controller
     //Métodos de recurso
     public function index()
     {
-        $registros = RegistroFixo::orderBy('nm_registroFixo')->paginate(9);
+        $registros = RegistroFixo::where("cd_usuario", 2)
+            ->orderBy("nm_registroFixo")
+            ->paginate(9);
         return view("registro.fixo.index", [
             "registros" => $registros,
         ]);
@@ -27,7 +29,7 @@ class FixoController extends Controller
     public function show(RegistroFixo $registroFixo)
     {
         return view("registro.fixo.show", [
-            "registro" => $registroFixo
+            "registro" => $registroFixo,
         ]);
     }
     public function create()
@@ -49,7 +51,7 @@ class FixoController extends Controller
     }
     public function edit(int $id)
     {
-        return view("registro.fixo.edit",[
+        return view("registro.fixo.edit", [
             "registro" => RegistroFixo::find($id),
             "tipos" => Tipo::all(),
             "formas" => FormaPagamento::all(),

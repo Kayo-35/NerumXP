@@ -4,50 +4,61 @@ use App\Http\Controllers\Conta\RegisterController;
 use App\Http\Controllers\Registro\FixoController;
 use App\Http\Controllers\Registro\FlutuanteController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Query\Builder;
+//Testes
+use App\Models\Personas\User;
 
-Route::view("/","home")->name("home");
+Route::view("/", "home")->name("home");
 
+Route::get("/about", function () {
+    $users = User::select("nm_usuario", "dt_nascimento")
+        ->whereBetween("dt_nascimento", ["2000-01-01", '2005-01-01'])
+        ->orderBy("nm_usuario", "asc")
+        ->get();
+    $data = [];
+    foreach ($users as $user) {
+        $data[] = $user->getAttributes();
+    }
+    return dd($data);
+});
 //Registros Fixos
-Route::controller(FixoController::class)->group(function() {
-    Route::get("registro/fixo","index")
-        ->name("registroFixo.index");
+Route::controller(FixoController::class)->group(function () {
+    Route::get("registro/fixo", "index")->name("registroFixo.index");
 
-    Route::get("registro/fixo/create","create")
-        ->name("registroFixo.create");
+    Route::get("registro/fixo/create", "create")->name("registroFixo.create");
 
-    Route::get("registro/fixo/{registroFixo}","show")
+    Route::get("registro/fixo/{registroFixo}", "show")
         ->whereNumber("registroFixo")
         ->name("registroFixo.show");
 
-    Route::post("registro/fixo","store")
-        ->name("registroFixo.store");
+    Route::post("registro/fixo", "store")->name("registroFixo.store");
 
-    Route::get("registro/fixo/{registroFixo}/edit","edit")
+    Route::get("registro/fixo/{registroFixo}/edit", "edit")
         ->whereNumber("id")
         ->name("registroFixo.edit");
 
-    Route::put("registro/fixo/{registroFixo}","update")
+    Route::put("registro/fixo/{registroFixo}", "update")
         ->whereNumber("id")
         ->name("registroFixo.put");
 
-    Route::delete("registro/fixo/{registroFixo}","destroy")
+    Route::delete("registro/fixo/{registroFixo}", "destroy")
         ->whereNumber("id")
         ->name("registroFixo.destroy");
 });
 
 //Laravel automatiza a criação de rotas CRUD para recursos!
 // A estrutura abaixo replica exatamente a mesma acima, com a exceção da nomenclatura das rotas
-Route::resource('registro/flutuante',FlutuanteController::class);
+Route::resource("registro/flutuante", FlutuanteController::class);
 
 //Registration
-Route::controller(RegisterController::class)->group(function() {
-    Route::get("register/create","create")->name("register.create");
-    Route::post("register","store")->name("register.store");
+Route::controller(RegisterController::class)->group(function () {
+    Route::get("register/create", "create")->name("register.create");
+    Route::post("register", "store")->name("register.store");
 });
 
 //Login
-Route::controller(LoginController::class)->group(function() {
-   Route::get("login/create","create")->name("login.create");
-   Route::post("login","store");
-   Route::delete("login","destroy");
+Route::controller(LoginController::class)->group(function () {
+    Route::get("login/create", "create")->name("login.create");
+    Route::post("login", "store");
+    Route::delete("login", "destroy");
 });

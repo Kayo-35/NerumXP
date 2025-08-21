@@ -48,7 +48,7 @@ return new class extends Migration
                 ->on("realizador_transacao")
                 ->onDelete("cascade");
 
-            $table->string("nm_registro_flutuante",30);
+            $table->string("nm_registro_flutuante",50);
             $table->decimal("vl_valor_registro",9,2);
             $table->boolean("ic_pago");
             $table->boolean("ic_status");

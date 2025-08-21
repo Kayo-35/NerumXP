@@ -31,7 +31,6 @@ class AmostraInicial extends Seeder
             ["nm_categoria" => "Transporte"],
             ["nm_categoria" => "Moradia"],
             ["nm_categoria" => "Saúde"],
-            ["nm_categoria" => "Moradia"],
             ["nm_categoria" => "Educação"],
             ["nm_categoria" => "Lazer"],
             ["nm_categoria" => "Salário"],

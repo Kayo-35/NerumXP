@@ -47,12 +47,11 @@ class Card extends Component
             2 => "bi-car-front-fill",
             3 => "bi-house-fill",
             4 => "bi-heart-fill",
-            5 => "bi-heart-fill",
-            6 => "bi-mortarboard-fill",
-            7 => "bi-sunglasses",
-            8 => "bi-cash-stack",
-            9 => "bi-graph-up-arrow",
-            10 => "bi-mortarboard-fill",
+            5 => "bi-mortarboard-fill",
+            6 => "bi-sunglasses",
+            7 => "bi-cash-stack",
+            8 => "bi-graph-up-arrow",
+            9 => "bi-mortarboard-fill",
             default => "nothing"
         };
     }
