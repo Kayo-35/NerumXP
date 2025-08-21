@@ -49,10 +49,16 @@ class FixoController extends Controller
         //To-do
         return dd($request->all());
     }
-    public function edit(int $id)
+    public function edit(RegistroFixo $registroFixo)
     {
+        $metodosProprios = $registroFixo->metodo_pagamento()->pluck('metodo_pagamento.cd_tipo_metodo')->toArray();
+        $listaMetodos = array_column(
+            MetodoPagamento::select("cd_tipo_metodo")->get()->toArray(),
+            "cd_tipo_metodo",
+        );
+
         return view("registro.fixo.edit", [
-            "registro" => RegistroFixo::find($id),
+            "registro" => $registroFixo,
             "tipos" => Tipo::all(),
             "formas" => FormaPagamento::all(),
             "metodos" => MetodoPagamento::all(),
@@ -60,6 +66,7 @@ class FixoController extends Controller
             "categorias" => Categoria::all(),
             "localizacaos" => Localizacao::all(),
             "realizadores" => Realizador::all(),
+            "metodosProprios" => $metodosProprios,
         ]);
     }
     public function update(Request $request, int $id)
@@ -67,8 +74,9 @@ class FixoController extends Controller
         //To-do
         return dd($request->all());
     }
-    public function destroy(int $id)
+    public function destroy(RegistroFixo $registroFixo)
     {
-        //To-do
+        $registroFixo->delete();
+        return redirect(route("registroFixo.index"));
     }
 }

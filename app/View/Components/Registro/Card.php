@@ -11,6 +11,7 @@ class Card extends Component
     /**
      * Create a new component instance.
      */
+    public int $id;
     public int $pago;
     public int $icon;
     public int $type;
@@ -21,7 +22,8 @@ class Card extends Component
     public int $stars;
 
     public function __construct(
-        int $pago = 1,
+        int $id,
+        int $pago,
         int $type = 1,
         int $icon = 0,
         string $title = "INDEFINIDO",
@@ -30,6 +32,7 @@ class Card extends Component
         string $dtAtualizado = "20-08-2018",
         int $stars = 0
     ) {
+        $this->id = $id;
         $this->pago = $pago;
         $this->type = $type;
         $this->icon = $icon;

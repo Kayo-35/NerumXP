@@ -27,14 +27,5 @@ class RegistroFixoPivotSeeder extends Seeder
                     ->toArray()
             );
         });
-
-        //Realizado o mesmo para formas de pagamento
-        $registros->each(function($registro) use ($formas){
-            $registro->forma_pagamento()->attach(
-                $formas->random(rand(1,count($formas)))
-                ->pluck("cd_tipo_forma")
-                ->toArray()
-            );
-        });
     }
 }

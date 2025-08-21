@@ -41,6 +41,7 @@ class AmostraInicial extends Seeder
         DB::table("forma_pagamento")->insert([
             ["nm_tipo_metodos" => "Parcelado"],
             ["nm_tipo_metodos" => "A vista"],
+            ["nm_tipo_metodos" => "Recorrente"]
         ]);
 
         DB::table("localizacao")->insert([

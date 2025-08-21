@@ -90,38 +90,60 @@
                                     <input type="date" class="form-control" id="dataPagamento" name="dt_pagamento" value="{{ $registro->dt_pagamento }}">
                                 </div>
 
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3 d-flex flex-column">
                                     <label for="metodoPagamento" class="form-label">Método de Pagamento</label>
-                                    <select class="form-select" id="metodoPagamento" name="cd_tipo_metodo">
-                                        <option value="">Selecione o método</option>
+                                        <button class="btn btn-secondary dropdown-toggle"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
+                                        >
+                                            Métodos De Pagamento
+                                        </button>
+                                        <ul class="dropdown-menu bg-secondary text-light p-2">
+                                        <!--
+                                            Essa estrutura é um pouco complexa por lidar com tabelas
+                                            associativas, mas basicamente o laço de repetição externo
+                                            constroe a marcação html de cada um dos métodos de pagamento,
+                                            dos quais são constituidos como checkboxes.
+
+                                            Durante sua execução utilizo da função built-in in_array()
+                                            para verificar se o código do método sendo construido
+                                            no momento está presente na lista de métodos do registro
+                                        -->
                                         @foreach($metodos as $metodo)
-                                            <option value="{{ $metodo["cd_tipo_metodo"] }}">
-                                                {{ $metodo['nm_tipo_metodo'] }}
-                                            </option>
+                                            <li>
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    value="{{ $metodo->cd_tipo_metodo}}"
+                                                    {{ in_array($metodo->cd_tipo_metodo,$metodosProprios) ? 'checked' : ''}}
+                                                >
+                                                {{ $metodo->nm_tipo_metodo}}
+                                            </li>
                                         @endforeach
-                                    </select>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3 d-flex flex-column">
                                     <label for="formaPagamento" class="form-label">Forma de Pagamento</label>
-                                    <select class="form-select" id="formaPagamento" name="cd_tipo_forma">
-                                        <option value="">Selecione a forma</option>
+                                    <select class="form-select" id="formaPagamento" name="cd_forma_pagamento">
+                                        <option value="">Selecione o nível</option>
                                         @foreach($formas as $forma)
-                                            <option value="{{ $forma["cd_tipo_forma"] }}" {{ $registro->cd_tipo_forma == $forma["cd_tipo_forma"] ? "selected" : "" }}>
+                                            <option value="{{ $forma["cd_tipo_forma"] }}"
+                                                {{ $registro->cd_forma_pagamento == $forma["cd_tipo_forma"] ? "selected" : "" }}
+                                            >
                                                 {{ $forma['nm_tipo_metodos'] }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="col-md-6 mb-3">
                                     <label for="nivelImportancia" class="form-label">Nível de Importância</label>
-                                    <select class="form-select" id="nivelImportancia" name="nivelImportancia">
+                                    <select class="form-select" id="nivelImportancia" name="cd_nivel_importancia">
                                         <option value="">Selecione o nível</option>
                                         @foreach($importancias as $importancia)
-                                            <option value="{{ $importancia["cd_nivel_imp"] }}" {{ $registro->cd_nivel_imp == $importancia["cd_nivel_imp"] ? "selected" : "" }}>
+                                            <option value="{{ $importancia["cd_nivel_imp"] }}"
+                                                {{ $registro->cd_nivel_imp == $importancia["cd_nivel_imp"] ? "selected" : "" }}
+                                            >
                                                 {{ $importancia['sg_nivel_imp'] }}
                                             </option>
                                         @endforeach

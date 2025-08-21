@@ -1,6 +1,7 @@
 <x-layout>
     <div class="d-flex justify-content-center align-items-center flex-grow-5">
         <x-registro.card class="w-25"
+            :id="$registro->cd_registro_fixo"
             :title="$registro->nm_registroFixo"
             :type="$registro->cd_tipo_registro"
             :pago="$registro->ic_pago"

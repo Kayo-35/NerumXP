@@ -80,16 +80,24 @@
                                     <input type="date" class="form-control" id="dataPagamento" name="dt_pagamento">
                                 </div>
 
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-3 d-flex flex-column">
                                     <label for="metodoPagamento" class="form-label">Método de Pagamento</label>
-                                    <select class="form-select" id="metodoPagamento" name="cd_tipo_metodo">
-                                        <option value="">Selecione o método</option>
+                                        <button class="btn btn-secondary dropdown-toggle"
+                                            type="button"
+                                            data-bs-toggle="dropdown"
+                                        >
+                                            Métodos De Pagamento
+                                        </button>
+                                        <ul class="dropdown-menu bg-secondary text-light p-2">
                                         @foreach($metodos as $metodo)
-                                            <option value="{{ $metodo['cd_tipo_metodo'] }}">
-                                                {{ $metodo['nm_tipo_metodo'] }}
-                                            </option>
+                                            <li>
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    value="{{ $metodo->cd_tipo_metodo}}"
+                                                >
+                                                {{ $metodo->nm_tipo_metodo}}
+                                            </li>
                                         @endforeach
-                                    </select>
                                 </div>
                             </div>
 

@@ -71,11 +71,7 @@ class RegistroFlutuante extends Model
         return $this->belongsToMany(Metas::class,"metas_reg_flut","cd_registro_flutuante","cd_metas")
             ->withPivot("created_at","updated_at");
     }
-    public function forma_pagamento() {
-        return $this->belongsToMany(FormaPagamento::class,"registro_flut_tipoP","cd_registro_flutuante","cd_tipo_forma")
-            ->withPivot("created_at","updated_at");
-    }
-    public function metodo_pagamento() {
+   public function metodo_pagamento() {
         return $this->belongsToMany(MetodoPagamento::class,"registro_flut_metodoP","cd_registro_flutuante","cd_tipo_metodo")
             ->withPivot("created_at","updated_at");
     }

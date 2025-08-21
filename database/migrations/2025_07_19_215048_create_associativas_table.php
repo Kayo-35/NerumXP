@@ -36,18 +36,6 @@ return new class extends Migration
             $table->timestamps();
             $table->primary(["cd_registro_flutuante","cd_metas"]);
         });
-        Schema::create("registro_flut_tipoP", function (Blueprint $table){
-           $table->foreignId("cd_registro_flutuante")
-                ->references("cd_registro_flutuante")
-                ->on("registro_flutuante")
-                ->onDelete("cascade");
-            $table->foreignId("cd_tipo_forma")
-                ->references("cd_tipo_forma")
-                ->on("forma_pagamento")
-                ->onDelete("cascade");
-            $table->timestamps();
-            $table->primary(["cd_registro_flutuante","cd_tipo_forma"]);
-        });
         Schema::create("registro_flut_metodoP", function(Blueprint $table) {
            $table->foreignId("cd_tipo_metodo")
                 ->references("cd_tipo_metodo")
@@ -73,19 +61,6 @@ return new class extends Migration
 
             $table->timestamps();
             $table->primary(["cd_tipo_metodo","cd_registro_fixo"]);
-        });
-        Schema::create("registro_fix_tipoP", function(Blueprint $table){
-           $table->foreignId("cd_tipo_forma")
-                ->references("cd_tipo_forma")
-                ->on("forma_pagamento")
-                ->onDelete("cascade");
-            $table->foreignId("cd_registro_fixo")
-                ->references("cd_registro_fixo")
-                ->on("registro_fixo")
-                ->onDelete("cascade");
-
-            $table->timestamps();
-            $table->primary(["cd_tipo_forma","cd_registro_fixo"]);
         });
         Schema::create("metas_projeto", function(Blueprint $table) {
             $table->foreignId("cd_metas")

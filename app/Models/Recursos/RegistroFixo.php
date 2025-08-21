@@ -69,8 +69,4 @@ class RegistroFixo extends Model
         return $this->belongsToMany(MetodoPagamento::class,"registro_fix_metodoP","cd_registro_fixo","cd_tipo_metodo")
             ->withPivot("created_at","updated_at");
     }
-    public function forma_pagamento() {
-        return $this->belongsToMany(FormaPagamento::class,"registro_fix_tipoP","cd_registro_fixo","cd_tipo_forma")
-            ->withPivot("created_at","updated_at");
-    }
 }

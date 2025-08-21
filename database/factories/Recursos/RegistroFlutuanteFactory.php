@@ -3,7 +3,7 @@
 namespace Database\Factories\Recursos;
 use App\Models\Personas\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\Categorizadores\Pagamento\FormaPagamento;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Recursos\RegistroFlutuante>
  */
@@ -18,6 +18,10 @@ class RegistroFlutuanteFactory extends Factory
     {
         return [
             "cd_usuario" => fake()->numberBetween(1,User::max('cd_usuario')),
+            "cd_forma_pagamento" => fake()->numberBetween(
+                1,
+                FormaPagamento::max("cd_tipo_forma"),
+            ),
             "cd_tipo_registro" => fake()->numberBetween(1,2),
             "cd_tipo_juro" => fake()->numberBetween(1,2),
             "cd_nivel_imp" => fake()->numberBetween(1,5),

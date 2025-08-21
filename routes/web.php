@@ -34,15 +34,15 @@ Route::controller(FixoController::class)->group(function () {
     Route::post("registro/fixo", "store")->name("registroFixo.store");
 
     Route::get("registro/fixo/{registroFixo}/edit", "edit")
-        ->whereNumber("id")
+        ->whereNumber("registroFixo")
         ->name("registroFixo.edit");
 
     Route::put("registro/fixo/{registroFixo}", "update")
-        ->whereNumber("id")
+        ->whereNumber("registroFixo")
         ->name("registroFixo.put");
 
     Route::delete("registro/fixo/{registroFixo}", "destroy")
-        ->whereNumber("id")
+        ->whereNumber("registroFixo")
         ->name("registroFixo.destroy");
 });
 

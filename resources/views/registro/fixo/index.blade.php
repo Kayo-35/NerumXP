@@ -11,6 +11,7 @@
                     class="col-md-4"
                     style="text-decoration: none">
                     <x-registro.card
+                        :id="$registro->cd_registro_fixo"
                         :title="$registro->nm_registroFixo"
                         :type="$registro->cd_tipo_registro"
                         :pago="$registro->ic_pago"
