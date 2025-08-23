@@ -11,15 +11,7 @@ use App\Models\Personas\User;
 Route::view("/", "home")->name("home");
 
 Route::get("/about", function () {
-    $users = User::select("nm_usuario", "dt_nascimento")
-        ->whereBetween("dt_nascimento", ["2000-01-01", '2005-01-01'])
-        ->orderBy("nm_usuario", "asc")
-        ->get();
-    $data = [];
-    foreach ($users as $user) {
-        $data[] = $user->getAttributes();
-    }
-    return dd($data);
+    return dd('ok');
 });
 //Registros Fixos
 Route::controller(FixoController::class)->group(function () {

@@ -208,7 +208,6 @@
                 </div>
 
             </div>
-            </div>
         </section>
     </main>
     @endguest

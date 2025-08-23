@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //configs
         Paginator::useBootstrapFive();
-        Blade::component('registro.card', \App\View\Components\Registro\Card::class);;
+        Blade::component('registro.card', \App\View\Components\Registro\Card::class);
+        Blade::component('components.registro.form', 'registro.form');
     }
 }

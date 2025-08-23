@@ -35,9 +35,10 @@ class FixoController extends Controller
     public function create()
     {
         return view("registro.fixo.create", [
+            "registro" => [],
             "tipos" => Tipo::all(),
-            "formas" => FormaPagamento::all(),
             "metodos" => MetodoPagamento::all(),
+            "formas" => FormaPagamento::all(),
             "importancias" => Nivel_imp::all(),
             "categorias" => Categoria::all(),
             "localizacaos" => Localizacao::all(),
@@ -51,22 +52,20 @@ class FixoController extends Controller
     }
     public function edit(RegistroFixo $registroFixo)
     {
-        $metodosProprios = $registroFixo->metodo_pagamento()->pluck('metodo_pagamento.cd_tipo_metodo')->toArray();
-        $listaMetodos = array_column(
-            MetodoPagamento::select("cd_tipo_metodo")->get()->toArray(),
-            "cd_tipo_metodo",
-        );
-
+        $metodosProprios = $registroFixo
+            ->metodo_pagamento()
+            ->pluck("metodo_pagamento.cd_tipo_metodo")
+            ->toArray();
         return view("registro.fixo.edit", [
             "registro" => $registroFixo,
+            "metodosProprios" => $metodosProprios,
             "tipos" => Tipo::all(),
-            "formas" => FormaPagamento::all(),
             "metodos" => MetodoPagamento::all(),
+            "formas" => FormaPagamento::all(),
             "importancias" => Nivel_imp::all(),
             "categorias" => Categoria::all(),
             "localizacaos" => Localizacao::all(),
             "realizadores" => Realizador::all(),
-            "metodosProprios" => $metodosProprios,
         ]);
     }
     public function update(Request $request, int $id)
