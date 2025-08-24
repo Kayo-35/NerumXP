@@ -6,13 +6,11 @@
     <div class="d-flex g-4 align-items-stretch">
         <div class="col h-100">
             <div class="card h-100 position-relative overflow-hidden rounded-4 shadow text-white mx-auto
-                {{ $type == 1 ? 'bg-success' : 'bg-danger' }}"
+                {{ $registro->cd_tipo_registro == 1 ? 'bg-success' : 'bg-danger' }}"
             >
                 <div class="card-header bg-dark d-flex justify-content-between">
                     <div>
-                        <form action="{{route("registroFixo.destroy",[
-                                $id
-                            ])}}" method="POST">
+                        <form action="{{route("registroFixo.destroy",[$registro])}}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-outline-danger btn-sm">
@@ -25,7 +23,7 @@
 
                     <div>
                         <form action="{{route("registroFixo.edit",[
-                                $id
+                                $registro
                             ])}}">
                             @csrf
                             <button class="btn btn-outline-warning btn-sm">
@@ -39,7 +37,7 @@
                 </div>
                 <div class="pe-2 pt-2">
                     <div class="d-flex align-items-center justify-content-end">
-                        @if($pago == 1)
+                        @if($registro->ic_pago == 1)
                             <span class="badge bg-dark me-2">PAGO</span>
                         @endif
 
@@ -47,15 +45,15 @@
                     </div>
                 </div>
                 <div class="card-body pb-2 d-flex flex-column justify-content-center text-center pt-0">
-                    <div class="fw-bold fs-4 mb-1">{{ $title }}</div>
-                    <div class="fs-4 fw-bold my-2">R$ {{ str_replace('.',',',$valor) }}</div>
+                    <div class="fw-bold fs-4 mb-1">{{ $registro->nm_registro }}</div>
+                    <div class="fs-4 fw-bold my-2">R$ {{ str_replace('.',',',$registro->vl_valor) }}</div>
                     <div class="small text-white">
-                        <div>Criado em: {{ $dtCriado }}</div>
-                        <div>Atualizado em: {{ $dtAtualizado }}</div>
+                        <div>Criado em: {{ $registro->created_at }}</div>
+                        <div>Atualizado em: {{ $registro->updated_at }}</div>
                     </div>
                 </div>
                 <div class="p-2 d-flex align-items-center text-warning">
-                    @for($i = 0;$i <= $stars;$i++)
+                    @for($i = 0;$i < $registro->cd_nivel_imp;$i++)
                         <i class="bi bi-star-fill fs-6 me-1"></i>
                     @endfor
                 </div>

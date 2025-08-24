@@ -29,7 +29,7 @@
                                     <label for="tipoRegistro" class="form-label">
                                         Tipo de Registro <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select" id="tipoRegistro" name="cd_tipo_registro" required>
+                                    <select class="form-select" id="tipoRegistro" name="cd_tipo_registro">
                                         <option value="">Selecione o tipo</option>
                                         @foreach($tipos as $tipo)
                                             <option value="{{ $tipo['cd_tipo_registro'] }}"
@@ -47,12 +47,12 @@
                                     <label for="nomeRegistro" class="form-label">
                                         Nome do Registro <span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="nomeRegistro" name="nm_registroFixo"
+                                    <input type="text" class="form-control" id="nomeRegistro" name="nm_registro"
                                             placeholder="Ex: Salário, Aluguel, Conta de Luz..."
                                             @isset($registro)
-                                                value="{{ $registro->nm_registroFixo ?? $registro->nm_registro_flutuante }}"
+                                                value="{{ $registro->nm_registro }}"
                                             @endisset
-                                            required>
+                                            >
                                 </div>
                             </div>
 
@@ -65,18 +65,22 @@
                                         <span class="input-group-text">R$</span>
                                         <input type="number" class="form-control" id="valor" name="vl_valor"
                                             placeholder="0.00" step="0.01" min="0"
-                                            @isset($registro)
-                                                value="{{ $registro->vl_valor }}"required>
-                                            @endisset
+                                            @if(isset($registro))
+                                                value="{{ $registro->vl_valor }}" >
+                                            @else
+                                                >
+                                            @endif
                                    </div>
                                 </div>
 
                                 <div class="col-md-6 mb-3 d-flex align-items-end">
                                     <div class="form-check">
+                                        <input type="hidden" name="ic_pago" value="0">
                                         <input class="form-check-input" type="checkbox" id="pago" name="ic_pago"
                                             @isset($registro)
                                                 {{ $registro->ic_pago == 1 ? 'checked' : ''}}
                                             @endisset
+                                            value="1"
                                         >
                                         <label class="form-check-label" for="pago">
                                             <i class="bi bi-check-circle me-1"></i>
@@ -235,10 +239,12 @@
                             <div class="row">
                                 <div class="col-12 mb-3">
                                     <div class="form-check">
+                                        <input type="hidden" name="ic_status" value="0">
                                         <input class="form-check-input" type="checkbox" id="status" name="ic_status"
                                             @isset($registro)
                                                 {{ $registro->ic_status == 1 ? 'checked' : '' }}
                                             @endisset
+                                            value="1"
                                         >
                                         <label class="form-check-label" for="status">
                                             <i class="bi bi-toggle-on me-1"></i>
@@ -265,4 +271,13 @@
             </div>
         </div>
     </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 </div>

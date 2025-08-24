@@ -4,6 +4,7 @@ namespace App\View\Components\Registro;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\Component;
 
 class Card extends Component
@@ -11,41 +12,16 @@ class Card extends Component
     /**
      * Create a new component instance.
      */
-    public int $id;
-    public int $pago;
-    public int $icon;
-    public int $type;
-    public string $title;
-    public string $valor;
-    public string $dtCriado;
-    public string $dtAtualizado;
-    public int $stars;
+    //Registro a ser exibido
+    public object $registro;
 
-    public function __construct(
-        int $id,
-        int $pago,
-        int $type = 1,
-        int $icon = 0,
-        string $title = "INDEFINIDO",
-        string $valor = "R$ 0,00",
-        string $dtCriado = "20-08-2024",
-        string $dtAtualizado = "20-08-2018",
-        int $stars = 0
-    ) {
-        $this->id = $id;
-        $this->pago = $pago;
-        $this->type = $type;
-        $this->icon = $icon;
-        $this->title = $title;
-        $this->valor = $valor;
-        $this->dtCriado = $dtCriado;
-        $this->dtAtualizado = $dtAtualizado;
-        $this->stars = $stars;
+    public function __construct(object $registro) {
+        $this->registro = $registro;
     }
 
     public function getCategory(): string
     {
-        return match($this->icon) {
+        return match ($this->registro->cd_categoria) {
             1 => "bi-basket-fill",
             2 => "bi-car-front-fill",
             3 => "bi-house-fill",
@@ -55,7 +31,7 @@ class Card extends Component
             7 => "bi-cash-stack",
             8 => "bi-graph-up-arrow",
             9 => "bi-mortarboard-fill",
-            default => "nothing"
+            default => "nothing",
         };
     }
     /**
@@ -64,7 +40,7 @@ class Card extends Component
     public function render(): View|Closure|string
     {
         return view("components.registro.card", [
-            'iconClass' => $this->getCategory(),
+            "iconClass" => $this->getCategory(),
         ]);
     }
 }

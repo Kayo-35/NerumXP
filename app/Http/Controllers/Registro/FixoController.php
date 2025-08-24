@@ -21,12 +21,12 @@ class FixoController extends Controller
     //Métodos de recurso
     public function index()
     {
-        $registros = RegistroFixo::where("cd_usuario", Auth::user()->cd_usuario)
+        $registrosFixo = RegistroFixo::where("cd_usuario", Auth::user()->cd_usuario)
             ->orderBy("cd_nivel_imp", "desc")
-            ->orderBy("nm_registroFixo", "asc")
+            ->orderBy("nm_registro", "asc")
             ->paginate(9);
         return view("registro.fixo.index", [
-            "registros" => $registros,
+            "registros" => $registrosFixo,
         ]);
     }
     public function show(RegistroFixo $registroFixo)
@@ -53,12 +53,58 @@ class FixoController extends Controller
     }
     public function store(Request $request)
     {
-        //To-do
-        return dd($request->all());
+        //Validar os dados submetidos
+        $dados = $request->validate([
+            //Provido por elemento implicitamente
+            "cd_tipo_registro" => ["integer", "required"],
+            "cd_tipo_forma" => [
+                "nullable",
+                "integer",
+                "exists:forma_pagamento,cd_tipo_forma",
+            ],
+            "cd_nivel_imp" => [
+                "nullable",
+                "integer",
+                "exists:nivel_imp,cd_nivel_imp",
+            ],
+            "cd_categoria" => [
+                "nullable",
+                "integer",
+                "exists:categoria,cd_categoria",
+            ],
+            "cd_localizacao" => [
+                "nullable",
+                "integer",
+                "exists:localizacao,cd_localizacao",
+            ],
+            "cd_realizador" => [
+                "nullable",
+                "integer",
+                "exists:realizador_transacao,cd_realizador",
+            ],
+            //Providos manualmente pelos usuários
+            "vl_valor" => ["required","numeric","between:0,9999999.99"],
+            "ic_pago" => ["required"],
+            "ic_status" => ["required"],
+            "nm_registro" => ["required", "min:4", "max:50"],
+            "dt_pagamento" => ["nullable", "date"],
+            "qt_parcelas" => ["nullable", "integer", "gt:0"],
+            "qt_parcelas_pagas" => ["nullable", "integer", "gt:0"],
+            "ds_descricao" => ["nullable", "max:255"],
+        ]);
+
+        //Adicionado o código do usuário ao array
+        $dados["cd_usuario"] = Auth::user()->cd_usuario;
+
+        //Criar o registro
+        $registro = RegistroFixo::create($dados);
+
+        //Redirecionar
+        return redirect(route("registroFixo.show", ["registroFixo" => $registro]));
     }
     public function edit(RegistroFixo $registroFixo)
     {
-        Gate::authorize('access-registroFixo',$registroFixo);
+        Gate::authorize("access-registroFixo", $registroFixo);
         $metodosProprios = $registroFixo
             ->metodo_pagamento()
             ->pluck("metodo_pagamento.cd_tipo_metodo")
@@ -78,12 +124,12 @@ class FixoController extends Controller
     }
     public function update(Request $request, RegistroFixo $registroFixo)
     {
-        Gate::authorize('access-registroFixo',$registroFixo);
+        Gate::authorize("access-registroFixo", $registroFixo);
         return dd($request->all());
     }
     public function destroy(RegistroFixo $registroFixo)
     {
-        Gate::authorize('access-registroFixo',$registroFixo);
+        Gate::authorize("access-registroFixo", $registroFixo);
         $registroFixo->delete();
         return redirect(route("registroFixo.index"));
     }

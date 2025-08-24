@@ -31,7 +31,7 @@ class RegistroFlutuante extends Model
         "cd_localizacao",
         "cd_realizador",
 
-        "nm_registro_fixo",
+        "nm_registro",
         "vl_valor",
         "ic_pago",
         "ic_status",

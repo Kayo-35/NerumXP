@@ -19,11 +19,13 @@ return new class extends Migration {
                 ->onDelete("cascade");
             $table
                 ->foreignId("cd_tipo_registro")
+                ->nullable()
                 ->references("cd_tipo_registro")
                 ->on("tipo_registro")
                 ->onDelete("cascade");
             $table
                 ->foreignId("cd_forma_pagamento")
+                ->nullable()
                 ->references("cd_tipo_forma")
                 ->on("forma_pagamento")
                 ->onDelete("cascade");
@@ -52,12 +54,12 @@ return new class extends Migration {
                 ->on("realizador_transacao")
                 ->onDelete("cascade");
 
-            $table->string("nm_registroFixo", 50);
+            $table->string("nm_registro", 50);
             $table->decimal("vl_valor", 9, 2);
             $table->boolean("ic_pago");
             $table->boolean("ic_status");
             $table->date("dt_pagamento")->nullable();
-            $table->tinytext("ds_descricao");
+            $table->tinytext("ds_descricao")->nullable();
 
             $table->tinyInteger("qt_parcelas")->nullable();
             $table->tinyInteger("qt_parcelas_pagas")->nullable();

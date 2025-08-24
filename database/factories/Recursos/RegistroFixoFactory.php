@@ -18,6 +18,7 @@ class RegistroFixoFactory extends Factory
      */
     public function definition(): array
     {
+        $bool = [true,false];
         return [
             //Definitions
             "cd_usuario" => fake()->numberBetween(1, User::max("cd_usuario")),
@@ -31,9 +32,9 @@ class RegistroFixoFactory extends Factory
             "cd_localizacao" => fake()->numberBetween(1, 7),
             "cd_realizador" => fake()->numberBetween(1, 3),
             "vl_valor" => fake()->randomFloat(2, 20, 3000),
-            "nm_registroFixo" => "Indefinido",
-            "ic_pago" => fake()->numberBetween(1, 2),
-            "ic_status" => fake()->numberBetween(1, 2),
+            "nm_registro" => "Indefinido",
+            "ic_pago" => $bool[array_rand([$bool])],
+            "ic_status" => $bool[array_rand([$bool])],
             "dt_pagamento" => fake()->date(),
             "ds_descricao" => fake()->text(255),
         ];

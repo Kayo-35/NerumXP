@@ -24,12 +24,13 @@ class RegistroFixo extends Model
     protected $fillable = [
         "cd_usuario",
         "cd_tipo_registro",
+        "cd_forma_pagamento",
         "cd_nivel_imp",
         "cd_categoria",
         "cd_localizacao",
         "cd_realizador",
 
-        "nm_registro_fixo",
+        "nm_registro",
         "vl_valor",
         "ic_pago",
         "ic_status",
@@ -39,34 +40,75 @@ class RegistroFixo extends Model
         "qt_parcelas_pagas",
     ];
     //Relacionamentos
-    public function usuario() {
-        return $this->belongsTo(User::class,"cd_usuario","cd_usuario");
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, "cd_usuario", "cd_usuario");
     }
-    public function tipo() {
-        return $this->belongsTo(Tipo::class,"cd_tipo_registro","cd_tipo_registro");
+    public function tipo()
+    {
+        return $this->belongsTo(
+            Tipo::class,
+            "cd_tipo_registro",
+            "cd_tipo_registro",
+        );
     }
-    public function nivel_imp() {
-        return $this->belongsTo(Nivel_imp::class,"cd_nivel_imp","cd_nivel_imp");
+    public function nivel_imp()
+    {
+        return $this->belongsTo(
+            Nivel_imp::class,
+            "cd_nivel_imp",
+            "cd_nivel_imp",
+        );
     }
-    public function categoria() {
-        return $this->belongsTo(Categoria::class,"cd_categoria","cd_categoria");
+    public function categoria()
+    {
+        return $this->belongsTo(
+            Categoria::class,
+            "cd_categoria",
+            "cd_categoria",
+        );
     }
-    public function localizacao(){
-        return $this->belongsTo(Localizacao::class,"cd_localizacao","cd_localizacao");
+    public function localizacao()
+    {
+        return $this->belongsTo(
+            Localizacao::class,
+            "cd_localizacao",
+            "cd_localizacao",
+        );
     }
-    public function realizador() {
-        return $this->belongsTo(Realizador::class,"cd_realizador","cd_realizador");
+    public function realizador()
+    {
+        return $this->belongsTo(
+            Realizador::class,
+            "cd_realizador",
+            "cd_realizador",
+        );
     }
-    public function historico() {
-        return $this->hasMany(Historico::class,"cd_registro_fixo","cd_registro_fixo");
+    public function historico()
+    {
+        return $this->hasMany(
+            Historico::class,
+            "cd_registro_fixo",
+            "cd_registro_fixo",
+        );
     }
     //M:M
-    public function metas() {
-        return $this->belongsToMany(Metas::class,"metas_reg_fixo","cd_registro_fixo","cd_metas")
-            ->withPivot("created_at","updated_at");
+    public function metas()
+    {
+        return $this->belongsToMany(
+            Metas::class,
+            "metas_reg_fixo",
+            "cd_registro_fixo",
+            "cd_metas",
+        )->withPivot("created_at", "updated_at");
     }
-    public function metodo_pagamento() {
-        return $this->belongsToMany(MetodoPagamento::class,"registro_fix_metodoP","cd_registro_fixo","cd_tipo_metodo")
-            ->withPivot("created_at","updated_at");
+    public function metodo_pagamento()
+    {
+        return $this->belongsToMany(
+            MetodoPagamento::class,
+            "registro_fix_metodoP",
+            "cd_registro_fixo",
+            "cd_tipo_metodo",
+        )->withPivot("created_at", "updated_at");
     }
 }

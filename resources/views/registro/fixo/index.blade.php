@@ -1,5 +1,14 @@
 <x-layout>
-    <section id="painelCards" class="mx-5 mt-5">
+    <div class="d-flex justify-content-end row">
+        <div class="col-1 me-3">
+            <a class="btn btn-primary" href="{{ route("registroFixo.create") }}">
+                <i class="bi bi-plus">
+                    Criar
+                </i>
+            </a>
+        </div>
+    </div>
+    <section id="painelCards" class="mx-5 mt-2">
         <div class="row">
             @empty($registros)
                 <div class="container">
@@ -10,18 +19,7 @@
                 <a href="{{ route('registroFixo.show',["registroFixo" => $registro->cd_registro_fixo]) }}"
                     class="col-md-4"
                     style="text-decoration: none">
-                    <x-registro.card
-                        :id="$registro->cd_registro_fixo"
-                        :title="$registro->nm_registroFixo"
-                        :type="$registro->cd_tipo_registro"
-                        :pago="$registro->ic_pago"
-                        :icon="$registro->cd_categoria"
-                        :stars="$registro->cd_nivel_imp"
-                        :valor="$registro->vl_valor"
-                        :dtCriado="$registro->created_at->format('d/m/Y H:i:s')"
-                        :dtAtualizado="$registro->updated_at->format('d/m/Y H:i:s')"
-                    >
-                    </x-registro.card>
+                    <x-registro.card :registro="$registro"></x-registro.card>
                 </a>
                 @endforeach
             @endempty

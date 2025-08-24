@@ -26,12 +26,23 @@ class AppServiceProvider extends ServiceProvider
     {
         //configs
         Paginator::useBootstrapFive();
-        Blade::component('registro.card', \App\View\Components\Registro\Card::class);
-        Blade::component('components.registro.form', 'registro.form');
+        Blade::component(
+            "registro.card",
+            \App\View\Components\Registro\Card::class,
+        );
+        Blade::component("components.registro.form", "registro.form");
 
         //Autenticação e autorização
-        Gate::define('access-registroFixo', function(User $user, RegistroFixo $registroFixo){
-            return $registroFixo->usuario()->is($user);
+        Gate::define("access-registroFixo", function (
+            User $user,
+            RegistroFixo $registroFixo,
+        ) {
+            /*  A linha abaixo, por exemplo, permitiria apenas que um usuário dono de um recurso e
+            detentor de assinatura nivel ouro, 3, acessasse um recurso
+            $logic = $registroFixo->usuario()->is($user) && $user->cd_assinatura == 3;
+            */
+            $logic = $registroFixo->usuario()->is($user);
+            return $logic;
         });
     }
 }

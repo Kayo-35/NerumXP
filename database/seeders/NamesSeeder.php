@@ -98,38 +98,38 @@ class NamesSeeder extends Seeder
         ];
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 1)
-            ->update(["nm_registroFixo" => $nomes[0][array_rand($nomes[0])]]);
+            ->update(["nm_registro" => $nomes[0][array_rand($nomes[0])]]);
 
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 2)
-            ->update(["nm_registroFixo" => $nomes[1][array_rand($nomes[1])]]);
+            ->update(["nm_registro" => $nomes[1][array_rand($nomes[1])]]);
 
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 3)
-            ->update(["nm_registroFixo" => $nomes[2][array_rand($nomes[2])]]);
+            ->update(["nm_registro" => $nomes[2][array_rand($nomes[2])]]);
 
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 4)
-            ->update(["nm_registroFixo" => $nomes[3][array_rand($nomes[3])]]);
+            ->update(["nm_registro" => $nomes[3][array_rand($nomes[3])]]);
 
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 5)
-            ->update(["nm_registroFixo" => $nomes[4][array_rand($nomes[4])]]);
+            ->update(["nm_registro" => $nomes[4][array_rand($nomes[4])]]);
 
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 6)
-            ->update(["nm_registroFixo" => $nomes[5][array_rand($nomes[5])]]);
+            ->update(["nm_registro" => $nomes[5][array_rand($nomes[5])]]);
 
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 7)
-            ->update(["nm_registroFixo" => $nomes[6][array_rand($nomes[6])]]);
+            ->update(["nm_registro" => $nomes[6][array_rand($nomes[6])]]);
 
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 8)
-            ->update(["nm_registroFixo" => $nomes[7][array_rand($nomes[7])]]);
+            ->update(["nm_registro" => $nomes[7][array_rand($nomes[7])]]);
 
         DB::table("registro_fixo")
             ->where("cd_categoria", "=", 9)
-            ->update(["nm_registroFixo" => $nomes[8][array_rand($nomes[8])]]);
+            ->update(["nm_registro" => $nomes[8][array_rand($nomes[8])]]);
     }
 }
