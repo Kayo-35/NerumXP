@@ -9,7 +9,13 @@
                     </h2>
                 </div>
                 <div class="card-body">
-                    <form id="registroForm" method="POST" action="{{ $rotaProcessamento }}">
+                    <form id="registroForm" method="POST"
+                        @if(isset($registro))
+                            action="{{ route($rotaProcessamento,$registro->cd_registro_fixo) }}">
+                            @method('PUT')
+                        @else
+                            action="{{ route("registroFixo.store") }}">
+                        @endif
                         @csrf
                         <!-- GRUPO I - Informações Essenciais -->
                         <div class="border border-light-subtle rounded-3 p-4 mb-4 bg-light">

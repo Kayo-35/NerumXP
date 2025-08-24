@@ -2,20 +2,16 @@
 
 namespace App\Models\Personas;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Conta\Assinatura;
 use App\Models\Recursos\Panorama;
 use App\Models\Recursos\RegistroFixo;
 use App\Models\Recursos\RegistroFlutuante;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class User extends Model implements Authenticatable
+class User extends Authenticatable
 {
     use HasFactory;
-    use AuthenticatableTrait;
-
     //Definições básicas
     protected $table = "usuario";
     protected $primaryKey = "cd_usuario";

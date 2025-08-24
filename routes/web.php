@@ -11,10 +11,10 @@ use App\Models\Personas\User;
 Route::view("/", "home")->name("home");
 
 Route::get("/about", function () {
-    return dd('ok');
+    return dd("ok");
 });
 //Registros Fixos
-Route::controller(FixoController::class)->group(function () {
+Route::middleware('auth')->controller(FixoController::class)->group(function () {
     Route::get("registro/fixo", "index")->name("registroFixo.index");
 
     Route::get("registro/fixo/create", "create")->name("registroFixo.create");
@@ -38,7 +38,7 @@ Route::controller(FixoController::class)->group(function () {
         ->name("registroFixo.destroy");
 });
 
-//Laravel automatiza a criação de rotas CRUD para recursos!
+//Laravel automatiza a criação de rotas CRUD para recursos
 // A estrutura abaixo replica exatamente a mesma acima, com a exceção da nomenclatura das rotas
 Route::resource("registro/flutuante", FlutuanteController::class);
 
