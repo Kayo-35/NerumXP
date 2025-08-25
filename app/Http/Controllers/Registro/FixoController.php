@@ -32,7 +32,7 @@ class FixoController extends Controller
     public function show(RegistroFixo $registroFixo)
     {
         //Autorizando accesso ao recurso ou não
-        Gate::authorize("access-registroFixo", $registroFixo);
+        $this->authorize("use", $registroFixo);
 
         return view("registro.fixo.show", [
             "registro" => $registroFixo,
@@ -56,7 +56,11 @@ class FixoController extends Controller
         //Validar os dados submetidos
         $dados = $request->validate([
             //Provido por elemento implicitamente
-            "cd_tipo_registro" => ["integer", "required"],
+            "cd_tipo_registro" => [
+                "integer",
+                "required",
+                "exists:tipo_registro,cd_tipo_registro"
+            ],
             "cd_tipo_forma" => [
                 "nullable",
                 "integer",
@@ -104,7 +108,7 @@ class FixoController extends Controller
     }
     public function edit(RegistroFixo $registroFixo)
     {
-        Gate::authorize("access-registroFixo", $registroFixo);
+        $this->authorize("use", $registroFixo);
         $metodosProprios = $registroFixo
             ->metodo_pagamento()
             ->pluck("metodo_pagamento.cd_tipo_metodo")
@@ -124,12 +128,12 @@ class FixoController extends Controller
     }
     public function update(Request $request, RegistroFixo $registroFixo)
     {
-        Gate::authorize("access-registroFixo", $registroFixo);
+        $this->authorize("use", $registroFixo);
         return dd($request->all());
     }
     public function destroy(RegistroFixo $registroFixo)
     {
-        Gate::authorize("access-registroFixo", $registroFixo);
+        $this->authorize("use", $registroFixo);
         $registroFixo->delete();
         return redirect(route("registroFixo.index"));
     }

@@ -18,7 +18,8 @@
                 @foreach($registros as $registro)
                 <a href="{{ route('registroFixo.show',["registroFixo" => $registro->cd_registro_fixo]) }}"
                     class="col-md-4"
-                    style="text-decoration: none">
+                    style="text-decoration: none"
+                >
                     <x-registro.card :registro="$registro"></x-registro.card>
                 </a>
                 @endforeach

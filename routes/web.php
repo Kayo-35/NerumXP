@@ -10,9 +10,8 @@ use App\Models\Personas\User;
 
 Route::view("/", "home")->name("home");
 
-Route::get("/about", function () {
-    return dd("ok");
-});
+Route::view("/about",'about');
+
 //Registros Fixos
 Route::middleware('auth')->controller(FixoController::class)->group(function () {
     Route::get("registro/fixo", "index")->name("registroFixo.index");

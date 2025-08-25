@@ -89,6 +89,14 @@
                                     </div>
                                 </div>
                             </div>
+                            @if($errors->any())
+                                <div>
+                                    <x-helper.error :campo="'vl_valor'"/>
+                                    <x-helper.error :campo="'cd_tipo_registro'"/>
+                                    <x-helper.error :campo="'nm_registro'"/>
+                                    <x-helper.error :campo="'ic_pago'"/>
+                                </div>
+                            @endif
                         </div>
 
                         <!-- GRUPO II - Detalhes de Pagamento e Classificação -->
@@ -181,6 +189,15 @@
                                     </select>
                                 </div>
                             </div>
+
+                            @if($errors->any())
+                                <div>
+                                    <x-helper.error :campo="'dt_pagamento'"/>
+                                    <x-helper.error :campo="'cd_forma_pagamento'"/>
+                                    <x-helper.error :campo="'cd_nivel_imp'"/>
+                                    <x-helper.error :campo="'cd_categoria'"/>
+                                </div>
+                            @endif
                         </div>
 
                         <!-- GRUPO III - Informações Adicionais -->
@@ -253,6 +270,15 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @if($errors->any())
+                                <div>
+                                    <x-helper.error :campo="'ds_descricao'"/>
+                                    <x-helper.error :campo="'cd_localizacao'"/>
+                                    <x-helper.error :campo="'cd_realizador'"/>
+                                    <x-helper.error :campo="'ic_status'"/>
+                                </div>
+                            @endif
                         </div>
 
                         <!-- Botões de Ação -->
@@ -271,13 +297,4 @@
             </div>
         </div>
     </div>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 </div>

@@ -8,12 +8,16 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use App\Policies\RegistroFixoPolicy;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
+    protected $policies = [
+        RegistroFixo::class => RegistroFixoPolicy::class,
+    ];
     public function register(): void
     {
         //
@@ -31,18 +35,5 @@ class AppServiceProvider extends ServiceProvider
             \App\View\Components\Registro\Card::class,
         );
         Blade::component("components.registro.form", "registro.form");
-
-        //Autenticação e autorização
-        Gate::define("access-registroFixo", function (
-            User $user,
-            RegistroFixo $registroFixo,
-        ) {
-            /*  A linha abaixo, por exemplo, permitiria apenas que um usuário dono de um recurso e
-            detentor de assinatura nivel ouro, 3, acessasse um recurso
-            $logic = $registroFixo->usuario()->is($user) && $user->cd_assinatura == 3;
-            */
-            $logic = $registroFixo->usuario()->is($user);
-            return $logic;
-        });
     }
 }
