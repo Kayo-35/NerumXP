@@ -5,8 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Personas\User;
-use App\Models\Recursos\RegistroFixo;
-use App\Models\Recursos\RegistroFlutuante;
+use App\Models\Recursos\Registro;
 
 class Base extends Seeder
 {
@@ -16,7 +15,6 @@ class Base extends Seeder
     public function run(): void
     {
         User::factory(5)->create();
-        RegistroFixo::factory(100)->create();
-        RegistroFlutuante::factory(30)->create();
+        Registro::factory(100)->create();
     }
 }

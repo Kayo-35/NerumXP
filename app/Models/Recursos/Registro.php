@@ -13,13 +13,15 @@ use App\Models\Recursos\Historico;
 use App\Models\Recursos\Metas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Categorizadores\Registros\Juro;
+use App\Models\Categorizadores\Registros\Modalidade;
 
-class RegistroFixo extends Model
+class Registro extends Model
 {
     use HasFactory;
     //Definições básicas
-    protected $table = "registro_fixo";
-    protected $primaryKey = "cd_registro_fixo";
+    protected $table = "registro";
+    protected $primaryKey = "cd_registro";
 
     protected $fillable = [
         "cd_usuario",
@@ -84,21 +86,25 @@ class RegistroFixo extends Model
             "cd_realizador",
         );
     }
+    public function forma_pagamento()
+    {
+        return $this->belongsTo(
+            FormaPagamento::class,
+            "cd_forma_pagamento",
+            "cd_forma",
+        );
+    }
     public function historico()
     {
-        return $this->hasMany(
-            Historico::class,
-            "cd_registro_fixo",
-            "cd_registro_fixo",
-        );
+        return $this->hasMany(Historico::class, "cd_registro", "cd_registro");
     }
     //M:M
     public function metas()
     {
         return $this->belongsToMany(
             Metas::class,
-            "metas_reg_fixo",
-            "cd_registro_fixo",
+            "metas_registro",
+            "cd_registro",
             "cd_metas",
         )->withPivot("created_at", "updated_at");
     }
@@ -106,9 +112,21 @@ class RegistroFixo extends Model
     {
         return $this->belongsToMany(
             MetodoPagamento::class,
-            "registro_fix_metodoP",
-            "cd_registro_fixo",
-            "cd_tipo_metodo",
+            "registro_metodoPagamento",
+            "cd_registro",
+            "cd_metodo",
         )->withPivot("created_at", "updated_at");
+    }
+    public function modalidade()
+    {
+        return $this->belongsTo(
+            Modalidade::class,
+            "cd_modalidade",
+            "cd_modalidade",
+        );
+    }
+    public function juro()
+    {
+        return $this->belongsTo(Juro::class, "cd_tipo_juros", "cd_tipo_juros");
     }
 }

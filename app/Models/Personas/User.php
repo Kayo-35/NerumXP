@@ -5,8 +5,7 @@ namespace App\Models\Personas;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Conta\Assinatura;
 use App\Models\Recursos\Panorama;
-use App\Models\Recursos\RegistroFixo;
-use App\Models\Recursos\RegistroFlutuante;
+use App\Models\Recursos\Registro;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
@@ -32,11 +31,8 @@ class User extends Authenticatable
     public function assinatura() {
         return $this->belongsTo(Assinatura::class,"cd_assinatura","cd_assinatura");
     }
-    public function registro_fixo() {
-        return $this->hasMany(RegistroFixo::class,"cd_usuario","cd_usuario");
-    }
-    public function registro_flutuante() {
-        return $this->hasMany(RegistroFlutuante::class,"cd_usuario","cd_usuario");
+    public function registro() {
+        return $this->hasMany(Registro::class,"cd_usuario","cd_usuario");
     }
     public function resumoGeral() {
         return $this->hasMany(Panorama::class,"cd_usuario","cd_usuario");

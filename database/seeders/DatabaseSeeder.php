@@ -2,7 +2,7 @@
 namespace Database\Seeders;
 use Database\Seeders\AmostraInicial;
 use Database\Seeders\Base;
-use Database\Seeders\RegistroFixoPivotSeeder;
+use Database\Seeders\RegistroPivotSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\NamesSeeder;
 
@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AmostraInicial::class);
         $this->call(Base::class);
-        $this->call(RegistroFixoPivotSeeder::class);
+        $this->call(RegistroPivotSeeder::class);
         $this->call(NamesSeeder::class);
     }
 }

@@ -2,8 +2,7 @@
 
 namespace App\Models\Categorizadores\Pagamento;
 
-use App\Models\Recursos\RegistroFlutuante;
-use App\Models\Recursos\RegistroFixo;
+use App\Models\Recursos\Registro;
 use Illuminate\Database\Eloquent\Model;
 
 class MetodoPagamento extends Model
@@ -13,15 +12,15 @@ class MetodoPagamento extends Model
     protected $primaryKey = "cd_tipo_metodo";
     public $timestamps = false;
 
-    protected $fillable = ["nm_tipo_metodo"];
+    protected $fillable = ["nm_metodo"];
     //Relacionamentos
-    public function registro_flutuante() {
-        return $this->belongsToMany(RegistroFlutuante::class,"registro_flut_metodoP","cd_tipo_metodo","cd_registro_flutuante")
-            ->withPivot("created_at","updated_at");
+    public function registro()
+    {
+        return $this->belongsToMany(
+            Registro::class,
+            "registro_metodoPagamento",
+            "cd_metodo",
+            "cd_registro",
+        )->withPivot("created_at", "updated_at");
     }
-    public function registro_fixo() {
-        return $this->belongsToMany(RegistroFixo::class,"registro_fix_metodoP","cd_tipo_metodo","cd_registro_fixo")
-            ->withPivot("created_at","updated_at");
-    }
-
 }

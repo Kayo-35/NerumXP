@@ -3,8 +3,7 @@ namespace App\Models\Categorizadores\Gerais;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Recursos\Metas;
-use App\Models\Recursos\RegistroFixo;
-use App\Models\Recursos\RegistroFlutuante;
+use App\Models\Recursos\Registro;
 
 class Nivel_imp extends Model
 {
@@ -16,13 +15,12 @@ class Nivel_imp extends Model
     protected $fillable = ["sg_nivel_imp"];
 
     //Relacionamentos
-    public function metas() {
-        return $this->hasMany(Metas::class,"cd_nivel_imp","cd_nivel_imp");
+    public function metas()
+    {
+        return $this->hasMany(Metas::class, "cd_nivel_imp", "cd_nivel_imp");
     }
-    public function registro_fixo() {
-        return $this->hasMany(RegistroFixo::class,"cd_nivel_imp","cd_nivel_imp");
-    }
-    public function registro_flutuante() {
-        return $this->hasMany(RegistroFlutuante::class,"cd_nivel_imp","cd_nivel_imp");
+    public function registro()
+    {
+        return $this->hasMany(Registro::class, "cd_nivel_imp", "cd_nivel_imp");
     }
 }

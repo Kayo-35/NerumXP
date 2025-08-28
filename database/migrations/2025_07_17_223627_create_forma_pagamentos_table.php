@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('forma_pagamento', function (Blueprint $table) {
-            $table->id("cd_tipo_forma");
-            $table->string("nm_tipo_metodos",50);
+            $table->id("cd_forma");
+            $table->string("nm_forma",50);
         });
     }
 

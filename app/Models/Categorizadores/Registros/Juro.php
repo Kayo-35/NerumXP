@@ -2,7 +2,7 @@
 
 namespace App\Models\Categorizadores\Registros;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Recursos\RegistroFlutuante;
+use App\Models\Recursos\Registro;
 
 class Juro extends Model
 {
@@ -13,7 +13,8 @@ class Juro extends Model
 
     protected $fillable = ["nm_tipo_juro"];
 
-    public function registro_flutuante() {
-        return $this->hasMany(RegistroFlutuante::class,"cd_tipo_juro","cd_tipo_juro");
+    public function registro()
+    {
+        return $this->hasMany(Registro::class, "cd_tipo_juro", "cd_tipo_juro");
     }
 }

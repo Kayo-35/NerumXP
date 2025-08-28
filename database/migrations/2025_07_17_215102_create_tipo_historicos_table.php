@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tipo_historico', function (Blueprint $table) {
-            $table->id("cd_tipo_hist");
-            $table->string("nm_tipo_hist",30);
+            $table->id("cd_tipo_historico");
+            $table->string("nm_tipo_historico",30);
         });
     }
 

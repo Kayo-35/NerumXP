@@ -4,31 +4,26 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('historico', function (Blueprint $table) {
+        Schema::create("historico", function (Blueprint $table) {
             $table->id("cd_historico");
-            $table->foreignId("cd_origem_fixo")
+            $table
+                ->foreignId("cd_registro")
                 ->nullable()
-                ->references("cd_registro_fixo")
-                ->on("registro_fixo")
+                ->references("cd_registro")
+                ->on("registro")
                 ->onDelete("cascade");
-            $table->foreignId("cd_origem_flutuante")
-                ->nullable()
-                ->references("cd_registro_flutuante")
-                ->on("registro_flutuante")
-                ->onDelete("cascade");
-            $table->foreignId("cd_tipo_hist")
-                ->references("cd_tipo_hist")
+            $table
+                ->foreignId("cd_tipo_historico")
+                ->references("cd_tipo_historico")
                 ->on("tipo_historico")
                 ->onDelete("cascade");
-
-            $table->decimal("vl_valor",9,2);
+            $table->decimal("vl_valor", 9, 2);
             $table->timestamps();
         });
     }
@@ -38,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('historico');
+        Schema::dropIfExists("historico");
     }
 };

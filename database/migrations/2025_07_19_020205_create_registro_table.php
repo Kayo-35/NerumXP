@@ -10,29 +10,24 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create("registro_flutuante", function (Blueprint $table) {
-            $table->id("cd_registro_flutuante");
-            $table->timestamps();
+        Schema::create("registro", function (Blueprint $table) {
+            $table->id("cd_registro");
             $table
                 ->foreignId("cd_usuario")
                 ->references("cd_usuario")
                 ->on("usuario")
                 ->onDelete("cascade");
             $table
-                ->foreignId("cd_forma_pagamento")
-                ->references("cd_tipo_forma")
-                ->on("forma_pagamento")
-                ->onDelete("cascade");
-            $table
                 ->foreignId("cd_tipo_registro")
+                ->nullable()
                 ->references("cd_tipo_registro")
                 ->on("tipo_registro")
                 ->onDelete("cascade");
             $table
-                ->foreignId("cd_tipo_juro")
+                ->foreignId("cd_forma_pagamento")
                 ->nullable()
-                ->references("cd_tipo_juro")
-                ->on("registro_tipo_juros")
+                ->references("cd_forma")
+                ->on("forma_pagamento")
                 ->onDelete("cascade");
             $table
                 ->foreignId("cd_nivel_imp")
@@ -60,15 +55,33 @@ return new class extends Migration {
                 ->onDelete("cascade");
 
             $table->string("nm_registro", 50);
-            $table->decimal("vl_valor_registro", 9, 2);
+            $table->decimal("vl_valor", 9, 2);
             $table->boolean("ic_pago");
             $table->boolean("ic_status");
-            $table->decimal("pc_taxa_juros", 6, 3);
+            $table->date("dt_pagamento")->nullable();
+            $table->tinytext("ds_descricao")->nullable();
+
+            //Modalidade flutuante;
+            $table
+                ->foreignId("cd_modalidade")
+                ->nullable()
+                ->references("cd_modalidade")
+                ->on("modalidade")
+                ->onDelete("cascade");
+            $table
+                ->foreignId("cd_tipo_juro")
+                ->nullable()
+                ->references("cd_tipo_juro")
+                ->on("registro_tipo_juros")
+                ->onDelete("cascade");
+            $table->decimal("pc_taxa_juros", 6, 3)->nullable();
+            $table->tinyInteger("qt_meses_incidencia")->nullable();
+            $table->date("dt_vencimento")->nullable();
+
+            //Parcelamento
             $table->tinyInteger("qt_parcelas")->nullable();
             $table->tinyInteger("qt_parcelas_pagas")->nullable();
-            $table->date("dt_pagamento")->nullable();
-            $table->date("dt_vencimento")->nullable();
-            $table->tinytext("ds_descricao");
+            $table->timestamps();
         });
     }
 
@@ -77,6 +90,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists("registro_flutuante");
+        Schema::dropIfExists("registro");
     }
 };

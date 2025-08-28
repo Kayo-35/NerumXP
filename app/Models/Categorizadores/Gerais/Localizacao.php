@@ -3,8 +3,7 @@
 namespace App\Models\Categorizadores\Gerais;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Recursos\RegistroFixo;
-use App\Models\Recursos\RegistroFlutuante;
+use App\Models\Recursos\Registro;
 
 class Localizacao extends Model
 {
@@ -15,10 +14,7 @@ class Localizacao extends Model
 
     protected $fillable = ["nm_localizacao"];
     //Relacionamentos
-    public function registro_fixo() {
-        return $this->hasMany(RegistroFixo::class,"cd_localizacao","cd_localizacao");
-    }
-    public function registro_flutuante() {
-        return $this->hasMany(RegistroFlutuante::class,"cd_localizacao","cd_localizacao");
+    public function registro() {
+        return $this->hasMany(Registro::class,"cd_localizacao","cd_localizacao");
     }
 }

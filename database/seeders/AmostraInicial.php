@@ -12,6 +12,10 @@ class AmostraInicial extends Seeder
      */
     public function run(): void
     {
+        DB::table("modalidade")->insert([
+            ["nm_modalidade" => "fixo"],
+            ["nm_modalidade" => "flutuante"],
+        ]);
         DB::table("assinatura")->insert([
             ["nm_assinatura" => "Bronze"],
             ["nm_assinatura" => "Prata"],
@@ -39,9 +43,9 @@ class AmostraInicial extends Seeder
         ]);
 
         DB::table("forma_pagamento")->insert([
-            ["nm_tipo_metodos" => "Parcelado"],
-            ["nm_tipo_metodos" => "A vista"],
-            ["nm_tipo_metodos" => "Recorrente"]
+            ["nm_forma" => "Parcelado"],
+            ["nm_forma" => "A vista"],
+            ["nm_forma" => "Recorrente"],
         ]);
 
         DB::table("localizacao")->insert([
@@ -55,11 +59,11 @@ class AmostraInicial extends Seeder
         ]);
 
         DB::table("metodo_pagamento")->insert([
-            ["nm_tipo_metodo" => "Cartão de Crédito"],
-            ["nm_tipo_metodo" => "Cartão de Débito"],
-            ["nm_tipo_metodo" => "Dinheiro em Espécie"],
-            ["nm_tipo_metodo" => "Transferência Bancária"],
-            ["nm_tipo_metodo" => "Pix"],
+            ["nm_metodo" => "Cartão de Crédito"],
+            ["nm_metodo" => "Cartão de Débito"],
+            ["nm_metodo" => "Dinheiro em Espécie"],
+            ["nm_metodo" => "Transferência Bancária"],
+            ["nm_metodo" => "Pix"],
         ]);
 
         DB::table("realizador_transacao")->insert([
@@ -83,9 +87,9 @@ class AmostraInicial extends Seeder
         ]);
 
         DB::table("tipo_historico")->insert([
-            ["nm_tipo_hist" => "Receita"],
-            ["nm_tipo_hist" => "Despesa"],
-            ["nm_tipo_hist" => "Tranferência"],
+            ["nm_tipo_historico" => "Receita"],
+            ["nm_tipo_historico" => "Despesa"],
+            ["nm_tipo_historico" => "Tranferência"],
         ]);
 
         DB::table("tipo_registro")->insert([
