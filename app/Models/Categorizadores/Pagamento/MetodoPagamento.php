@@ -9,7 +9,7 @@ class MetodoPagamento extends Model
 {
     //Definições básicas
     protected $table = "metodo_pagamento";
-    protected $primaryKey = "cd_tipo_metodo";
+    protected $primaryKey = "cd_metodo";
     public $timestamps = false;
 
     protected $fillable = ["nm_metodo"];

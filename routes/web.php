@@ -3,6 +3,7 @@ use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
 use App\Http\Controllers\Registro\FixoController;
 use App\Http\Controllers\Registro\FlutuanteController;
+use App\Http\Controllers\Registro\RegistroController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Query\Builder;
 //Testes
@@ -10,36 +11,34 @@ use App\Models\Personas\User;
 
 Route::view("/", "home")->name("home");
 
-Route::view("/about",'about');
+Route::view("/about", "about");
 
 //Registros Fixos
-Route::middleware('auth')->controller(FixoController::class)->group(function () {
-    Route::get("registro/fixo", "index")->name("registroFixo.index");
+Route::middleware("auth")
+    ->controller(RegistroController::class)
+    ->group(function () {
+        Route::get("registro/", "index")->name("registro.index");
 
-    Route::get("registro/fixo/create", "create")->name("registroFixo.create");
+        Route::get("registro/create", "create")->name("registro.create");
 
-    Route::get("registro/fixo/{registroFixo}", "show")
-        ->whereNumber("registroFixo")
-        ->name("registroFixo.show");
+        Route::get("registro/{registro}", "show")
+            ->whereNumber("registro")
+            ->name("registro.show");
 
-    Route::post("registro/fixo", "store")->name("registroFixo.store");
+        Route::post("registro/", "store")->name("registro.store");
 
-    Route::get("registro/fixo/{registroFixo}/edit", "edit")
-        ->whereNumber("registroFixo")
-        ->name("registroFixo.edit");
+        Route::get("registro/{registro}/edit", "edit")
+            ->whereNumber("registro")
+            ->name("registro.edit");
 
-    Route::put("registro/fixo/{registroFixo}", "update")
-        ->whereNumber("registroFixo")
-        ->name("registroFixo.put");
+        Route::put("registro/{registro}", "update")
+            ->whereNumber("registro")
+            ->name("registro.put");
 
-    Route::delete("registro/fixo/{registroFixo}", "destroy")
-        ->whereNumber("registroFixo")
-        ->name("registroFixo.destroy");
-});
-
-//Laravel automatiza a criação de rotas CRUD para recursos
-// A estrutura abaixo replica exatamente a mesma acima, com a exceção da nomenclatura das rotas
-Route::resource("registro/flutuante", FlutuanteController::class);
+        Route::delete("registro/{registro}", "destroy")
+            ->whereNumber("registro")
+            ->name("registro.destroy");
+    });
 
 //Registration
 Route::controller(RegisterController::class)->group(function () {

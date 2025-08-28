@@ -2,19 +2,29 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card shadow-sm transition-all-300 hover-shadow-lg hover-translate-y-1">
-                <div class="card-header bg-success text-white">
-                    <h2 class="card-title mb-0">
+                <div class="card-header bg-success text-white row d-flex justify-content-between align-items-center">
+                    <h2 class="card-title mb-0 col-10">
                         <i class="bi bi-cash-coin me-2"></i>
                         {{ $titulo }}
                     </h2>
+                    <div class="bg-dark rounded d-flex justify-content-center col-2">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="acionador"
+                                @isset($registro)
+                                    {{$registro->cd_modalidade === 2 ? 'checked' : ''}}
+                                @endisset
+                            >
+                            <label class="form-check-label" for="acionador">Flutuante</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <form id="registroForm" method="POST"
                         @if(isset($registro))
-                            action="{{ route($rotaProcessamento,$registro->cd_registro_fixo) }}">
+                            action="{{ route($rotaProcessamento,$registro->cd_registro) }}">
                             @method('PUT')
                         @else
-                            action="{{ route("registroFixo.store") }}">
+                            action="{{ route("registro.store") }}">
                         @endif
                         @csrf
                         <!-- GRUPO I - Informações Essenciais -->
@@ -125,13 +135,13 @@
                                             <li>
                                                 <input type="checkbox"
                                                     class="form-check-input"
-                                                    value="{{ $metodo->cd_tipo_metodo}}"
+                                                    value="{{ $metodo->cd_metodo}}"
                                                     name="metodos[]"
                                                     @if(!empty($metodosProprios))
-                                                        {{ in_array($metodo->cd_tipo_metodo,$metodosProprios) ? 'checked' : ''}}
+                                                        {{ in_array($metodo->cd_metodo,$metodosProprios) ? 'checked' : ''}}
                                                     @endif
                                                 >
-                                                {{ $metodo->nm_tipo_metodo}}
+                                                {{ $metodo->nm_metodo}}
                                             </li>
                                         @endforeach
                                         </ul>
@@ -141,15 +151,15 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="formaPagamento" class="form-label">Forma de Pagamento</label>
-                                    <select class="form-select" id="formaPagamento" name="cd_tipo_forma">
+                                    <select class="form-select" id="formaPagamento" name="cd_forma">
                                         <option value="">Selecione a forma</option>
                                         @foreach($formas as $forma)
-                                            <option value="{{ $forma['cd_tipo_forma'] }}"
+                                            <option value="{{ $forma['cd_forma'] }}"
                                                 @isset($registro)
-                                                    {{ $forma['cd_tipo_forma'] == $registro->cd_forma_pagamento ? 'selected' : ''}}
+                                                    {{ $forma['cd_forma'] == $registro->cd_forma_pagamento ? 'selected' : ''}}
                                                 @endisset
                                             >
-                                                {{ $forma['nm_tipo_metodos'] }}
+                                                {{ $forma['nm_forma'] }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -281,6 +291,87 @@
                             @endif
                         </div>
 
+                        <!-- GRUPO IV - Modalidade Flutuante -->
+                        <div id='flutuante' class="border border-light-subtle rounded-3 p-4 mb-4 bg-light" style="display: none">
+                            <h4 class="text-secondary fw-semibold mb-3 pb-2 border-bottom border-success">
+                                <i class="bi bi-4-circle-fill me-2"></i>
+                                Modalidade Flutuante
+                            </h4>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="modalidade" class="form-label">Modalidade</label>
+                                    <select class="form-select Flutuante" id="modalidade" name="cd_modalidade">
+                                        <option value="">Selecione a modalidade</option>
+                                        @foreach($modalidades as $modalidade)
+                                            <option value="{{ $modalidade['cd_modalidade'] }}"
+                                                @isset($registro)
+                                                    {{ $registro->cd_modalidade == $modalidade['cd_modalidade'] ? 'selected' : ''}}
+                                                @endisset
+                                            >
+                                                {{ $modalidade['nm_modalidade'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="juros" class="form-label">Tipo de Juros</label>
+                                    <select class="form-select Flutuante" id="juros" name="cd_tipo_juro">
+                                        <option value="">Selecione o tipo...</option>
+                                        @foreach($juros as $juro)
+                                            <option value="{{ $juro['cd_tipo_juro'] }}"
+                                                @isset($registro)
+                                                    {{ $registro->cd_tipo_juro == $juro['cd_tipo_juro'] ? 'selected' : ''}}
+                                                @endisset
+                                            >
+                                                {{ $juro['nm_tipo_juro']}}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="taxa_juros" class="form-label">
+                                        Taxa de Juros
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">%</span>
+                                        <input type="number" class="form-control Flutuante" id="taxa_juros" name="pc_taxa_juros"
+                                            placeholder="0.00" step="0.01" min="0"
+                                            @if(isset($registro))
+                                                value="{{ $registro->pc_taxa_juros }}" >
+                                            @else
+                                                >
+                                            @endif
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="incidencia" class="form-label">
+                                        Período de Capitalização
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Meses</span>
+                                        <input type="number" class="form-control Flutuante" id="incidencia" name="qt_meses_incidencia" min="0"
+                                            @if(isset($registro))
+                                                value="{{ $registro->qt_meses_incidencia }}" >
+                                            @else
+                                                >
+                                            @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($errors->any())
+                                <div>
+                                    <x-helper.error :campo="'cd_modalidade'"/>
+                                    <x-helper.error :campo="'cd_tipo_juro'"/>
+                                    <x-helper.error :campo="'pc_taxa_juros'"/>
+                                    <x-helper.error :campo="'qt_meses_incidencia'"/>
+                                </div>
+                            @endif
+                        </div>
                         <!-- Botões de Ação -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="reset" class="btn btn-secondary me-md-2">

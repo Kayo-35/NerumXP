@@ -1,8 +1,10 @@
 <x-layout>
     <x-registro.form
         :titulo="'Criar Registro Fixo'"
-        :rotaProcessamento=`registroFixo.store`
+        :rotaProcessamento=`registro.store`
         :tipos=$tipos
+        :modalidades=$modalidades
+        :juros=$juros
         :metodos=$metodos
         :formas=$formas
         :importancias=$importancias

@@ -13,8 +13,8 @@ class AmostraInicial extends Seeder
     public function run(): void
     {
         DB::table("modalidade")->insert([
-            ["nm_modalidade" => "fixo"],
-            ["nm_modalidade" => "flutuante"],
+            ["nm_modalidade" => "Fixo"],
+            ["nm_modalidade" => "Flutuante"],
         ]);
         DB::table("assinatura")->insert([
             ["nm_assinatura" => "Bronze"],
@@ -38,7 +38,7 @@ class AmostraInicial extends Seeder
             ["nm_categoria" => "Educação"],
             ["nm_categoria" => "Lazer"],
             ["nm_categoria" => "Salário"],
-            ["nm_categoria" => "Investimetnos"],
+            ["nm_categoria" => "Investimentos"],
             ["nm_categoria" => "Outros"],
         ]);
 
@@ -68,16 +68,20 @@ class AmostraInicial extends Seeder
 
         DB::table("realizador_transacao")->insert([
             [
-                "nm_realizador" => "João Silva",
-                "ds_realizador" => "Meu primo, ajudando",
+                "nm_realizador" => "Pais",
+                "ds_realizador" => "Pai, ajudando",
             ],
             [
-                "nm_realizador" => "Carla Gonçaves",
-                "ds_realizador" => "Minha tia, ajudando",
+                "nm_realizador" => "Filho",
+                "ds_realizador" => "Minha filho, ajudando",
             ],
             [
-                "nm_realizador" => "Gerônimo Borges",
+                "nm_realizador" => "Avós",
                 "ds_realizador" => "Meu avô, ajudando",
+            ],
+            [
+                "nm_realizador" => "Irmãos",
+                "ds_realizador" => "Irmãos, ajudando",
             ],
         ]);
 

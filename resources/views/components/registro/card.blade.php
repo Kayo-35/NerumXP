@@ -10,7 +10,7 @@
             >
                 <div class="card-header bg-dark d-flex justify-content-between">
                     <div>
-                        <form action="{{route("registroFixo.destroy",[$registro])}}" method="POST">
+                        <form action="{{route("registro.destroy",[$registro])}}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-outline-danger btn-sm">
@@ -22,7 +22,7 @@
                     </div>
 
                     <div>
-                        <form action="{{route("registroFixo.edit",[
+                        <form action="{{route("registro.edit",[
                                 $registro
                             ])}}">
                             @csrf
