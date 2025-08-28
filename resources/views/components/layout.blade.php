@@ -20,5 +20,13 @@
     >
         @include("components.nav.footer")
     </footer>
+
+    <!-- Scripts js -->
+    @if(request()->is(route('registro.create')))
+        <script src="{{ asset("js/registro/create.js") }}"></script>
+    @endif
+    @if(request()->is('registro/*/edit'))
+        <script src="{{ asset("js/registro/edit.js") }}"></script>
+    @endif
 </body>
 </html>

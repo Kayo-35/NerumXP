@@ -1,7 +1,7 @@
 <x-layout>
     <div class="d-flex justify-content-end row">
         <div class="col-1 me-3">
-            <a class="btn btn-primary" href="{{ route("registroFixo.create") }}">
+            <a class="btn btn-primary" href="{{ route("registro.create") }}">
                 <i class="bi bi-plus">
                     Criar
                 </i>
@@ -16,7 +16,7 @@
                 </div>
             @else
                 @foreach($registros as $registro)
-                <a href="{{ route('registroFixo.show',["registroFixo" => $registro->cd_registro_fixo]) }}"
+                <a href="{{ route('registro.show',["registro" => $registro->cd_registro]) }}"
                     class="col-md-4"
                     style="text-decoration: none"
                 >

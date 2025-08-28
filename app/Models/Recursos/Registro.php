@@ -26,13 +26,17 @@ class Registro extends Model
     protected $fillable = [
         "cd_usuario",
         "cd_tipo_registro",
+        "cd_modalidade",
         "cd_forma_pagamento",
         "cd_nivel_imp",
         "cd_categoria",
         "cd_localizacao",
         "cd_realizador",
+        "cd_tipo_juro",
 
         "nm_registro",
+        "qt_meses_incidencia",
+        "pc_taxa_juros",
         "vl_valor",
         "ic_pago",
         "ic_status",

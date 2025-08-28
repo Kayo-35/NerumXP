@@ -1,7 +1,9 @@
 <x-layout>
     <x-registro.form
         :titulo="'Edição de registro fixo'"
-        :rotaProcessamento="'registroFixo.put'"
+        :rotaProcessamento="'registro.put'"
+        :modalidades=$modalidades
+        :juros=$juros
         :registro=$registro
         :tipos=$tipos
         :metodos=$metodos

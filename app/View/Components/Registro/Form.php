@@ -34,6 +34,8 @@ class Form extends Component
     public Collection $categorias;
     public Collection $localizacoes;
     public Collection $realizadores;
+    public Collection $juros;
+    public Collection $modalidades;
 
     //Dados em lotes
     //Atributos para tabela associativa, apenas para edição
