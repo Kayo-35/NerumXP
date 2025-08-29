@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Panorama extends Model
 {
     //Definições básicas
-    protected $table = "resumoGeral";
+    protected $table = "panorama";
     protected $primayKey = "cd_resumo";
 
     //Relacionamentos

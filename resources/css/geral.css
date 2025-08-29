@@ -9,6 +9,6 @@
 }
 
 #painelCards .card:hover {
-    border-color: lightgreen;
+    border-color: steelblue;
     border-width: 3px;
 }

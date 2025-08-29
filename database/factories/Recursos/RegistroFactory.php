@@ -36,8 +36,11 @@ class RegistroFactory extends Factory
             "nm_registro" => "Indefinido",
             "ic_pago" => $bool[array_rand([$bool])],
             "ic_status" => $bool[array_rand([$bool])],
-            "dt_pagamento" => fake()->date(),
+            "dt_pagamento" => fake()->dateTimeBetween('-2 years','now')->format('Y-m-d'),
             "ds_descricao" => fake()->text(255),
+            //Para testes geração de datas aleatórias é melhor
+            "created_at" => fake()->dateTimeBetween('-2 years','now'),
+            "updated_at" => fake()->dateTimeBetween('-2 years','now'),
         ];
     }
 }

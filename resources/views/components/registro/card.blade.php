@@ -5,15 +5,15 @@
 >
     <div class="d-flex g-4 align-items-stretch">
         <div class="col h-100">
-            <div class="card h-100 position-relative overflow-hidden rounded-4 shadow text-white mx-auto
+            <div class="card bg-gradient h-100 position-relative overflow-hidden rounded-4 shadow-lg text-white mx-auto
                 {{ $registro->cd_tipo_registro == 1 ? 'bg-success' : 'bg-danger' }}"
             >
-                <div class="card-header bg-dark d-flex justify-content-between">
+                <div class="card-header bg-dark d-flex justify-content-start">
                     <div>
                         <form action="{{route("registro.destroy",[$registro])}}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-outline-danger btn-sm">
+                            <button class="btn btn-outline-danger btn-sm me-2">
                                 <i class="bi bi-trash fw-bold">
                                     <span class="mx-1">Excluir</span>
                                 </i>
@@ -33,7 +33,6 @@
                             </button>
                         </form>
                     </div>
-                </form>
                 </div>
                 <div class="pe-2 pt-2">
                     <div class="d-flex align-items-center justify-content-end">
