@@ -1,34 +1,28 @@
-/*Primeiro procedimento (regras de negocio)
-spFinalizaRegistro tem como finalidade concluir registros financeiros dos quais sejam parcelados. Durante a utilização da aplicação de gerenciamento financeiro um usuário poderia utilizar a mesma para indicar que o registro de despesa fora pago, ou um investimento fora concluido, relativos a registros fixos. Mas para garantir a integridade da realidade de negócios isso não bastaria, pois se o mesmo for parcelado então devemos também indicar que a quantidade de parcelas pagas é igual a quantidade total de parcelas, então concluindo o registro.
-
-Esse procedimento recebe como parâmetro de valor um código, que seria referente a que registro deveria ser concluido, e realiza as instruções indicadas nos comentários a seguir:
-*/
+-- Responsável por finalizar registros, será atualizado para um gatilho
 delimiter $
-CREATE PROCEDURE spFinalizaRegistro(IN codigo INT)
+CREATE PROCEDURE spFinalizaRegistro(IN codigo_param INT)
 BEGIN
-    DECLARE qtParcelasPagas INT;
-    DECLARE qtParcelasNao INT;
-    DECLARE pago INT;
-    
-	-- Tomada de decisão composta: Primeiro avalia-se se o código fornecido como entrada de dados manual, se os mesmo estiver associado a alguma tupla de registro_fixo o bloco de códigos subordinado a verdadeiro executa a próxima etapa, senão ocorre a 'impressão' da string 'ERRO!!! Registro inexistente'.
-	IF EXISTS(SELECT cd_registro_fixo FROM registro_fixo WHERE cd_registro_fixo = codigo) THEN
-	    SET pago = (SELECT ic_pago FROM registro_fixo WHERE cd_registro_fixo = codigo);
-	    SET qtParcelasPagas = (SELECT qt_parcelas_pagas FROM registro_fixo WHERE cd_registro_fixo = codigo);
-	    SET qtParcelasNao =(SELECT qt_parcelas FROM registro_fixo WHERE cd_registro_fixo = codigo);
-	    
-		-- A segunda tomada de decisão de mesmo tipo: Agora avalia-se se o registro indicado já fora pago ou não, se foi o procedimento apenas indica que já fora pago, caso contrário o bloco subordinado é executado
-		IF (pago = 0) THEN
-			-- Por último verifica-se se a quantidade de parcelas pagas é menor que as fixas, se sim atribui-se a quantidade de parcelas pagas a mesma presente na quantidade total
-			IF (qtParcelasPagas < qtParcelasNao) THEN
-				UPDATE registro_fixo
-					SET qt_parcelas_pagas = qt_parcelas
-						WHERE cd_registro_fixo = codigo;
-			END IF;
-
-            -- Neste trecho tornamos o registro pago
-			UPDATE registro_fixo
+    DECLARE qtParcelasPagas_var INT;
+    DECLARE qtParcelas_var INT;
+    DECLARE pago_var INT;
+	IF EXISTS(SELECT cd_registro FROM registro WHERE cd_registro = codigo_param) THEN
+	    -- Atribuição de variáveis
+	    SELECT ic_pago INTO pago_var FROM registro WHERE cd_registro = codigo_param;
+	    SELECT qt_parcelas_pagas INTO qtParcelasPagas_var FROM registro WHERE cd_registro = codigo_param;
+	    SELECT qt_parcelas INTO qtParcelas_var FROM registro WHERE cd_registro = codigo_param;
+	    -- Processamento
+		IF (pago_var = 0) THEN
+		    -- Neste trecho tornamos o registro pago
+			UPDATE registro
 				SET ic_pago = 1
-				WHERE cd_registro_fixo = codigo;
+				WHERE cd_registro = codigo_param;
+				
+			-- Igualamos a quantidade de parcelas pagas ao total, se parcelado
+			IF(qtParcelas_var > 0 AND qtParcelasPagas_var < qtParcelas_var) THEN
+    			UPDATE registro
+    				SET qt_parcelas_pagas = qtParcelas_var 
+    				WHERE cd_registro = codigo_param;
+    		END IF;
 		ELSE
 			SELECT ('Registro Já pago!');
         END IF;
@@ -38,47 +32,72 @@ BEGIN
 END $
 delimiter ;
 
--- Crud
-/*
-O resumo geral seria o painel Dashboard mais básico, contendo as informações básicas dos registros fixos de nossos usuários: O deficit de despesas, renda e o balanço geral, a partir de um determinado período de tempo. O procedimento a seguir inclui algumas validações essenciais, mas deixaríamos outras para serem concluidas na aplicação (por exemplo, a data de termino não pode ser menor que a de ínicio, por motivos óbvios :/). Tanto os valores de deficit, balanço e renda são gerados a partír de processamento aritmético de valores obtidos por subconsultas.
-*/
+-- Define o dashboard de renda/despesa de nossos usuários
 delimiter $
-CREATE PROCEDURE spAtualizaResumo(IN codigoU INT, IN dataIniReg DATE, IN dataFimReg DATE)
+CREATE PROCEDURE spAtualizaResumo(IN idUsuario_param INT, IN dataInicio_param TIMESTAMP, IN dataFim_param TIMESTAMP)
 BEGIN
-	-- chaveM tem a função de adquirir o valor máximo presente como identificador de uma tupla em resumoGeral, para que ao realizarmos inserções para tal campo sejamos capazes de fornecer um valor válido(o mesmo mais 1)
-	DECLARE chaveM INT;
+    DECLARE vl_debito_var decimal(9,2);
+    DECLARE vl_superavit_var decimal(9,2);
+    DECLARE vl_balanco_var decimal(9,2);
+    DECLARE agora_var timestamp;
     
     -- Verificamos se o usuário em questão existe em primeiro lugar
-	IF EXISTS(SELECT cd_usuario FROM usuario WHERE codigoU = cd_usuario) THEN
-		/* Aqui realizamos a atribuição do valor da chaveM, se existir já alguma o valor de chaveM será o maior delas, senão o valor 1 é utilizado, mas o mesmo é simbólico */
-        IF (SELECT MAX(cd_resumo) FROM resumoGeral) IS NOT NULL THEN
-			SET chaveM = (SELECT MAX(cd_resumo) FROM resumoGeral);
-        ELSE
-			SET chaveM = 1;
-        END IF;
+	IF EXISTS(SELECT cd_usuario FROM usuario WHERE cd_usuario = idUsuario_param) THEN
+        -- Atribuição
+        select sfRendaDespesaTotal(idUsuario_param,2,dataInicio_param,dataFim_param) into vl_debito_var;
+        select sfRendaDespesaTotal(idUsuario_param,1,dataInicio_param,dataFim_param) into vl_superavit_var;
+        select now() into agora_var;
         
-		-- A próxima etapa é verificar se já existe algum registro em resumoGeral para o usuário, se existir update será realizado para os campos dinâmicos (deficit,superavit,balanco) senão inserções completas para a tupla
-        IF NOT EXISTS(SELECT * FROM resumoGeral WHERE cd_usuario = codigoU)THEN
-			INSERT INTO resumoGeral (cd_resumo,cd_usuario,vl_debito,vl_superavit,vl_balanco) VALUES
-				((chaveM + 1),
-				codigoU,
-				(SELECT SUM(vl_valor) FROM registro_fixo WHERE cd_usuario = codigoU AND vl_valor < 0 AND dt_registro >= dataIniReg AND dt_registro < dataFimReg),
-				(SELECT SUM(vl_valor) FROM registro_fixo WHERE cd_usuario = codigoU AND vl_valor > 0 AND dt_registro >= dataIniReg AND dt_registro < dataFimReg),
-				((SELECT SUM(vl_valor) FROM registro_fixo WHERE cd_usuario = codigoU AND vl_valor < 0 AND dt_registro >= dataIniReg AND dt_registro < dataFimReg) +  (SELECT SUM(vl_valor) FROM registro_fixo WHERE cd_usuario = codigoU AND vl_valor > 0 AND dt_registro >= dataIniReg AND dt_registro < dataFimReg)) -- Essa subconsulta realiza soma algébrica, já que o valor de qualquer despesa em nossa base é negativo, o que simboliza uma dívida.
+        -- Inserindo ou atualizando o panorama do usuário
+        IF NOT EXISTS(SELECT cd_usuario FROM panorama WHERE cd_usuario = idUsuario_param) THEN
+			INSERT INTO panorama (cd_usuario,vl_debito,vl_superavit,balanco,dt_inicio,dt_termino,created_at,updated_at) VALUES
+				(idUsuario_param,
+				vl_debito_var,
+				vl_superavit_var,
+				vl_superavit_var - vl_debito_var,
+				dataInicio_param,
+				dataFim_param,
+				agora_var,
+				agora_var
 				);
         ELSE
-			UPDATE resumoGeral
+			UPDATE panorama
 				SET 
-					vl_debito = (SELECT SUM(vl_valor) FROM registro_fixo WHERE cd_usuario = codigoU AND vl_valor < 0 AND dt_registro >= dataIniReg AND dt_registro < dataFimReg),
-					vl_superavit = (SELECT SUM(vl_valor) FROM registro_fixo WHERE cd_usuario = codigoU AND vl_valor > 0 AND dt_registro >= dataIniReg AND dt_registro < dataFimReg),
-					vl_balanco = ((SELECT SUM(vl_valor) FROM registro_fixo WHERE cd_usuario = codigoU AND vl_valor < 0 AND dt_registro >= dataIniReg AND dt_registro < dataFimReg) + (SELECT SUM(vl_valor) FROM registro_fixo WHERE cd_usuario = codigoU AND vl_valor > 0 AND dt_registro >= dataIniReg AND dt_registro < dataFimReg))
-					WHERE cd_usuario = codigoU;
+					vl_debito = vl_debito_var,
+					vl_superavit = vl_superavit_var,
+					balanco = vl_superavit_var - vl_debito_var,
+					dt_inicio = dataInicio_param,
+					dt_termino = dataFim_param,
+					updated_at = agora_var 
+					WHERE cd_usuario = idUsuario_param;
         END IF;
     ELSE 
 		SELECT('Usuário não existente');
     END IF;
+    
+    -- Retornando valores
+	SELECT * FROM panorama where cd_usuario = idUsuario_param;
 END $
 delimiter ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -- regra de negocio
 /*Esse procedimento lida com os registros flutuantes da nossa base de dados, ou seja todos aqueles dos quais se aplicam juros compostos ou simples. O objetivo do mesmo é sempre que invocado retornar o lucro ou o prejuízo de um determinado registro ao longo do tempo baseado em sua taxa de juros, data de vencimento e tipo de juros. Acreditamos que sua implementação na base de dados como um procedimento aliviaria carga de processamento e código em nossa aplicação, além da facilidade de manipulação dos dados presentes aqui.*/

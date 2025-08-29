@@ -1,17 +1,28 @@
 <?php
 use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
-use App\Http\Controllers\Registro\FixoController;
-use App\Http\Controllers\Registro\FlutuanteController;
 use App\Http\Controllers\Registro\RegistroController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Database\Query\Builder;
+
 //Testes
-use App\Models\Personas\User;
+use Illuminate\Support\Facades\Auth;
 
-Route::view("/", "home")->name("home");
+Route::get("/", function () {
+    if (Auth::check()) {
+        $resumo = DB::select("CALL spAtualizaResumo(?,?,?)", [
+            Auth::user()->cd_usuario,
+            "2024-08-29",
+            "2025-08-29",
+        ]);
+        return view("home", [
+            "resumo" => $resumo,
+        ]);
+    }
+    return view("home");
+})->name("home");
 
-Route::view("/about", "about");
+Route::view("/about",'about')->name('about');
 
 //Registros Fixos
 Route::middleware("auth")

@@ -30,9 +30,9 @@
             <div>
                 <p class="small text-muted">
                     {!! __('Exibindo') !!}
-                    <span class="fw-semibold">{{ $paginator->firstItem()."º" }}</span>
+                    <span class="fw-semibold">{{ $paginator->currentPage()."º" }}</span>
                     {!! __('pagina de') !!}
-                    <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
+                    <span class="fw-semibold">{{ $paginator->lastPage() }}</span>
                     {!! __('|') !!}
                     <span class="fw-semibold">{{ $paginator->total() }}</span>
                     {!! __('itens') !!}

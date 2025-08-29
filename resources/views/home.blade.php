@@ -211,4 +211,50 @@
         </section>
     </main>
     @endguest
+    @auth
+    <section class="d-flex justify-content-center">
+        <div class="container row m-3">
+            <div class="text-center">
+                <h1 class="text-center mb-2 fw-bold text-primary">
+                    RESUMO
+                    <i class="bi bi-pie-chart-fill fs-1 me-1 text-primary"></i>
+                </h1>
+            </div>
+            @unless(empty($resumo))
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <h2></h2>
+                            <table class="table text-center">
+                                <thead class="table-success">
+                                    <th>Débito</th>
+                                    <th>Renda</th>
+                                    <th>Balanço</th>
+                                </thead>
+                                <tbody>
+                                    <td>R$ {{ str_replace('.',',',$resumo[0]->vl_debito) }}</td>
+                                    <td>R$ {{ str_replace('.',',',$resumo[0]->vl_superavit) }}</td>
+                                    <td>R$ {{ str_replace('.',',',$resumo[0]->balanco) }}</td>
+                                </tbody>
+                            </table>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text bg-secondary text-light">Perído indicado</span>
+                                <input type="text"
+                                    class="form-control text-center"
+                                    value="{{ date('d-m-Y',strtotime($resumo[0]->dt_inicio))." até ".date('d-m-Y',strtotime($resumo[0]->dt_termino))}}"
+                                    readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <!--Gráfico-->
+                        </div>
+                    </div>
+                </div>
+            @endunless
+            <div class="col-12">
+                <!--Lista de registros mais recentes-->
+            </div>
+        </div>
+    </section>
+    @endauth
 </x-layout>
