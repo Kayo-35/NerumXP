@@ -16,7 +16,7 @@
                 </div>
             @else
                 @foreach($registros as $registro)
-                <a href="{{ route('registro.show',["registro" => $registro->cd_registro]) }}"
+                <a href="{{ route('registro.show',["registro" => $registro]) }}"
                     class="col-md-4"
                     style="text-decoration: none"
                 >

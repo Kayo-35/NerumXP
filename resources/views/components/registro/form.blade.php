@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card shadow-sm transition-all-300 hover-shadow-lg hover-translate-y-1">
-                <div class="card-header bg-success text-white row d-flex justify-content-between align-items-center">
+                <div class="card-header bg-success text-white row d-flex justify-content-between align-items-center m-0">
                     <h2 class="card-title mb-0 col-10">
                         <i class="bi bi-cash-coin me-2"></i>
                         {{ $titulo }}
@@ -291,28 +291,19 @@
                             @endif
                         </div>
 
+                        <input type="text" class="form-control" id="modalidade" name="cd_modalidade" value="1" hidden>
+
                         <!-- GRUPO IV - Modalidade Flutuante -->
                         <div id='flutuante' class="border border-light-subtle rounded-3 p-4 mb-4 bg-light" style="display: none">
                             <h4 class="text-secondary fw-semibold mb-3 pb-2 border-bottom border-success">
                                 <i class="bi bi-4-circle-fill me-2"></i>
-                                Modalidade Flutuante
+                                Modalidade
                             </h4>
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="modalidade" class="form-label">Modalidade</label>
-                                    <select class="form-select Flutuante" id="modalidade" name="cd_modalidade">
-                                        <option value="">Selecione a modalidade</option>
-                                        @foreach($modalidades as $modalidade)
-                                            <option value="{{ $modalidade['cd_modalidade'] }}"
-                                                @isset($registro)
-                                                    {{ $registro->cd_modalidade == $modalidade['cd_modalidade'] ? 'selected' : ''}}
-                                                @endisset
-                                            >
-                                                {{ $modalidade['nm_modalidade'] }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <div class="form-control">Flutuante</div>
                                 </div>
 
                                 <div class="col-md-6 mb-3">

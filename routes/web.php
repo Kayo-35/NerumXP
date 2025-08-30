@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get("/", function () {
     if (Auth::check()) {
-        $resumo = DB::select("CALL spAtualizaResumo(?,?,?)", [
-            Auth::user()->cd_usuario,
-            "2024-08-29",
-            "2025-08-29",
+        $resumo = DB::select("CALL spAtualizaResumo(:user,:dtInicio,:dtTermino)", [
+            "user" => Auth::user()->cd_usuario,
+            "dtInicio" => "2024-08-29",
+            "dtTermino" => "2025-08-29",
         ]);
         return view("home", [
             "resumo" => $resumo,

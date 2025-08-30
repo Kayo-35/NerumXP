@@ -40,7 +40,7 @@
                             <span class="badge bg-dark me-2">PAGO</span>
                         @endif
 
-                        <i class="bi {{ $iconClass }} fs-4"></i>
+                        <x-helper.categoria :cdCategoria="$registro->cd_categoria"/>
                     </div>
                 </div>
                 <div class="card-body pb-2 d-flex flex-column justify-content-center text-center pt-0">

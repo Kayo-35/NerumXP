@@ -22,11 +22,7 @@
     </footer>
 
     <!-- Scripts js -->
-<<<<<<< HEAD
-    @if(request()->is('registro/create')))
-=======
-    @if(request()->is(route('registro.create')))
->>>>>>> personal
+    @if(request()->is('registro/create*'))
         <script src="{{ asset("js/registro/create.js") }}"></script>
     @endif
     @if(request()->is('registro/*/edit'))

@@ -14,7 +14,7 @@ use App\Models\Categorizadores\Registros\Modalidade;
 use App\Models\Categorizadores\Registros\Tipo;
 use App\Models\Personas\Realizador;
 use App\Models\Recursos\Registro;
-use BcMath\Number;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class RegistroController extends Controller
@@ -30,13 +30,15 @@ class RegistroController extends Controller
             "registros" => $registros,
         ]);
     }
-    public function show(Registro $Registro)
+    public function show(Registro $registro)
     {
         //Autorizando accesso ao recurso ou não
-        $this->authorize("use", $Registro);
+        $this->authorize("use", $registro);
+        $metodos = $registro->metodo_pagamento()->get();
 
         return view("registro.show", [
-            "registro" => $Registro,
+            "registro" => $registro,
+            "metodos" => $metodos ?? new Collection(),
         ]);
     }
     public function create()
@@ -57,68 +59,14 @@ class RegistroController extends Controller
     public function store(Request $request)
     {
         //Validar os dados submetidos
-        $dados = $request->validate([
-            //Provido por elemento implicitamente
-            "cd_tipo_registro" => [
-                "integer",
-                "required",
-                "exists:tipo_registro,cd_tipo_registro",
-            ],
-            "cd_modalidade" => [
-                "integer",
-                "required",
-                "exists:modalidade,cd_modalidade",
-            ],
-            "cd_forma" => [
-                "nullable",
-                "integer",
-                "exists:forma_pagamento,cd_forma",
-            ],
-            "cd_nivel_imp" => [
-                "nullable",
-                "integer",
-                "exists:nivel_imp,cd_nivel_imp",
-            ],
-            "cd_categoria" => [
-                "nullable",
-                "integer",
-                "exists:categoria,cd_categoria",
-            ],
-            "cd_localizacao" => [
-                "nullable",
-                "integer",
-                "exists:localizacao,cd_localizacao",
-            ],
-            "cd_realizador" => [
-                "nullable",
-                "integer",
-                "exists:realizador_transacao,cd_realizador",
-            ],
-            "cd_tipo_juro" => [
-                "nullable",
-                "numeric",
-                "exists:registro_tipo_juros,cd_tipo_juro",
-            ],
-
-            //Providos manualmente pelos usuários
-            "vl_valor" => ["required", "numeric", "between:0,9999999.99"],
-            "ic_pago" => ["required"],
-            "ic_status" => ["required"],
-            "nm_registro" => ["required", "min:4", "max:50"],
-            "dt_pagamento" => ["nullable", "date"],
-            "qt_parcelas" => ["nullable", "integer", "gt:0"],
-            "qt_parcelas_pagas" => ["nullable", "integer", "gt:0"],
-            "ds_descricao" => ["nullable", "max:255"],
-            "pc_taxa_juros" => ["nullable", "numeric", "between:0,999.999"],
-            "qt_meses_incidencia" => ["nullable", "integer", "min:0", "max:99"],
-        ]);
+        $dados = $request->validate(registroRules());
+        dd($dados);
 
         //Adicionado o código do usuário ao array
         $dados["cd_usuario"] = Auth::user()->cd_usuario;
 
         //Criar o registro
         $registro = Registro::create($dados);
-
         //Redirecionar
         return redirect(route("registro.show", ["registro" => $registro]));
     }
