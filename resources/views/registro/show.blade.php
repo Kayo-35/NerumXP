@@ -60,7 +60,7 @@
                             <label class="form-label text-secondary fw-bold">Categoria</label>
                             <div class="d-flex align-items-center">
                                 @isset($registro->cd_categoria)
-                                    <span class="badge bg-success bg-opacity-10 text-success fs-6 px-3 py-2">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary fs-6 px-3 py-2">
                                         <x-helper.categoria :cdCategoria="$registro->cd_categoria"/>
                                     </span>
                                 @else
@@ -136,7 +136,7 @@
                             <label class="form-label text-secondary fw-bold">Tipo de Pagamento</label>
                             <div class="d-flex align-items-center">
                                 @isset($registro->cd_forma_pagamento)
-                                    <span class="badge bg-success bg-opacity-10 text-success fs-6 px-3 py-2">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary fs-6 px-3 py-2">
                                         <i class="bi bi-check-circle me-1">
                                             {{ $registro->forma_pagamento->nm_forma }}
                                         </i>
@@ -169,7 +169,7 @@
                             <div class="d-flex align-items-center">
                                 <span class="badge border border-success fs-6 px-3 py-2">
                                     @if($registro->ic_status == 1)
-                                        <i class="bi bi-check-circle text-success me-1 p-1"> Ativo</i>
+                                        <i class="bi bi-check-circle text-primary me-1 p-1"> Ativo</i>
                                     @else
                                         <x-helper.notice titulo="Registro Inativo" desc="Você definiu esse registro como inativo"/>
                                     @endisset

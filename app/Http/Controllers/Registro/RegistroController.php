@@ -20,14 +20,28 @@ use Illuminate\Http\Request;
 class RegistroController extends Controller
 {
     //Métodos de recurso
-    public function index()
+    public function index(Request $request)
     {
-        $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario)
-            ->orderBy("cd_nivel_imp", "desc")
-            ->orderBy("nm_registro", "asc")
-            ->paginate(9);
+        //Validation
+        $request->boolean("ic_pago");
+        $request->boolean("ic_status");
+        $filters = $request->validate(indexFiltersRules());
+
+        //Avaliando se existe requisição para filtragem
+        if (!empty($request->all())) {
+            $registros = indexQuery($filters);
+        } else {
+            $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario)
+                ->orderBy("cd_nivel_imp", "desc")
+                ->orderBy("nm_registro", "asc")
+                ->paginate(9);
+        }
         return view("registro.index", [
             "registros" => $registros,
+            "tipos" => Tipo::all(),
+            "categorias" => Categoria::all(),
+            "importancias" => Nivel_imp::all(),
+            "modalidades" => Modalidade::all()
         ]);
     }
     public function show(Registro $registro)
@@ -58,6 +72,10 @@ class RegistroController extends Controller
     }
     public function store(Request $request)
     {
+        //Tratar elementos checkbox
+        $request["ic_pago"] = $request->boolean("ic_pago");
+        $request["ic_status"] = $request->boolean("ic_status");
+
         //Validar os dados submetidos
         $dados = $request->validate(registroRules());
 

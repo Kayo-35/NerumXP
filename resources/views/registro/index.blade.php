@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="d-flex justify-content-end row">
+    <div class="d-flex justify-content-end row mt-3">
         <div class="col-1 me-3">
             <a class="btn btn-primary" href="{{ route("registro.create") }}">
                 <i class="bi bi-plus">
@@ -8,8 +8,14 @@
             </a>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-11">
+            <x-registro.filterPanel :tipos=$tipos :importancias=$importancias :categorias=$categorias :modalidades=$modalidades/>
+        </div>
+    </div>
+
     <section id="painelCards" class="mx-5 mt-2">
-        <div class="row">
+        <div class="row mx-4">
             @empty($registros)
                 <div class="container">
                     <h1>Nada a ser exibido...</h1>
@@ -25,9 +31,11 @@
                 @endforeach
             @endempty
             <!-- Paginação com bootstrap-->
-            <div>
-                {{ $registros->links() }}
-            </div>
+            @if(method_exists($registros,"links"))
+                <div>
+                    {{ $registros->links() }}
+                </div>
+            @endif
         </div>
     </section>
 </x-layout>

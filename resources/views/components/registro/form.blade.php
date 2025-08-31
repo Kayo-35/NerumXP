@@ -85,7 +85,6 @@
 
                                 <div class="col-md-6 mb-3 d-flex align-items-end">
                                     <div class="form-check">
-                                        <input type="hidden" name="ic_pago" value="0">
                                         <input class="form-check-input" type="checkbox" id="pago" name="ic_pago"
                                             @isset($registro)
                                                 {{ $registro->ic_pago == 1 ? 'checked' : ''}}
@@ -270,7 +269,6 @@
                             <div class="row">
                                 <div class="col-12 mb-3">
                                     <div class="form-check">
-                                        <input type="hidden" name="ic_status" value="0">
                                         <input class="form-check-input" type="checkbox" id="status" name="ic_status"
                                             @isset($registro)
                                                 {{ $registro->ic_status == 1 ? 'checked' : '' }}

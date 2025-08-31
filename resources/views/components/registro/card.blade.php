@@ -56,8 +56,10 @@
                     <div class="fw-bold fs-4 mb-1">{{ $registro->nm_registro }}</div>
                     <div class="fs-4 fw-bold my-2">R$ {{ str_replace('.',',',$registro->vl_valor) }}</div>
                     <div class="small text-white">
-                        <div>Criado em: {{ date('d-m-Y H:m:s',strtotime($registro->created_at)) }}</div>
-                        <div>Atualizado em: {{ date('d-m-Y H:m:s',strtotime($registro->updated_at)) }}</div>
+                        <div>
+                            Criado em: {{ date('d-m-Y',strtotime($registro->created_at)) }} as
+                            {{ date('H:m', strtotime($registro->created_at))}}
+                        </div>
                     </div>
                 </div>
                 <div class="p-2 d-flex align-items-center text-warning">
