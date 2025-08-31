@@ -16,5 +16,6 @@ class Base extends Seeder
     {
         User::factory(5)->create();
         Registro::factory(300)->create();
+        Registro::factory(100)->flutuante()->create();
     }
 }

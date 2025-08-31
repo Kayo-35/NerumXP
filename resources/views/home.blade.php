@@ -211,6 +211,7 @@
         </section>
     </main>
     @endguest
+
     @auth
     <section class="d-flex justify-content-center">
         <div class="container row m-3">
@@ -224,24 +225,52 @@
                 <div class="col-12">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <h2></h2>
-                            <table class="table text-center">
-                                <thead class="table-success">
-                                    <th>Débito</th>
-                                    <th>Renda</th>
-                                    <th>Balanço</th>
-                                </thead>
-                                <tbody>
-                                    <td>R$ {{ str_replace('.',',',$resumo[0]->vl_debito) }}</td>
-                                    <td>R$ {{ str_replace('.',',',$resumo[0]->vl_superavit) }}</td>
-                                    <td>R$ {{ str_replace('.',',',$resumo[0]->balanco) }}</td>
-                                </tbody>
-                            </table>
-                            <div class="input-group mb-3">
+                            <h2 class='text-primary'>Estatisticas Base</h2>
+                            <div class="card shadow-sm border-0 rounded-3 m-2">
+                                <div class="card-header bg-primary text-white text-center fw-bold">
+                                    Resumo Financeiro
+                                </div>
+                                <div class="card-body p-0">
+                                    <table class="table table-hover table-borderless align-middle mb-0 text-center">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">Débito</th>
+                                                <th scope="col">Renda</th>
+                                                <th scope="col">Balanço</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="table-secondary">
+                                                <td class="text-success">R$ {{ str_replace('.',',',$resumo[0]->vl_debito) }}</td>
+                                                <td class="text-success">R$ {{ str_replace('.',',',$resumo[0]->vl_superavit) }}</td>
+                                                <td class="fw-semibold {{substr_count($resumo[0]->balanco,'-') == 0 ? 'text-primary' : 'text-danger'}}">
+                                                    R$ {{ str_replace('.',',',$resumo[0]->balanco) }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="input-group p-1">
                                 <span class="input-group-text bg-secondary text-light">Perído indicado</span>
                                 <input type="text"
                                     class="form-control text-center"
-                                    value="{{ date('d-m-Y',strtotime($resumo[0]->dt_inicio))." até ".date('d-m-Y',strtotime($resumo[0]->dt_termino))}}"
+                                    value="{{ date('d/m/Y',strtotime($resumo[0]->dt_inicio))." até ".date('d/m/Y',strtotime($resumo[0]->dt_termino))}}"
+                                    readonly>
+                            </div>
+                            <div class="input-group p-1">
+                                <span class="input-group-text bg-success text-light">Registros de renda: </span>
+                                <input type="text"
+                                    class="form-control text-center"
+                                    value="{{ $qtRenda }}"
+                                    readonly>
+                            </div>
+                            <div class="input-group p-1">
+                                <span class="input-group-text bg-danger text-light">Registros de renda: </span>
+                                <input type="text"
+                                    class="form-control text-center"
+                                    value="{{ $qtDespesa }}"
                                     readonly>
                             </div>
                         </div>

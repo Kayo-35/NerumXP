@@ -46,6 +46,8 @@ function registroRules(): array
         ],
 
         //Providos manualmente pelos usuários
+        "metodos" => ['nullable','array'],
+        "metodos.*" => ['integer','min:1','max:5'],
         "vl_valor" => ["required", "numeric", "between:0,9999999.99"],
         "ic_pago" => ["integer",'between:0,1'],
         "ic_status" => ["integer","between:0,1"],

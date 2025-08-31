@@ -8,31 +8,40 @@
             <div class="card bg-gradient h-100 position-relative overflow-hidden rounded-4 shadow-lg text-white mx-auto
                 {{ $registro->cd_tipo_registro == 1 ? 'bg-success' : 'bg-danger' }}"
             >
-                <div class="card-header bg-dark d-flex justify-content-start">
-                    <div>
-                        <form action="{{route("registro.destroy",[$registro])}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-outline-danger btn-sm me-2">
-                                <i class="bi bi-trash fw-bold">
-                                    <span class="mx-1">Excluir</span>
-                                </i>
-                            </button>
-                        </form>
-                    </div>
+                <div class="d-flex justify-content-between card-header bg-dark">
+                    <div class="d-flex justify-content-start">
+                        <div>
+                            <form action="{{route("registro.destroy",[$registro])}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-outline-danger btn-sm me-2">
+                                    <i class="bi bi-trash fw-bold">
+                                        <span class="mx-1">Excluir</span>
+                                    </i>
+                                </button>
+                            </form>
+                        </div>
 
-                    <div>
-                        <form action="{{route("registro.edit",[
-                                $registro
-                            ])}}">
-                            @csrf
-                            <button class="btn btn-outline-warning btn-sm">
-                                <i class="bi bi-pencil">
-                                    <span class="mx-1">Editar</span>
-                                </i>
-                            </button>
-                        </form>
+                        <div>
+                            <form action="{{route("registro.edit",[
+                                    $registro
+                                ])}}">
+                                @csrf
+                                <button class="btn btn-outline-warning btn-sm">
+                                    <i class="bi bi-pencil">
+                                        <span class="mx-1">Editar</span>
+                                    </i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
+                    @if($registro->cd_modalidade == 2)
+                        <div>
+                            <span class="badge bg-primary me-2">
+                                <i class="bi bi-graph-up"> Flutuante</i>
+                            </span>
+                        </div>
+                    @endif
                 </div>
                 <div class="pe-2 pt-2">
                     <div class="d-flex align-items-center justify-content-end">

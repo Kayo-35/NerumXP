@@ -60,13 +60,16 @@ class RegistroController extends Controller
     {
         //Validar os dados submetidos
         $dados = $request->validate(registroRules());
-        dd($dados);
 
         //Adicionado o código do usuário ao array
         $dados["cd_usuario"] = Auth::user()->cd_usuario;
 
         //Criar o registro
         $registro = Registro::create($dados);
+
+        //Associar metodos na tabela associativa
+        $registro->metodo_pagamento()->sync($request->metodos);
+
         //Redirecionar
         return redirect(route("registro.show", ["registro" => $registro]));
     }
@@ -95,7 +98,10 @@ class RegistroController extends Controller
     public function update(Request $request, Registro $registro)
     {
         $this->authorize("use", $registro);
-        return dd($request->all());
+        $data = $request->validate(registroRules());
+        $registro->update($data);
+        $registro->metodo_pagamento()->sync($request->metodos);
+        return redirect(route("registro.show", ["registro" => $registro]));
     }
     public function destroy(Registro $registro)
     {

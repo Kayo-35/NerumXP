@@ -2,6 +2,7 @@
 use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
 use App\Http\Controllers\Registro\RegistroController;
+use App\Models\Recursos\Registro;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -10,19 +11,32 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get("/", function () {
     if (Auth::check()) {
-        $resumo = DB::select("CALL spAtualizaResumo(:user,:dtInicio,:dtTermino)", [
-            "user" => Auth::user()->cd_usuario,
-            "dtInicio" => "2024-08-29",
-            "dtTermino" => "2025-08-29",
-        ]);
+        $resumo = DB::select(
+            "CALL spAtualizaResumo(:user,:dtInicio,:dtTermino)",
+            [
+                "user" => Auth::user()->cd_usuario,
+                "dtInicio" => "2024-08-29",
+                "dtTermino" => "2025-08-29",
+            ],
+        );
+        $qtRenda = Registro::where("cd_tipo_registro", "=", 1)
+            ->where("cd_usuario", "=", Auth::user()->cd_usuario)
+            ->get()
+            ->count();
+        $qtDespesa = Registro::where("cd_tipo_registro", "=", 2)
+            ->where("cd_usuario", "=", Auth::user()->cd_usuario)
+            ->get()
+            ->count();
         return view("home", [
             "resumo" => $resumo,
+            "qtRenda" => $qtRenda,
+            "qtDespesa" => $qtDespesa,
         ]);
     }
     return view("home");
 })->name("home");
 
-Route::view("/about",'about')->name('about');
+Route::view("/about", "about")->name("about");
 
 //Registros Fixos
 Route::middleware("auth")

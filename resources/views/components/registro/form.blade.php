@@ -204,6 +204,10 @@
                                 <div>
                                     <x-helper.error :campo="'dt_pagamento'"/>
                                     <x-helper.error :campo="'cd_forma_pagamento'"/>
+                                    @foreach($errors->get('metodos') as $key => $message)
+                                        <x-helper.error :campo="'{{ $message }}'"/>
+                                    @endforeach
+                                    <x-helper.error :campo="'metodos.*'"/>
                                     <x-helper.error :campo="'cd_nivel_imp'"/>
                                     <x-helper.error :campo="'cd_categoria'"/>
                                 </div>
@@ -223,7 +227,7 @@
                                     <textarea class="form-control" id="descricao" name="ds_descricao" rows="3"
                                         placeholder="Descrição detalhada do registro...">
                                             @isset($registro)
-                                                {{ $registro->ds_descricao }}
+                                                {{ trim($registro->ds_descricao) }}
                                             @endisset
                                     </textarea>
                                 </div>

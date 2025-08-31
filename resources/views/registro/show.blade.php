@@ -9,8 +9,8 @@
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <div class="d-flex align-items-center">
-                                <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3">
-                                    <i class="bi bi-arrow-up-circle text-success fs-3"></i>
+                                <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                                    <i class="bi bi-wallet text-primary fs-3"></i>
                                 </div>
                                 <div>
                                     <h2 class="mb-1 text-dark">{{ $registro->nm_registro }}</h2>
@@ -22,7 +22,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <h1 class="text-{{ $registro->tipo_registro == 1 ? 'success' : 'danger' }} mb-2">
+                            <h1 class="text-{{ $registro->cd_tipo_registro == 1 ? 'success' : 'danger' }} mb-2">
                                 R$ {{ str_replace('.',',',$registro->vl_valor) }}
                             </h1>
                             @if($registro->cd_tipo_registro == 1)
@@ -235,7 +235,9 @@
                                         <div class="bg-success bg-opacity-10 p-2 rounded-circle me-2">
                                             <i class="bi bi-graph-up text-success"></i>
                                         </div>
-                                        <span class="text-dark">Juros Compostos</span>
+                                        <span class="text-dark">
+                                            {{ $registro->juro()->first()->nm_tipo_juro }}
+                                        </span>
                                     </div>
                                 </div>
                             @else
@@ -251,7 +253,9 @@
                                         <div class="bg-dark bg-opacity-10 p-2 rounded-circle me-2">
                                             <i class="bi bi-calculator text-dark"></i>
                                         </div>
-                                        <span class="text-dark">2,5% a.m.</span>
+                                        <span class="text-dark">
+                                            {{ $registro->pc_taxa_juros.'%'}}
+                                        </span>
                                     </div>
                                 </div>
                             @else
@@ -267,7 +271,13 @@
                                         <div class="bg-secondary bg-opacity-10 p-2 rounded-circle me-2">
                                             <i class="bi bi-calendar-event text-secondary"></i>
                                         </div>
-                                        <span class="text-dark">Mensal</span>
+                                        <span class="text-dark">
+                                            @unless($registro->qt_meses_incidencia == 1)
+                                                {{ $registro->qt_meses_incidencia }} meses
+                                            @else
+                                                {{ $registro->qt_meses_incidencia }} mês
+                                            @endunless
+                                        </span>
                                     </div>
                                 </div>
                             @else
@@ -284,7 +294,7 @@
                                         <div class="bg-success bg-opacity-10 p-2 rounded-circle me-2">
                                             <i class="bi bi-calendar-check text-success"></i>
                                         </div>
-                                        <span class="text-dark">{{ date('d/m/Y',$registro->dt_vencimento) }}</span>
+                                        <span class="text-dark">{{ date('d/m/Y',strtotime($registro->dt_vencimento)) }}</span>
                                     </div>
                                 </div>
                             @else

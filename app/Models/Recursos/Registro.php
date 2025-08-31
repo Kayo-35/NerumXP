@@ -131,6 +131,6 @@ class Registro extends Model
     }
     public function juro()
     {
-        return $this->belongsTo(Juro::class, "cd_tipo_juros", "cd_tipo_juros");
+        return $this->belongsTo(Juro::class, "cd_tipo_juro", "cd_tipo_juro");
     }
 }
