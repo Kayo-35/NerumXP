@@ -241,7 +241,7 @@
                                         </thead>
                                         <tbody>
                                             <tr class="table-secondary">
-                                                <td class="text-success">R$ {{ str_replace('.',',',$resumo[0]->vl_debito) }}</td>
+                                                <td class="text-danger">R$ {{ str_replace('.',',',$resumo[0]->vl_debito) }}</td>
                                                 <td class="text-success">R$ {{ str_replace('.',',',$resumo[0]->vl_superavit) }}</td>
                                                 <td class="fw-semibold {{substr_count($resumo[0]->balanco,'-') == 0 ? 'text-primary' : 'text-danger'}}">
                                                     R$ {{ str_replace('.',',',$resumo[0]->balanco) }}

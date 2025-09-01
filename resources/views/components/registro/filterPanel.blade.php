@@ -1,8 +1,7 @@
 @props(
 ["tipos","categorias","importancias","modalidades"]
 )
-<div class="container-fluid">
-  <!-- Botão para expandir/colapsar o painel -->
+<div class="container-fluid me-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <button
       class="btn btn-outline-primary border-0 rounded-3 px-4 py-2 shadow-sm d-flex align-items-center"
@@ -19,7 +18,15 @@
       <i class="bi bi-chevron-down ms-2 transition-rotate" id="chevronIcon"></i>
     </button>
 
-    <!-- Indicador de filtros ativos (opcional) -->
+    <div class="mt-3">
+        <div class="me-3 rounded rounded-5">
+            <a class="btn btn-lg btn-outline-primary px-5 py-0" href="{{ route("registro.create") }}">
+                <i class="bi bi-plus fs-2"></i>
+            </a>
+        </div>
+    </div>
+
+    <!--Incluir JavaScript futuro para visualização de contagem-->
     <span
       class="badge bg-primary rounded-pill"
       id="filtrosAtivos"
@@ -30,14 +37,11 @@
     </span>
   </div>
 
-  <!-- Painel de filtragem colapsável -->
   <div class="collapse" id="painelFiltragem">
     <div class="card border-0 shadow-sm rounded-4 mb-4">
       <div class="card-body p-4">
         <form method="GET">
           @csrf
-
-          <!-- Primeira linha de filtros -->
           <div class="row g-3 mb-4">
             <div class="col-lg-3 col-md-6">
               <label

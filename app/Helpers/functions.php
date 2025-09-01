@@ -51,8 +51,8 @@ function registroRules(): array
         "metodos" => ["nullable", "array"],
         "metodos.*" => ["integer", "min:1", "max:5"],
         "vl_valor" => ["required", "numeric", "between:0,9999999.99"],
-        "ic_pago" => ["integer", "between:0,1"],
-        "ic_status" => ["integer", "between:0,1"],
+        "ic_pago" => ["boolean"],
+        "ic_status" => ["boolean"],
         "nm_registro" => ["required", "min:4", "max:50"],
         "dt_pagamento" => ["nullable", "date"],
         "qt_parcelas" => ["nullable", "integer", "gt:0"],
@@ -90,6 +90,11 @@ function indexQuery(array $filters): object
     //Pago ou não
     if (isset($filters["ic_pago"])) {
         $registros = $registros->where("ic_pago", "=", $filters["ic_pago"]);
+    }
+
+    //Modalidade, acabei esquecendo hahaha :)
+    if (isset($filters['modalidades'])) {
+        $registros = $registros->where("cd_modalidade",'=',$filters["modalidades"]);
     }
 
     //Pago ou não

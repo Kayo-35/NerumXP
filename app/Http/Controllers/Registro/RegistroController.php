@@ -36,6 +36,7 @@ class RegistroController extends Controller
                 ->orderBy("nm_registro", "asc")
                 ->paginate(9);
         }
+        //dd($registros);
         return view("registro.index", [
             "registros" => $registros,
             "tipos" => Tipo::all(),

@@ -2,21 +2,23 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card shadow-sm transition-all-300 hover-shadow-lg hover-translate-y-1">
-                <div class="card-header bg-success text-white row d-flex justify-content-between align-items-center m-0">
-                    <h2 class="card-title mb-0 col-10">
+                <div class="card-header bg-primary text-white row d-flex justify-content-between align-items-center m-0">
+                    <h2 class="card-title mb-0 col-8">
                         <i class="bi bi-cash-coin me-2"></i>
                         {{ $titulo }}
                     </h2>
-                    <div class="bg-dark rounded d-flex justify-content-center col-2">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="acionador"
-                                @isset($registro)
-                                    {{$registro->cd_modalidade === 2 ? 'checked' : ''}}
-                                @endisset
-                            >
-                            <label class="form-check-label" for="acionador">Flutuante</label>
+                    @if(Auth::user()->cd_assinatura > 1)
+                        <div class="bg-light text-dark pt-1 py-2 rounded rounded-5 d-flex justify-content-center col-2">
+                            <div class="form-check form-switch mt-1">
+                                <input class="form-check-input w-50 h-75" type="checkbox" role="switch" id="acionador"
+                                    @isset($registro)
+                                        {{$registro->cd_modalidade === 2 ? 'checked' : ''}}
+                                    @endisset
+                                >
+                                <label class="form-check-label text-primary fw-bold" for="acionador">Flutuante</label>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 <div class="card-body">
                     <form id="registroForm" method="POST"
@@ -371,7 +373,7 @@
                                 <i class="bi bi-arrow-clockwise me-1"></i>
                                 Limpar
                             </button>
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-save me-1"></i>
                                 Salvar Registro
                             </button>

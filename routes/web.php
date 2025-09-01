@@ -36,7 +36,12 @@ Route::get("/", function () {
     return view("home");
 })->name("home");
 
-Route::view("/about", "about")->name("about");
+Route::get("/about",function() {
+    $test = DB::select('select * from registro where cd_usuario = ?',[1]);
+    foreach($test as $registro) {
+        dump($registro);
+    }
+});
 
 //Registros Fixos
 Route::middleware("auth")

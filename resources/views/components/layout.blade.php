@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NerumXP</title>
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
@@ -20,7 +21,6 @@
     >
         @include("components.nav.footer")
     </footer>
-
     <!-- Scripts js -->
     @if(request()->is('registro/create*'))
         <script src="{{ asset("js/registro/create.js") }}"></script>
