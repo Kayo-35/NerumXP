@@ -28,7 +28,10 @@ class RegistroController extends Controller
         $filters = $request->validate(indexFiltersRules());
 
         //Avaliando se existe requisição para filtragem
-        if (!empty($request->all())) {
+        if (
+            !empty($request->all()) &&
+            !array_key_exists("page", $request->query())
+        ) {
             $registros = indexQuery($filters);
         } else {
             $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario)
@@ -40,9 +43,9 @@ class RegistroController extends Controller
         return view("registro.index", [
             "registros" => $registros,
             "tipos" => Tipo::all(),
-            "categorias" => Categoria::all(),
-            "importancias" => Nivel_imp::all(),
-            "modalidades" => Modalidade::all()
+            "categorias" => Categoria::orderBy("nm_categoria", "asc")->get(),
+            "importancias" => Nivel_imp::orderBy("cd_nivel_imp", "asc")->get(),
+            "modalidades" => Modalidade::all(),
         ]);
     }
     public function show(Registro $registro)

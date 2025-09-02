@@ -308,6 +308,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="modalidade" class="form-label">Modalidade</label>
                                     <div class="form-control">Flutuante</div>
+                                    <input class="Flutuante" value="2" name="cd_modalidade" hidden>
                                 </div>
 
                                 <div class="col-md-6 mb-3">

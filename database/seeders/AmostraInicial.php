@@ -23,11 +23,11 @@ class AmostraInicial extends Seeder
         ]);
 
         DB::table("nivel_imp")->insert([
-            ["sg_nivel_imp" => "N1"],
-            ["sg_nivel_imp" => "N2"],
-            ["sg_nivel_imp" => "N3"],
-            ["sg_nivel_imp" => "N4"],
-            ["sg_nivel_imp" => "N5"],
+            ["sg_nivel_imp" => "Mínima"],
+            ["sg_nivel_imp" => "Baixa"],
+            ["sg_nivel_imp" => "Média"],
+            ["sg_nivel_imp" => "Alta"],
+            ["sg_nivel_imp" => "Urgente"],
         ]);
 
         DB::table("categoria")->insert([

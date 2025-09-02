@@ -1,6 +1,7 @@
 @props(
 ["tipos","categorias","importancias","modalidades"]
 )
+@dump($importancias)
 <div class="container-fluid me-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <button
@@ -8,8 +9,6 @@
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#painelFiltragem"
-      aria-expanded="false"
-      aria-controls="painelFiltragem"
     >
       <div class="bg-primary bg-opacity-10 rounded-2 p-1 me-2">
         <i class="bi bi-funnel text-primary"></i>

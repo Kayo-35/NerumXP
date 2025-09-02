@@ -73,7 +73,6 @@ function indexFiltersRules(): array
         "modalidades" => ["nullable", "exists:modalidade,cd_modalidade"],
         "categorias" => ["nullable", "exists:categoria,cd_categoria"],
         "ic_pago" => ["nullable", "boolean"],
-        "categorias" => ["nullable", "array"],
         "vl_valor_minimo" => ["nullable", "numeric", "between:0,9999999.99"],
         "dt_inicio" => ["nullable", "date"],
         "dt_fim" => ["nullable", "date"],
@@ -86,15 +85,26 @@ function indexQuery(array $filters): object
 {
     //Construindo a consulta
     $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario);
-
+    //Renda ou Despesa
+    if (isset($filters["cd_tipo_registro"])) {
+        $registros = Registro::where(
+            "cd_tipo_registro",
+            "=",
+            $filters["cd_tipo_registro"],
+        );
+    }
     //Pago ou não
     if (isset($filters["ic_pago"])) {
         $registros = $registros->where("ic_pago", "=", $filters["ic_pago"]);
     }
 
     //Modalidade, acabei esquecendo hahaha :)
-    if (isset($filters['modalidades'])) {
-        $registros = $registros->where("cd_modalidade",'=',$filters["modalidades"]);
+    if (isset($filters["modalidades"])) {
+        $registros = $registros->where(
+            "cd_modalidade",
+            "=",
+            $filters["modalidades"],
+        );
     }
 
     //Pago ou não
