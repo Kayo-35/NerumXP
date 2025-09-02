@@ -307,7 +307,11 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="modalidade" class="form-label">Modalidade</label>
-                                    <div class="form-control">Flutuante</div>
+                                    <div class="form-control" id="legenda">
+                                        @isset($registro)
+                                            {{ $registro->cd_modalidade == 2 ? 'Flutuante' : 'Fixo'}}
+                                        @endisset
+                                    </div>
                                     <input class="Flutuante" value="2" name="cd_modalidade" hidden>
                                 </div>
 

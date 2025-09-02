@@ -35,6 +35,7 @@ class RegistroController extends Controller
             $registros = indexQuery($filters);
         } else {
             $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario)
+                ->orderBy("ic_status", 'desc')
                 ->orderBy("cd_nivel_imp", "desc")
                 ->orderBy("nm_registro", "asc")
                 ->paginate(9);
@@ -76,6 +77,7 @@ class RegistroController extends Controller
     }
     public function store(Request $request)
     {
+        dd($request->all());
         //Tratar elementos checkbox
         $request["ic_pago"] = $request->boolean("ic_pago");
         $request["ic_status"] = $request->boolean("ic_status");

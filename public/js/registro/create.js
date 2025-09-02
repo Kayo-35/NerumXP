@@ -1,6 +1,9 @@
 //Obtem o acionador para registro flutuante
 let acionador = document.getElementById("acionador");
 
+//Obtem o item da legenda de modalidade
+let legenda = document.getElementById("legenda");
+
 //Obtem o elemento que contém todas as seções de dados para um registro flutuante
 let flutuanteSection = document.getElementById("flutuante");
 
@@ -12,6 +15,7 @@ acionador.addEventListener("click", function () {
     //Verifica o estado atual da seção e o inverte
     if (flutuanteSection.style.display == "none") {
         modalidade.value = 2; //define modalidade Flutuante
+        legenda.innerHTML = 'Flutuante';
         flutuanteSection.style.display = "block";
         campos.forEach(function (campo) {
             campo.disabled = false;
@@ -27,7 +31,6 @@ acionador.addEventListener("click", function () {
     }
 });
 
-//Impede o preenchimento de campos quando o registro estiver marcado como fixo
 //Se a página for recarregada resetar o estado do botão
 document.addEventListener("DOMContentLoaded", function () {
     //Tive de pesquisar por IA como previnir tal comportamento, para previnir o mesmo na primeira
@@ -39,5 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
             navigationEntry.type === "back_foward")
     ) {
         acionador.checked = false;
+        campos.forEach(function (campo) {
+            campo.disabled = true;
+        });
     }
 });

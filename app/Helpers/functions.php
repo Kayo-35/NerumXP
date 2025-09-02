@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\Recursos\Registro;
 use Illuminate\Support\Facades\Auth;
 
@@ -73,6 +74,7 @@ function indexFiltersRules(): array
         "modalidades" => ["nullable", "exists:modalidade,cd_modalidade"],
         "categorias" => ["nullable", "exists:categoria,cd_categoria"],
         "ic_pago" => ["nullable", "boolean"],
+        "ic_status" => ["nullable", "boolean"],
         "vl_valor_minimo" => ["nullable", "numeric", "between:0,9999999.99"],
         "dt_inicio" => ["nullable", "date"],
         "dt_fim" => ["nullable", "date"],
@@ -111,6 +113,7 @@ function indexQuery(array $filters): object
     if (isset($filters["ic_status"])) {
         $registros = $registros->where("ic_status", "=", $filters["ic_status"]);
     }
+
     //Valor monetário
     if (isset($filters["vl_valor_minimo"])) {
         $registros = $registros->where(
@@ -146,6 +149,7 @@ function indexQuery(array $filters): object
         $registros = $registros->whereIn("cd_nivel_imp", $filters["nivel_imp"]);
     }
     $registros = $registros
+        ->orderBy("ic_status","desc")
         ->orderBy("cd_nivel_imp", "desc")
         ->orderBy("nm_registro", "asc")
         ->get();

@@ -35,7 +35,7 @@ class RegistroFactory extends Factory
             "vl_valor" => fake()->randomFloat(2, 20, 3000),
             "nm_registro" => "Indefinido",
             "ic_pago" => $bool[array_rand($bool)],
-            "ic_status" => $bool[array_rand([$bool])],
+            "ic_status" => $bool[array_rand(($bool))],
             "dt_pagamento" => fake()
                 ->dateTimeBetween("-2 years", "now")
                 ->format("Y-m-d"),

@@ -1,7 +1,6 @@
 @props(
 ["tipos","categorias","importancias","modalidades"]
 )
-@dump($importancias)
 <div class="container-fluid me-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <button
@@ -229,6 +228,7 @@
                     type="checkbox"
                     id="pago"
                     name="ic_pago"
+                    value="1"
                   />
                   <label
                     class="form-check-label text-dark fw-medium"
@@ -245,6 +245,7 @@
                     type="checkbox"
                     id="ativo"
                     name="ic_status"
+                    value="1"
                   />
                   <label
                     class="form-check-label text-dark fw-medium"
