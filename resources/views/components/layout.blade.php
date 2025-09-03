@@ -28,5 +28,13 @@
     @if(request()->is('registro/*/edit'))
         <script src="{{ asset("js/registro/edit.js") }}"></script>
     @endif
+
+    <!--Chart.js-->
+    @auth
+        @if(request()->is('/'))
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ asset('js/registro/grafico.js') }}"></script>
+        @endif
+    @endauth
 </body>
 </html>

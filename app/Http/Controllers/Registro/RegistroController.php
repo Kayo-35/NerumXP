@@ -22,17 +22,18 @@ class RegistroController extends Controller
     //Métodos de recurso
     public function index(Request $request)
     {
-        //Validation
-        $request->boolean("ic_pago");
-        $request->boolean("ic_status");
-        $filters = $request->validate(indexFiltersRules());
-
         //Avaliando se existe requisição para filtragem
         if (
             !empty($request->all()) &&
             !array_key_exists("page", $request->query())
         ) {
+            //Validation
+            $request->boolean("ic_pago");
+            $request->boolean("ic_status");
+            $filters = $request->validate(indexFiltersRules());
             $registros = indexQuery($filters);
+
+            $registros = empty($registros) ? [] : $registros;
         } else {
             $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario)
                 ->orderBy("ic_status", 'desc')
@@ -40,9 +41,10 @@ class RegistroController extends Controller
                 ->orderBy("nm_registro", "asc")
                 ->paginate(9);
         }
-        //dd($registros);
+
         return view("registro.index", [
             "registros" => $registros,
+            "qtRegistros" => Registro::count(),
             "tipos" => Tipo::all(),
             "categorias" => Categoria::orderBy("nm_categoria", "asc")->get(),
             "importancias" => Nivel_imp::orderBy("cd_nivel_imp", "asc")->get(),

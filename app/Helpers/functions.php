@@ -86,10 +86,10 @@ function indexFiltersRules(): array
 function indexQuery(array $filters): object
 {
     //Construindo a consulta
-    $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario);
+    $registros = Registro::where("cd_usuario", '=',Auth::user()->cd_usuario);
     //Renda ou Despesa
     if (isset($filters["cd_tipo_registro"])) {
-        $registros = Registro::where(
+        $registros->where(
             "cd_tipo_registro",
             "=",
             $filters["cd_tipo_registro"],
@@ -97,12 +97,12 @@ function indexQuery(array $filters): object
     }
     //Pago ou não
     if (isset($filters["ic_pago"])) {
-        $registros = $registros->where("ic_pago", "=", $filters["ic_pago"]);
+        $registros->where("ic_pago", "=", $filters["ic_pago"]);
     }
 
     //Modalidade, acabei esquecendo hahaha :)
     if (isset($filters["modalidades"])) {
-        $registros = $registros->where(
+        $registros->where(
             "cd_modalidade",
             "=",
             $filters["modalidades"],
@@ -111,12 +111,12 @@ function indexQuery(array $filters): object
 
     //Pago ou não
     if (isset($filters["ic_status"])) {
-        $registros = $registros->where("ic_status", "=", $filters["ic_status"]);
+        $registros->where("ic_status", "=", $filters["ic_status"]);
     }
 
     //Valor monetário
     if (isset($filters["vl_valor_minimo"])) {
-        $registros = $registros->where(
+        $registros->where(
             "vl_valor",
             ">=",
             $filters["vl_valor_minimo"],
@@ -124,35 +124,33 @@ function indexQuery(array $filters): object
     }
     //Datas
     if (isset($filters["dt_inicio"]) && isset($filters["dt_fim"])) {
-        $registros = $registros->whereBetween("created_at", [
+        $registros->whereBetween("created_at", [
             $filters["dt_inicio"],
             $filters["dt_fim"],
         ]);
     } elseif (isset($filters["dt_inicio"])) {
-        $registros = $registros->where(
+        $registros->where(
             "created_at",
             ">=",
             $filters["dt_inicio"],
         );
     } elseif (isset($filters["dt_fim"])) {
-        $registros = $registros->where("created_at", "<=", $filters["dt_fim"]);
+        $registros->where("created_at", "<=", $filters["dt_fim"]);
     }
 
     if (!empty($filters["categorias"])) {
         //Arrays
-        $registros = $registros->whereIn(
+        $registros->whereIn(
             "cd_categoria",
             $filters["categorias"],
         );
     }
     if (!empty($filters["nivel_imp"])) {
-        $registros = $registros->whereIn("cd_nivel_imp", $filters["nivel_imp"]);
+        $registros->whereIn("cd_nivel_imp", $filters["nivel_imp"]);
     }
-    $registros = $registros
-        ->orderBy("ic_status","desc")
+    $registros->orderBy("ic_status","desc")
         ->orderBy("cd_nivel_imp", "desc")
-        ->orderBy("nm_registro", "asc")
-        ->get();
+        ->orderBy("nm_registro", "asc");
 
-    return $registros;
+    return $registros->get();
 }

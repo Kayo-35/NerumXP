@@ -53,7 +53,7 @@
                         @endswitch
                     ">
                     <p class="ms-2 mb-0 text-break">
-                        {{ ' '.Auth::user()->assinatura()->first()->nm_assinatura }}
+                        {{ "\t".Auth::user()->assinatura()->first()->nm_assinatura }}
                         <i class="bi bi-award fw-bold"></i>
                     </p>
                 </div>

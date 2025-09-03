@@ -297,81 +297,83 @@
 
                         <input type="text" class="form-control" id="modalidade" name="cd_modalidade" value="1" hidden>
 
-                        <!-- GRUPO IV - Modalidade Flutuante -->
-                        <div id='flutuante' class="border border-light-subtle rounded-3 p-4 mb-4 bg-light" style="display: none">
-                            <h4 class="text-secondary fw-semibold mb-3 pb-2 border-bottom border-success">
-                                <i class="bi bi-4-circle-fill me-2"></i>
-                                Modalidade
-                            </h4>
+                        @if(Auth::user()->cd_assinatura > 1)
+                            <!-- GRUPO IV - Modalidade Flutuante -->
+                            <div id='flutuante' class="border border-light-subtle rounded-3 p-4 mb-4 bg-light" style="display: none">
+                                <h4 class="text-secondary fw-semibold mb-3 pb-2 border-bottom border-success">
+                                    <i class="bi bi-4-circle-fill me-2"></i>
+                                    Modalidade
+                                </h4>
 
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="modalidade" class="form-label">Modalidade</label>
-                                    <div class="form-control" id="legenda">
-                                        @isset($registro)
-                                            {{ $registro->cd_modalidade == 2 ? 'Flutuante' : 'Fixo'}}
-                                        @endisset
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="modalidade" class="form-label">Modalidade</label>
+                                        <div class="form-control" id="legenda">
+                                            @isset($registro)
+                                                {{ $registro->cd_modalidade == 2 ? 'Flutuante' : 'Fixo'}}
+                                            @endisset
+                                        </div>
+                                        <input class="Flutuante" value="2" name="cd_modalidade" hidden>
                                     </div>
-                                    <input class="Flutuante" value="2" name="cd_modalidade" hidden>
-                                </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="juros" class="form-label">Tipo de Juros</label>
-                                    <select class="form-select Flutuante" id="juros" name="cd_tipo_juro">
-                                        <option value="">Selecione o tipo...</option>
-                                        @foreach($juros as $juro)
-                                            <option value="{{ $juro['cd_tipo_juro'] }}"
-                                                @isset($registro)
-                                                    {{ $registro->cd_tipo_juro == $juro['cd_tipo_juro'] ? 'selected' : ''}}
-                                                @endisset
-                                            >
-                                                {{ $juro['nm_tipo_juro']}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label for="taxa_juros" class="form-label">
-                                        Taxa de Juros
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">%</span>
-                                        <input type="number" class="form-control Flutuante" id="taxa_juros" name="pc_taxa_juros"
-                                            placeholder="0.00" step="0.01" min="0"
-                                            @if(isset($registro))
-                                                value="{{ $registro->pc_taxa_juros }}" >
-                                            @else
+                                    <div class="col-md-6 mb-3">
+                                        <label for="juros" class="form-label">Tipo de Juros</label>
+                                        <select class="form-select Flutuante" id="juros" name="cd_tipo_juro">
+                                            <option value="">Selecione o tipo...</option>
+                                            @foreach($juros as $juro)
+                                                <option value="{{ $juro['cd_tipo_juro'] }}"
+                                                    @isset($registro)
+                                                        {{ $registro->cd_tipo_juro == $juro['cd_tipo_juro'] ? 'selected' : ''}}
+                                                    @endisset
                                                 >
-                                            @endif
+                                                    {{ $juro['nm_tipo_juro']}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="taxa_juros" class="form-label">
+                                            Taxa de Juros
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">%</span>
+                                            <input type="number" class="form-control Flutuante" id="taxa_juros" name="pc_taxa_juros"
+                                                placeholder="0.00" step="0.01" min="0"
+                                                @if(isset($registro))
+                                                    value="{{ $registro->pc_taxa_juros }}" >
+                                                @else
+                                                    >
+                                                @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="incidencia" class="form-label">
+                                            Período de Capitalização
+                                        </label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Meses</span>
+                                            <input type="number" class="form-control Flutuante" id="incidencia" name="qt_meses_incidencia" min="0"
+                                                @if(isset($registro))
+                                                    value="{{ $registro->qt_meses_incidencia }}" >
+                                                @else
+                                                    >
+                                                @endif
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 mb-3">
-                                    <label for="incidencia" class="form-label">
-                                        Período de Capitalização
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Meses</span>
-                                        <input type="number" class="form-control Flutuante" id="incidencia" name="qt_meses_incidencia" min="0"
-                                            @if(isset($registro))
-                                                value="{{ $registro->qt_meses_incidencia }}" >
-                                            @else
-                                                >
-                                            @endif
+                                @if($errors->any())
+                                    <div>
+                                        <x-helper.error :campo="'cd_modalidade'"/>
+                                        <x-helper.error :campo="'cd_tipo_juro'"/>
+                                        <x-helper.error :campo="'pc_taxa_juros'"/>
+                                        <x-helper.error :campo="'qt_meses_incidencia'"/>
                                     </div>
-                                </div>
+                                @endif
                             </div>
-
-                            @if($errors->any())
-                                <div>
-                                    <x-helper.error :campo="'cd_modalidade'"/>
-                                    <x-helper.error :campo="'cd_tipo_juro'"/>
-                                    <x-helper.error :campo="'pc_taxa_juros'"/>
-                                    <x-helper.error :campo="'qt_meses_incidencia'"/>
-                                </div>
-                            @endif
-                        </div>
+                        @endif
                         <!-- Botões de Ação -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="reset" class="btn btn-secondary me-md-2">

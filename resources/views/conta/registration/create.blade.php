@@ -13,28 +13,28 @@
                         <div class="mb-4">
                             <label for="nome" class="form-label text-secondary fw-bold">Nome Completo</label>
                             <input type="text" class="form-control border-success" id="nome" name="nm_usuario" placeholder="Digite seu nome completo" required>
-                            <x-helper.error campo="nm_usuario"></x-helper.error>
+                            <x-helper.error campo="nm_usuario" class="mt-2"></x-helper.error>
                         </div>
 
                         <!-- Campo Email -->
                         <div class="mb-4">
                             <label for="email" class="form-label text-secondary fw-bold">Email</label>
-                            <input type="mail" class="form-control border-success" id="email" name="email" required>
-                            <x-helper.error campo="email"></x-helper.error>
+                            <input type="email" class="form-control border-success" id="email" name="email" required>
+                            <x-helper.error campo="email" class="mt-2"></x-helper.error>
                         </div>
 
                         <!-- Campo Senha -->
                         <div class="mb-4">
                             <label for="senha" class="form-label text-secondary fw-bold">Senha</label>
                             <input type="password" class="form-control border-success" id="senha" name="password" required>
-                            <x-helper.error campo="password"></x-helper.error>
+                            <x-helper.error campo="password" class="mt-2"></x-helper.error>
                         </div>
 
                         <!-- Campo Data de Nascimento -->
                         <div class="mb-4">
                             <label for="dataNascimento" class="form-label text-secondary fw-bold">Data de Nascimento</label>
-                            <input type="date" class="form-control border-success" id="dataNascimento" name="dt_nascimento" required>
-                            <x-helper.error campo="dt_nascimento"></x-helper.error>
+                            <input type="date" class="form-control border-success" id="dataNascimento" name="dt_nascimento" value="{{ $dtNascimento ?? ''}}" required>
+                            <x-helper.error campo="dt_nascimento" class="mt-2"></x-helper.error>
                         </div>
 
                         <!-- Botões -->

@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
 use App\Http\Controllers\Registro\RegistroController;
@@ -11,12 +12,13 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get("/", function () {
     if (Auth::check()) {
+        $dtInicio = '2024-09-03';
         $resumo = DB::select(
             "CALL spAtualizaResumo(:user,:dtInicio,:dtTermino)",
             [
                 "user" => Auth::user()->cd_usuario,
-                "dtInicio" => "2024-08-29",
-                "dtTermino" => "2025-08-29",
+                'dtInicio' => $dtInicio,
+                "dtTermino" => date('Y-m-d'),
             ],
         );
         $qtRenda = Registro::where("cd_tipo_registro", "=", 1)
@@ -27,20 +29,23 @@ Route::get("/", function () {
             ->where("cd_usuario", "=", Auth::user()->cd_usuario)
             ->get()
             ->count();
+        $registrosRecentes = Registro::select('cd_registro', 'nm_registro', 'vl_valor', 'ic_pago', 'cd_categoria', 'cd_tipo_registro')
+            ->where('cd_usuario', Auth::user()->cd_usuario)
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
         return view("home", [
             "resumo" => $resumo,
             "qtRenda" => $qtRenda,
             "qtDespesa" => $qtDespesa,
+            "registrosRecentes" => $registrosRecentes
         ]);
     }
     return view("home");
 })->name("home");
 
-Route::get("/about",function() {
-    $test = DB::select('select * from registro where cd_usuario = ?',[1]);
-    foreach($test as $registro) {
-        dump($registro);
-    }
+Route::get("/about", function () {
+    return view('about');
 });
 
 //Registros Fixos

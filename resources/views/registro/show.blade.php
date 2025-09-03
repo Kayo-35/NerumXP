@@ -15,7 +15,7 @@
                                 <div>
                                     <h2 class="mb-1 text-dark">{{ $registro->nm_registro }}</h2>
                                     <p class="text-secondary mb-0">
-                                        Transação realizada em {{ date('d-m-Y',strtotime($registro->created_at)) }}
+                                        Transação realizada em {{ date('d/m/Y',strtotime($registro->created_at)) }}
                                         às {{ date('H:m',strtotime($registro->created_at)) }}
                                     </p>
                                 </div>

@@ -1,5 +1,5 @@
 <i class="bi {{ $iconClass }} fs-4">
-    @if(request()->path() !== 'registro')
+    @if(Str::is('registro/*',request()->path()))
         {{ $titulo }}
     @endif
 </i>

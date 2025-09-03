@@ -32,7 +32,7 @@ class Categoria extends Component
             6 => "bi-sunglasses",
             7 => "bi-cash-stack",
             8 => "bi-graph-up-arrow",
-            9 => "bi-mortarboard-fill",
+            9 => "bi-three-dots",
             default => "nothing",
         };
     }

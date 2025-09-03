@@ -7,40 +7,41 @@
 
     <section id="painelCards" class="mx-5 mt-2">
         <div class="row mx-4">
-            @empty($registros->toArray())
-                <div class="container-fluid d-flex align-items-center justify-content-center">
-                    <div class="text-center">
-                        <div class="mb-4">
-                            <i class="bi bi-search text-muted" style="font-size: 4rem;"></i>
-                        </div>
-                        <h3 class="text-muted mb-3">Nenhum resultado encontrado</h3>
-                        <p class="text-muted mb-4 lead">
-                            Não foram encontrados recursos que correspondam aos filtros selecionados.
-                        </p>
-                        <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center">
-                            <a class="btn btn-outline-primary" href="{{ route('registro.index') }}">
-                                <i class="bi bi-arrow-clockwise me-2"></i>
-                                Recarregar Página
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            @if($registros->isEmpty())
+                @if($qtRegistros === 0)
+                    <x-helper.nothing
+                        icon="bi-question-circle"
+                        title="Nenhum registro encontrado"
+                        text="Cadastre seus registros e os consulte nessa página sempre que necessário"
+                        route="{{route('registro.create')}}"
+                        label="Criar registro"
+                        />
+                @else
+                    <x-helper.nothing
+                        icon="bi-search"
+                        title="Nenhum registro encontrado"
+                        text="Parâmetros de consulta não atendem a nenhum registro cadastrado"
+                        route="{{route('registro.index')}}"
+                        label="Recarregar Página"
+                        labelIcon="bi-arrow-clockwise"
+                        />
+                @endif
             @else
                 @foreach($registros as $registro)
-                <a href="{{ route('registro.show',["registro" => $registro]) }}"
+                <a href="{{ route('registro.show',["registro" => $registro->cd_registro]) }}"
                     class="col-md-4"
                     style="text-decoration: none"
                 >
                     <x-registro.card :registro="$registro"></x-registro.card>
                 </a>
                 @endforeach
+                @if(method_exists($registros,"links"))
+                    <div>
+                        {{ $registros->links() }}
+                    </div>
+                @endif
             @endempty
             <!-- Paginação com bootstrap-->
-            @if(method_exists($registros,"links"))
-                <div>
-                    {{ $registros->links() }}
-                </div>
-            @endif
         </div>
     </section>
 </x-layout>

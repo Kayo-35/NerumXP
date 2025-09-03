@@ -77,7 +77,7 @@
                     <div class="small text-white">
                         <div>
                             Criado em:
-                            {{ date("d-m-Y", strtotime($registro->created_at)) }}
+                            {{ date("d/m/Y", strtotime($registro->created_at)) }}
                             as
                             {{ date("H:m", strtotime($registro->created_at)) }}
                         </div>
