@@ -12,13 +12,17 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get("/", function () {
     if (Auth::check()) {
-        $dtInicio = '2024-09-03';
+        $dtHoje = new DateTime(date('Y-m-d H:m:s'));
+        $dtInicio = $dtHoje->modify('- 1 year')->format('Y-m-d H:m:s');
+        $dtHoje = date('Y-m-d H:m:s');
+
         $resumo = DB::select(
-            "CALL spAtualizaResumo(:user,:dtInicio,:dtTermino)",
+            "CALL spAtualizaResumo(:user,:dtInicio,:dtTermino,:dtAlvo)",
             [
                 "user" => Auth::user()->cd_usuario,
                 'dtInicio' => $dtInicio,
-                "dtTermino" => date('Y-m-d'),
+                "dtTermino" => $dtHoje,
+                "dtAlvo" => $dtHoje
             ],
         );
         $qtRenda = Registro::where("cd_tipo_registro", "=", 1)
@@ -34,6 +38,7 @@ Route::get("/", function () {
             ->orderBy('created_at', 'desc')
             ->limit(3)
             ->get();
+
         return view("home", [
             "resumo" => $resumo,
             "qtRenda" => $qtRenda,

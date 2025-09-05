@@ -312,6 +312,10 @@
                         <div class="col-md-6 col-sm-12">
                             <input type="number" value="{{$resumo[0]->vl_superavit}}" id="renda" hidden>
                             <input type="number" value="{{$resumo[0]->vl_debito}}" id="despesa" hidden>
+                            <input type="number" value="{{$resumo[0]->vl_juros_superavit}}" id="jurosRenda" hidden>
+                            <input type="number" value="{{$resumo[0]->vl_juros_debito}}" id="jurosDespesa" hidden>
+                            <input type="number" value="{{Auth::user()->cd_usuario}}" id="assinatura" hidden>
+
                             <h2 class="text-primary text-center">Balanço Monetário</h2>
                             <!--Gráfico-->
                             <canvas id="myChart"></canvas>

@@ -4,24 +4,44 @@
 */
 const renda = parseFloat(document.getElementById('renda').value);
 const despesa = parseFloat(document.getElementById('despesa').value);
+const jurosRenda = parseFloat(document.getElementById('jurosRenda').value);
+const jurosDespesa = parseFloat(document.getElementById('jurosDespesa').value);
 const intervalo = document.getElementById('intervalo').value;
-
+const assinatura = parseInt(document.getElementById('assinatura').value);
+let dadosPizza;
 /*
     Dados são pareados de acordo com sua ordenação, primeira legenda a primeiro valor, sucessivamente,
     o mesmo é valido para propriedades como cores, etc;
 */
-const dadosPizza = {
-    // `labels` são os nomes das categorias (fatias).
-    labels: ["Renda", "Despesa"],
-    datasets: [{
-        data: [renda,despesa], // Os valores para cada fatia.
-        backgroundColor: [
-            "#198754", // Verde Água
-            "#dc3545", // Vermelho
-        ],
-        hoverOffset: 4 // Quantidade de pixels que a fatia se desloca ao passar o mouse.
-    }]
-};
+if (assinatura > 1) {
+    dadosPizza = {
+        // `labels` são os nomes das categorias (fatias).
+        labels: ['Renda','Juros','Despesa','Juros'],
+        datasets: [{
+            data: [renda, jurosRenda, despesa, jurosDespesa], // Os valores para cada fatia.
+            backgroundColor: [
+                "#198754", //Renda
+                "#81C784", //Juros Renda
+                "#dc3545", // Despesa
+                "#E57373", //Juros Despesa
+            ],
+            hoverOffset: 4 // Quantidade de pixels que a fatia se desloca ao passar o mouse.
+        }]
+    };
+} else {
+    dadosPizza = {
+        // `labels` são os nomes das categorias (fatias).
+        labels: ['Renda','Despesa'],
+        datasets: [{
+            data: [renda, despesa], // Os valores para cada fatia.
+            backgroundColor: [
+                "#198754", //Renda
+                "#dc3545", // Despesa
+            ],
+            hoverOffset: 4 // Quantidade de pixels que a fatia se desloca ao passar o mouse.
+        }]
+    };
+}
 const configPizza = {
     type: "doughnut",
     data: dadosPizza,
@@ -38,6 +58,11 @@ const configPizza = {
             legend: {
                 display: true, // É crucial exibir a legenda para gráficos de pizza.
                 position: "top", // Posição da legenda: "top", "bottom", "left", "right".
+                labels: {
+                    font: {
+                        size: 14
+                    }
+                }
             },
             tooltip: {
                 callbacks: {

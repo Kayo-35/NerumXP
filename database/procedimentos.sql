@@ -34,27 +34,65 @@ delimiter ;
 
 -- Define o dashboard de renda/despesa de nossos usuários
 delimiter $
-CREATE PROCEDURE spAtualizaResumo(IN idUsuario_param INT, IN dataInicio_param TIMESTAMP, IN dataFim_param TIMESTAMP)
+CREATE PROCEDURE spAtualizaResumo(IN idUsuario_param INT, IN dataInicio_param TIMESTAMP, IN dataFim_param TIMESTAMP, IN dataAlvo_param TIMESTAMP)
 BEGIN
+    DECLARE vl_renda_fix_var decimal(9,2);
+    DECLARE vl_desp_fix_var decimal(9,2);
+    DECLARE vl_renda_flut_var decimal(9,2);
+    DECLARE vl_desp_flut_var decimal(9,2);
+    
+    DECLARE vl_juros_superavit_var decimal(9,2);
+    DECLARE vl_juros_debito_var decimal(9,2);
     DECLARE vl_debito_var decimal(9,2);
     DECLARE vl_superavit_var decimal(9,2);
+    
     DECLARE vl_balanco_var decimal(9,2);
     DECLARE agora_var timestamp;
     
     -- Verificamos se o usuário em questão existe em primeiro lugar
 	IF EXISTS(SELECT cd_usuario FROM usuario WHERE cd_usuario = idUsuario_param) THEN
         -- Atribuição
-        select sfRendaDespesaTotal(idUsuario_param,2,dataInicio_param,dataFim_param) into vl_debito_var;
-        select sfRendaDespesaTotal(idUsuario_param,1,dataInicio_param,dataFim_param) into vl_superavit_var;
-        select now() into agora_var;
+        select sfRDFixaTotal(idUsuario_param,1,dataInicio_param,dataFim_param) into vl_renda_fix_var;
+        select sfRDFixaTotal(idUsuario_param,2,dataInicio_param,dataFim_param) into vl_desp_fix_var;
         
+        select sfRendaFlutuante(idUsuario_param,date(dataInicio_param),date(dataFim_param),date(dataAlvo_param)) into vl_renda_flut_var;
+        select sfDespesaFlutuante(idUsuario_param,date(dataInicio_param),date(dataFim_param),date(dataAlvo_param)) into vl_desp_flut_var;
+        
+        select (vl_renda_flut_var - 
+            (select sum(vl_valor) 
+                from registro
+            where 
+                cd_usuario = idUsuario_param and 
+                cd_tipo_registro = 1 and 
+                cd_modalidade = 2 and
+                date(created_at) between date(dataInicio_param) and date(dataFim_param)
+            )) into vl_juros_superavit_var;
+            
+            
+        select (vl_desp_flut_var - 
+            (select sum(vl_valor) 
+            from registro
+            where 
+             cd_usuario = idUsuario_param and 
+                cd_tipo_registro = 2 and 
+                cd_modalidade = 2 and
+                date(created_at) between date(dataInicio_param) and date(dataFim_param)
+            )) into vl_juros_debito_var;
+            
+        select vl_renda_flut_var + vl_renda_fix_var into vl_superavit_var;
+        select vl_desp_flut_var + vl_desp_fix_var into vl_debito_var;
+        
+        select now() into agora_var;
+     
         -- Inserindo ou atualizando o panorama do usuário
         IF NOT EXISTS(SELECT cd_usuario FROM panorama WHERE cd_usuario = idUsuario_param) THEN
-			INSERT INTO panorama (cd_usuario,vl_debito,vl_superavit,balanco,dt_inicio,dt_termino,created_at,updated_at) VALUES
+			INSERT INTO panorama (cd_usuario,vl_debito,vl_superavit,balanco,vl_juros_debito,vl_juros_superavit,dt_inicio,dt_termino,created_at,updated_at) VALUES
 				(idUsuario_param,
 				vl_debito_var,
 				vl_superavit_var,
 				vl_superavit_var - vl_debito_var,
+				vl_juros_debito_var,
+				vl_juros_superavit_var,
 				dataInicio_param,
 				dataFim_param,
 				agora_var,
@@ -65,6 +103,8 @@ BEGIN
 				SET 
 					vl_debito = vl_debito_var,
 					vl_superavit = vl_superavit_var,
+					vl_juros_debito = vl_juros_debito_var,
+					vl_juros_superavit = vl_juros_superavit_var,
 					balanco = vl_superavit_var - vl_debito_var,
 					dt_inicio = dataInicio_param,
 					dt_termino = dataFim_param,
@@ -81,7 +121,8 @@ END $
 delimiter ;
 
 
-
+describe panorama;
+drop procedure spAtualizaResumo;
 
 
 
@@ -245,3 +286,10 @@ BEGIN
     END IF;
 END $
 DELIMITER ;
+
+call spAtualizaResumo(1,'2024-01-01',NOW(),NOW());
+select distinct(cd_usuario) from registro where cd_modalidade = 2;
+
+select * from usuario;
+
+select * from panorama;
