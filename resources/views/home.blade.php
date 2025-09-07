@@ -301,7 +301,7 @@
                                                             {{ $registro->ic_pago == 1 ? 'PAGO' : 'NÃO PAGO' }}
                                                         </span>
                                                     </td>
-                                                    <td>R${{ $registro->vl_valor }}</td>
+                                                    <td>R${{ str_replace('.',',',$registro->vl_valor) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
