@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Recursos;
+
 use App\Models\Categorizadores\Gerais\Categoria;
 use App\Models\Categorizadores\Gerais\Localizacao;
 use App\Models\Categorizadores\Gerais\Nivel_imp;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Categorizadores\Registros\Juro;
 use App\Models\Categorizadores\Registros\Modalidade;
+use Illuminate\Support\Facades\Auth;
 
 class Registro extends Model
 {
@@ -132,5 +134,80 @@ class Registro extends Model
     public function juro()
     {
         return $this->belongsTo(Juro::class, "cd_tipo_juro", "cd_tipo_juro");
+    }
+
+    //Métodos de Consulta
+
+
+    static function indexQuery(array $filters): object
+    {
+        //Construindo a consulta
+        $registros = Registro::where("cd_usuario", '=', Auth::user()->cd_usuario);
+        //Renda ou Despesa
+        if (isset($filters["cd_tipo_registro"])) {
+            $registros->where(
+                "cd_tipo_registro",
+                "=",
+                $filters["cd_tipo_registro"],
+            );
+        }
+        //Pago ou não
+        if (isset($filters["ic_pago"])) {
+            $registros->where("ic_pago", "=", $filters["ic_pago"]);
+        }
+
+        //Modalidade, acabei esquecendo hahaha :)
+        if (isset($filters["modalidades"])) {
+            $registros->where(
+                "cd_modalidade",
+                "=",
+                $filters["modalidades"],
+            );
+        }
+
+        //Pago ou não
+        if (isset($filters["ic_status"])) {
+            $registros->where("ic_status", "=", $filters["ic_status"]);
+        }
+
+        //Valor monetário
+        if (isset($filters["vl_valor_minimo"])) {
+            $registros->where(
+                "vl_valor",
+                ">=",
+                $filters["vl_valor_minimo"],
+            );
+        }
+        //Datas
+        if (isset($filters["dt_inicio"]) && isset($filters["dt_fim"])) {
+            $registros->whereBetween("created_at", [
+                $filters["dt_inicio"],
+                $filters["dt_fim"],
+            ]);
+        } elseif (isset($filters["dt_inicio"])) {
+            $registros->where(
+                "created_at",
+                ">=",
+                $filters["dt_inicio"],
+            );
+        } elseif (isset($filters["dt_fim"])) {
+            $registros->where("created_at", "<=", $filters["dt_fim"]);
+        }
+
+        if (!empty($filters["categorias"])) {
+            //Arrays
+            $registros->whereIn(
+                "cd_categoria",
+                $filters["categorias"],
+            );
+        }
+        if (!empty($filters["nivel_imp"])) {
+            $registros->whereIn("cd_nivel_imp", $filters["nivel_imp"]);
+        }
+        $registros->orderBy("ic_status", "desc")
+            ->orderBy("cd_nivel_imp", "desc")
+            ->orderBy("nm_registro", "asc");
+
+        return $registros->get();
     }
 }

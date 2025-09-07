@@ -48,6 +48,9 @@
                                                 @isset($registro)
                                                     {{$registro->cd_tipo_registro == $tipo['cd_tipo_registro'] ? 'selected' : ''}}
                                                 @endisset
+                                                @if((old('cd_tipo_registro' !== null))
+                                                    {{ old('cd_tipo_registro') == $tipo['cd_tipo_registro'] ? 'selected' : '' }}
+                                                @endif
                                             >
                                                 {{ $tipo['nm_tipo'] }}
                                             </option>
@@ -64,12 +67,15 @@
                                             @isset($registro)
                                                 value="{{ $registro->nm_registro }}"
                                             @endisset
+                                            @if(old('nm_registro') !== null)
+                                                value="{{ old('nm_registro') }}"
+                                            @endif
                                             >
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-6 mb-2">
                                     <label for="valor" class="form-label">
                                         Valor <span class="text-danger">*</span>
                                     </label>
@@ -79,18 +85,23 @@
                                             placeholder="0.00" step="0.01" min="0"
                                             @if(isset($registro))
                                                 value="{{ $registro->vl_valor }}" >
-                                            @else
-                                                >
                                             @endif
-                                   </div>
+                                            @if(old('vl_valor') !== null)
+                                                value="{{ old('vl_valor') }}"
+                                            @endif
+                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="col-md-6 mb-3 d-flex align-items-end">
+                                <div class="col-md-6 mb-2 d-flex align-items-end">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="pago" name="ic_pago"
                                             @isset($registro)
                                                 {{ $registro->ic_pago == 1 ? 'checked' : ''}}
                                             @endisset
+                                            @if(old('ic_pago') !== null)
+                                                checked
+                                            @endif
                                             value="1"
                                         >
                                         <label class="form-check-label" for="pago">
@@ -120,7 +131,14 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="dataPagamento" class="form-label">Data de Pagamento</label>
-                                    <input type="date" class="form-control" id="dataPagamento" name="dt_pagamento">
+                                    <input type="date" class="form-control" id="dataPagamento" name="dt_pagamento"
+                                        @isset($registro->dt_pagamento)
+                                            value="{{ $registro->dt_pagamento }}"
+                                        @endisset
+                                        @if(old('dt_pagamento') !== null)
+                                            value="{{ old('dt_pagamento') }}"
+                                        @endif
+                                    >
                                 </div>
 
                                 <div class="col-md-6 mb-3 d-flex flex-column">
@@ -141,6 +159,9 @@
                                                     @if(!empty($metodosProprios))
                                                         {{ in_array($metodo->cd_metodo,$metodosProprios) ? 'checked' : ''}}
                                                     @endif
+                                                    @if(!empty(old('metodos')))
+                                                        {{ in_array($metodo->cd_metodo,old('metodos')) ? 'checked' : '' }}
+                                                    @endif
                                                 >
                                                 {{ $metodo->nm_metodo}}
                                             </li>
@@ -159,6 +180,9 @@
                                                 @isset($registro)
                                                     {{ $forma['cd_forma'] == $registro->cd_forma_pagamento ? 'selected' : ''}}
                                                 @endisset
+                                                @if(old('cd_forma') !== null)
+                                                    {{ $forma['cd_forma'] == old('cd_forma') ? 'selected' : '' }}
+                                                @endif
                                             >
                                                 {{ $forma['nm_forma'] }}
                                             </option>
@@ -173,8 +197,11 @@
                                         @foreach($importancias as $importancia)
                                             <option value="{{ $importancia['cd_nivel_imp'] }}"
                                                 @isset($registro)
-                                                    {{  $importancia['cd_nivel_imp'] == $registro->cd_nivel_imp ? 'selected' : ''}}
+                                                    {{ $importancia['cd_nivel_imp'] == $registro->cd_nivel_imp ? 'selected' : ''}}
                                                 @endisset
+                                                @if(old('cd_nivel_imp') !== null)
+                                                    {{ old('cd_nivel_imp') == $importancia['cd_nivel_imp'] ? 'selected' : '' }}
+                                                @endif
                                             >
                                                 {{ $importancia['sg_nivel_imp'] }}
                                             </option>
@@ -193,6 +220,9 @@
                                                 @isset($registro)
                                                     {{ $registro->cd_categoria == $categoria['cd_categoria'] ? 'selected' : ''}}
                                                 @endisset
+                                                @if(old('cd_categoria') !== null)
+                                                    {{ old('cd_categoria') == $categoria['cd_categoria'] ? 'selected' : '' }}
+                                                @endif
                                             >
                                                 {{ $categoria['nm_categoria'] }}
                                             </option>
@@ -225,12 +255,7 @@
                             <div class="row">
                                 <div class="col-12 mb-3">
                                     <label for="descricao" class="form-label">Descrição</label>
-                                    <textarea class="form-control" id="descricao" name="ds_descricao" rows="3"
-                                        placeholder="Descrição detalhada do registro...">
-                                            @isset($registro)
-                                                {{ trim($registro->ds_descricao) }}
-                                            @endisset
-                                    </textarea>
+                                    <textarea class="form-control" id="descricao" name="ds_descricao" rows="3" placeholder="Descrição detalhada do registro...">@isset($registro){{ $registro->ds_descricao }}@elseif(old('ds_descricao') !== null) {{ old('ds_descricao') }}@endif</textarea>
                                 </div>
                             </div>
 
@@ -244,6 +269,9 @@
                                                 @isset($registro)
                                                     {{ $registro->cd_localizacao == $localizacao['cd_localizacao'] ? 'selected' : ''}}
                                                 @endisset
+                                                @if(old('cd_localizacao') !== null)
+                                                    {{ old('cd_localizacao') == $localizacao['cd_localizacao'] ? 'selected' : '' }}
+                                                @endif
                                             >
                                                 {{ $localizacao['nm_localizacao'] }}
                                             </option>
@@ -260,6 +288,9 @@
                                                 @isset($registro)
                                                     {{ $registro->cd_realizador == $realizador['cd_realizador'] ? 'selected' : ''}}
                                                 @endisset
+                                                @if(old('cd_realizador') !== null)
+                                                    {{ old('cd_realizador') == $realizador['cd_realizador'] ? 'selected' : '' }}
+                                                @endif
                                             >
                                                 {{ $realizador['nm_realizador']}}
                                             </option>
@@ -275,6 +306,9 @@
                                             @isset($registro)
                                                 {{ $registro->ic_status == 1 ? 'checked' : '' }}
                                             @endisset
+                                            @if(old('ic_status') !== null)
+                                                checked
+                                            @endif
                                             value="1"
                                         >
                                         <label class="form-check-label" for="status">
@@ -340,12 +374,11 @@
                                             <span class="input-group-text">%</span>
                                             <input type="number" class="form-control Flutuante" id="taxa_juros" name="pc_taxa_juros"
                                                 placeholder="0.00" step="0.01" min="0"
-                                                @if(isset($registro))
-                                                    value="{{ $registro->pc_taxa_juros }}" >
-                                                @else
-                                                    >
-                                                @endif
-                                        </div>
+                                                @isset($registro)
+                                                    value="{{ $registro->pc_taxa_juros }}"
+                                                @endisset
+                                                >
+                                       </div>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -355,12 +388,11 @@
                                         <div class="input-group">
                                             <span class="input-group-text">Meses</span>
                                             <input type="number" class="form-control Flutuante" id="incidencia" name="qt_meses_incidencia" min="0"
-                                                @if(isset($registro))
-                                                    value="{{ $registro->qt_meses_incidencia }}" >
-                                                @else
-                                                    >
-                                                @endif
-                                        </div>
+                                                @isset($registro)
+                                                    value="{{ $registro->qt_meses_incidencia }}">
+                                                @endisset
+                                            >
+                                       </div>
                                     </div>
                                 </div>
 
