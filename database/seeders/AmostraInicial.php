@@ -64,6 +64,8 @@ class AmostraInicial extends Seeder
             ["nm_metodo" => "Dinheiro em Espécie"],
             ["nm_metodo" => "Transferência Bancária"],
             ["nm_metodo" => "Pix"],
+            ["nm_metodo" => "Vale Alimentação"],
+            ["nm_metodo" => "Vale Refeição"],
         ]);
 
         DB::table("realizador_transacao")->insert([
@@ -72,8 +74,8 @@ class AmostraInicial extends Seeder
                 "ds_realizador" => "Pai, ajudando",
             ],
             [
-                "nm_realizador" => "Filho",
-                "ds_realizador" => "Minha filho, ajudando",
+                "nm_realizador" => "Filhos",
+                "ds_realizador" => "Meus filhos, ajudando",
             ],
             [
                 "nm_realizador" => "Avós",

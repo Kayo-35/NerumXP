@@ -4,9 +4,9 @@ let acionador = document.getElementById("acionador");
 //Obtem o item da legenda de modalidade
 let legenda = document.getElementById("legenda");
 
+modalidade = document.getElementById("modalidade");
 //Obtem o elemento que contém todas as seções de dados para um registro flutuante
 let flutuanteSection = document.getElementById("flutuante");
-
 //Obtem o conjunto de campos de entrada de dados para flutuante
 let campos = document.querySelectorAll(".Flutuante");
 
@@ -15,7 +15,7 @@ acionador.addEventListener("click", function () {
     //Verifica o estado atual da seção e o inverte
     if (flutuanteSection.style.display == "none") {
         modalidade.value = 2; //define modalidade Flutuante
-        legenda.innerHTML = 'Flutuante';
+        legenda.innerHTML = "Flutuante";
         flutuanteSection.style.display = "block";
         campos.forEach(function (campo) {
             campo.disabled = false;
@@ -35,12 +35,15 @@ acionador.addEventListener("click", function () {
 document.addEventListener("DOMContentLoaded", function () {
     //Tive de pesquisar por IA como previnir tal comportamento, para previnir o mesmo na primeira
     // requisição
+
+    let modalidade = document.getElementById("modalidade");
     const navigationEntry = performance.getEntriesByType("navigation")[0];
     if (
         navigationEntry &&
         (navigationEntry.type === "reload" ||
             navigationEntry.type === "back_foward")
     ) {
+        modalidade.value = 1;
         acionador.checked = false;
         campos.forEach(function (campo) {
             campo.disabled = true;

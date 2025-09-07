@@ -30,10 +30,13 @@ class RegistroController extends Controller
             //Validation
             $request->boolean("ic_pago");
             $request->boolean("ic_status");
+            $request['vl_valor_minimo'] = str_replace(',','.',$request['vl_valor_minimo']);
+
             $filters = $request->validate(indexFiltersRules());
-            $registros = indexQuery($filters);
+            $registros = Registro::indexQuery($filters);
 
             $registros = empty($registros) ? [] : $registros;
+            $request->flash();
         } else {
             $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario)
                 ->orderBy("ic_status", 'desc')
@@ -62,7 +65,7 @@ class RegistroController extends Controller
             "metodos" => $metodos ?? new Collection(),
         ]);
     }
-    public function create()
+    public function create(?Request $request)
     {
         return view("registro.create", [
             "registro" => [],

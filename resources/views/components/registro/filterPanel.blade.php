@@ -55,7 +55,8 @@
               >
                 <option value="">Selecione o tipo</option>
                 @foreach($tipos as $tipo)
-                <option value="{{$tipo->cd_tipo_registro}}">
+                <option value="{{$tipo->cd_tipo_registro}}"
+                    {{ old('cd_tipo_registro') == $tipo->cd_tipo_registro ? 'selected' : '' }}>
                   {{$tipo->nm_tipo}}
                 </option>
                 @endforeach
@@ -76,8 +77,9 @@
               >
                 <option value="">Selecione a modalidade</option>
                 @foreach($modalidades as $modalidade)
-                <option value="{{$modalidade->cd_modalidade}}">
-                  {{$modalidade->nm_modalidade}}
+                <option value="{{$modalidade->cd_modalidade}}"
+                    {{ $modalidade->cd_modalidade == old('modalidades') ? 'selected' : '' }}>
+                  {{ $modalidade->nm_modalidade }}
                 </option>
                 @endforeach
               </select>
@@ -95,6 +97,7 @@
                 class="form-control border-0 bg-light rounded-3 py-2"
                 id="dt_inicio"
                 name="dt_inicio"
+                value="{{ old('dt_inicio')}}"
               />
             </div>
 
@@ -107,6 +110,7 @@
                 class="form-control border-0 bg-light rounded-3 py-2"
                 id="dt_fim"
                 name="dt_fim"
+                value="{{ old('dt_fim') }}"
               />
             </div>
           </div>
@@ -131,6 +135,7 @@
                   placeholder="0,00"
                   step="0.01"
                   min="0"
+                  value="{{ old('vl_valor_minimo') }}"
                 />
               </div>
             </div>
@@ -162,6 +167,9 @@
                         value="{{$categoria->cd_categoria}}"
                         id="categoria_{{$categoria->cd_categoria}}"
                         name="categorias[]"
+                        @unless(empty(old('categorias')))
+                            {{ in_array($categoria->cd_categoria,old('categorias')) ? 'checked' : '' }}
+                        @endunless
                       />
                       <label
                         class="form-check-label text-dark"
@@ -203,6 +211,9 @@
                         value="{{$importancia->cd_nivel_imp}}"
                         name="nivel_imp[]"
                         id="urgencia_{{$importancia->cd_nivel_imp}}"
+                        @unless(empty(old('nivel_imp')))
+                            {{ in_array($importancia->cd_nivel_imp,old('nivel_imp')) ? 'checked' : '' }}
+                        @endunless
                       />
                       <label
                         class="form-check-label text-dark"
