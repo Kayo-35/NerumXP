@@ -82,7 +82,6 @@ class RegistroController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->all());
         //Tratar elementos checkbox
         $request["ic_pago"] = $request->boolean("ic_pago");
         $request["ic_status"] = $request->boolean("ic_status");
