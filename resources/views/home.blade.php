@@ -106,7 +106,7 @@
                 <!-- Plano Grátis -->
                 <div class="col-lg-4 mb-4">
                 <div class="card text-center h-100">
-                    <div class="card-header"><h3>Grátis</h3></div>
+                    <div class="card-header"><h3>Bronze</h3></div>
                     <div class="card-body d-flex flex-column">
                     <p>Benefícios essenciais para começar a organizar suas finanças.</p>
                     <a href="#" class="btn btn-outline-success mt-auto">Comece de graça</a>
@@ -117,7 +117,7 @@
                 <!-- Plano Essencial -->
                 <div class="col-lg-4 mb-4">
                 <div class="card text-center h-100">
-                    <div class="card-header"><h3>Essencial</h3></div>
+                    <div class="card-header"><h3>Prata</h3></div>
                     <div class="card-body d-flex flex-column">
                     <p>Ferramentas avançadas para um controle financeiro completo.</p>
                     <a href="#" class="btn btn-outline-success mt-auto">Assinar agora</a>
@@ -128,7 +128,7 @@
                 <!-- Plano Pro -->
                 <div class="col-lg-4 mb-4">
                 <div class="card text-center h-100">
-                    <div class="card-header"><h3>Pro</h3></div>
+                    <div class="card-header"><h3>Ouro</h3></div>
                     <div class="card-body d-flex flex-column">
                     <p>Todos os recursos e suporte prioritário para usuários exigentes.</p>
                     <a href="#" class="btn btn-outline-success mt-auto">Assinar agora</a>

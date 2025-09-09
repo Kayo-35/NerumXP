@@ -11,24 +11,21 @@
                         <div class="bg-light text-dark pt-1 py-2 rounded rounded-5 d-flex justify-content-center col-2">
                             <div class="form-check form-switch mt-1">
                                 <input class="form-check-input w-50 h-75" type="checkbox" role="switch" id="acionador"
-                                    @isset($registro)
-                                        {{$registro->cd_modalidade === 2 ? 'checked' : ''}}
-                                    @endisset
-                                >
+                                    {{ old('cd_modalidade', $registro->cd_modalidade ?? '') == 2 ? 'checked' : '' }}>
                                 <label class="form-check-label text-primary fw-bold" for="acionador">Flutuante</label>
                             </div>
                         </div>
                     @endif
                 </div>
+
                 <div class="card-body">
                     <form id="registroForm" method="POST"
-                        @if(isset($registro))
-                            action="{{ route($rotaProcessamento,$registro->cd_registro) }}">
-                            @method('PUT')
-                        @else
-                            action="{{ route("registro.store") }}">
-                        @endif
+                        action="{{ isset($registro) ? route($rotaProcessamento, $registro->cd_registro) : route('registro.store') }}">
                         @csrf
+                        @isset($registro)
+                            @method('PUT')
+                        @endisset
+
                         <!-- GRUPO I - Informações Essenciais -->
                         <div class="border border-light-subtle rounded-3 p-4 mb-4 bg-light">
                             <h4 class="text-secondary fw-semibold mb-3 pb-2 border-bottom border-success">
@@ -38,20 +35,12 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="tipoRegistro" class="form-label">
-                                        Tipo de Registro <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="tipoRegistro" class="form-label">Tipo de Registro <span class="text-danger">*</span></label>
                                     <select class="form-select" id="tipoRegistro" name="cd_tipo_registro">
                                         <option value="">Selecione o tipo</option>
                                         @foreach($tipos as $tipo)
                                             <option value="{{ $tipo['cd_tipo_registro'] }}"
-                                                @isset($registro)
-                                                    {{$registro->cd_tipo_registro == $tipo['cd_tipo_registro'] ? 'selected' : ''}}
-                                                @endisset
-                                                @if((old('cd_tipo_registro' !== null))
-                                                    {{ old('cd_tipo_registro') == $tipo['cd_tipo_registro'] ? 'selected' : '' }}
-                                                @endif
-                                            >
+                                                {{ (string) old('cd_tipo_registro', $registro->cd_tipo_registro ?? '') === (string) $tipo['cd_tipo_registro'] ? 'selected' : '' }}>
                                                 {{ $tipo['nm_tipo'] }}
                                             </option>
                                         @endforeach
@@ -59,51 +48,27 @@
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="nomeRegistro" class="form-label">
-                                        Nome do Registro <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="nomeRegistro" class="form-label">Nome do Registro <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="nomeRegistro" name="nm_registro"
-                                            placeholder="Ex: Salário, Aluguel, Conta de Luz..."
-                                            @isset($registro)
-                                                value="{{ $registro->nm_registro }}"
-                                            @endisset
-                                            @if(old('nm_registro') !== null)
-                                                value="{{ old('nm_registro') }}"
-                                            @endif
-                                            >
+                                        placeholder="Ex: Salário, Aluguel, Conta de Luz..."
+                                        value="{{ old('nm_registro', $registro->nm_registro ?? '') }}">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6 mb-2">
-                                    <label for="valor" class="form-label">
-                                        Valor <span class="text-danger">*</span>
-                                    </label>
+                                    <label for="valor" class="form-label">Valor <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <span class="input-group-text">R$</span>
                                         <input type="number" class="form-control" id="valor" name="vl_valor"
                                             placeholder="0.00" step="0.01" min="0"
-                                            @if(isset($registro))
-                                                value="{{ $registro->vl_valor }}" >
-                                            @endif
-                                            @if(old('vl_valor') !== null)
-                                                value="{{ old('vl_valor') }}"
-                                            @endif
+                                            value="{{ old('vl_valor', $registro->vl_valor ?? '') }}">
                                     </div>
                                 </div>
-                            </div>
-
                                 <div class="col-md-6 mb-2 d-flex align-items-end">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="pago" name="ic_pago"
-                                            @isset($registro)
-                                                {{ $registro->ic_pago == 1 ? 'checked' : ''}}
-                                            @endisset
-                                            @if(old('ic_pago') !== null)
-                                                checked
-                                            @endif
-                                            value="1"
-                                        >
+                                        <input class="form-check-input" type="checkbox" id="pago" name="ic_pago" value="1"
+                                            {{ old('ic_pago', $registro->ic_pago ?? false) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="pago">
                                             <i class="bi bi-check-circle me-1"></i>
                                             Já foi pago?
@@ -111,12 +76,13 @@
                                     </div>
                                 </div>
                             </div>
+
                             @if($errors->any())
                                 <div>
-                                    <x-helper.error :campo="'vl_valor'"/>
-                                    <x-helper.error :campo="'cd_tipo_registro'"/>
-                                    <x-helper.error :campo="'nm_registro'"/>
-                                    <x-helper.error :campo="'ic_pago'"/>
+                                    <x-helper.error campo="vl_valor"/>
+                                    <x-helper.error campo="cd_tipo_registro"/>
+                                    <x-helper.error campo="nm_registro"/>
+                                    <x-helper.error campo="ic_pago"/>
                                 </div>
                             @endif
                         </div>
@@ -132,41 +98,24 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="dataPagamento" class="form-label">Data de Pagamento</label>
                                     <input type="date" class="form-control" id="dataPagamento" name="dt_pagamento"
-                                        @isset($registro->dt_pagamento)
-                                            value="{{ $registro->dt_pagamento }}"
-                                        @endisset
-                                        @if(old('dt_pagamento') !== null)
-                                            value="{{ old('dt_pagamento') }}"
-                                        @endif
-                                    >
+                                        value="{{ old('dt_pagamento', $registro->dt_pagamento ?? '') }}">
                                 </div>
 
                                 <div class="col-md-6 mb-3 d-flex flex-column">
                                     <label for="metodoPagamento" class="form-label">Método de Pagamento</label>
-                                        <button class="btn btn-secondary dropdown-toggle"
-                                            type="button"
-                                            data-bs-toggle="dropdown"
-                                        >
-                                            Métodos De Pagamento
-                                        </button>
-                                        <ul class="dropdown-menu bg-secondary text-light p-2">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        Métodos De Pagamento
+                                    </button>
+                                    <ul class="dropdown-menu bg-secondary text-light p-2">
                                         @foreach($metodos as $metodo)
                                             <li>
-                                                <input type="checkbox"
-                                                    class="form-check-input"
-                                                    value="{{ $metodo->cd_metodo}}"
+                                                <input type="checkbox" class="form-check-input" value="{{ $metodo->cd_metodo }}"
                                                     name="metodos[]"
-                                                    @if(!empty($metodosProprios))
-                                                        {{ in_array($metodo->cd_metodo,$metodosProprios) ? 'checked' : ''}}
-                                                    @endif
-                                                    @if(!empty(old('metodos')))
-                                                        {{ in_array($metodo->cd_metodo,old('metodos')) ? 'checked' : '' }}
-                                                    @endif
-                                                >
-                                                {{ $metodo->nm_metodo}}
+                                                    {{ in_array($metodo->cd_metodo, old('metodos', $metodosProprios ?? [])) ? 'checked' : '' }}>
+                                                {{ $metodo->nm_metodo }}
                                             </li>
                                         @endforeach
-                                        </ul>
+                                    </ul>
                                 </div>
                             </div>
 
@@ -177,13 +126,7 @@
                                         <option value="">Selecione a forma</option>
                                         @foreach($formas as $forma)
                                             <option value="{{ $forma['cd_forma'] }}"
-                                                @isset($registro)
-                                                    {{ $forma['cd_forma'] == $registro->cd_forma_pagamento ? 'selected' : ''}}
-                                                @endisset
-                                                @if(old('cd_forma') !== null)
-                                                    {{ $forma['cd_forma'] == old('cd_forma') ? 'selected' : '' }}
-                                                @endif
-                                            >
+                                                {{ (string) old('cd_forma', $registro->cd_forma_pagamento ?? '') === (string) $forma['cd_forma'] ? 'selected' : '' }}>
                                                 {{ $forma['nm_forma'] }}
                                             </option>
                                         @endforeach
@@ -196,13 +139,7 @@
                                         <option value="">Selecione o nível</option>
                                         @foreach($importancias as $importancia)
                                             <option value="{{ $importancia['cd_nivel_imp'] }}"
-                                                @isset($registro)
-                                                    {{ $importancia['cd_nivel_imp'] == $registro->cd_nivel_imp ? 'selected' : ''}}
-                                                @endisset
-                                                @if(old('cd_nivel_imp') !== null)
-                                                    {{ old('cd_nivel_imp') == $importancia['cd_nivel_imp'] ? 'selected' : '' }}
-                                                @endif
-                                            >
+                                                {{ (string) old('cd_nivel_imp', $registro->cd_nivel_imp ?? '') === (string) $importancia['cd_nivel_imp'] ? 'selected' : '' }}>
                                                 {{ $importancia['sg_nivel_imp'] }}
                                             </option>
                                         @endforeach
@@ -217,13 +154,7 @@
                                         <option value="">Selecione a categoria</option>
                                         @foreach($categorias as $categoria)
                                             <option value="{{ $categoria['cd_categoria'] }}"
-                                                @isset($registro)
-                                                    {{ $registro->cd_categoria == $categoria['cd_categoria'] ? 'selected' : ''}}
-                                                @endisset
-                                                @if(old('cd_categoria') !== null)
-                                                    {{ old('cd_categoria') == $categoria['cd_categoria'] ? 'selected' : '' }}
-                                                @endif
-                                            >
+                                                {{ (string) old('cd_categoria', $registro->cd_categoria ?? '') === (string) $categoria['cd_categoria'] ? 'selected' : '' }}>
                                                 {{ $categoria['nm_categoria'] }}
                                             </option>
                                         @endforeach
@@ -233,14 +164,11 @@
 
                             @if($errors->any())
                                 <div>
-                                    <x-helper.error :campo="'dt_pagamento'"/>
-                                    <x-helper.error :campo="'cd_forma_pagamento'"/>
-                                    @foreach($errors->get('metodos') as $key => $message)
-                                        <x-helper.error :campo="'{{ $message }}'"/>
-                                    @endforeach
-                                    <x-helper.error :campo="'metodos.*'"/>
-                                    <x-helper.error :campo="'cd_nivel_imp'"/>
-                                    <x-helper.error :campo="'cd_categoria'"/>
+                                    <x-helper.error campo="dt_pagamento"/>
+                                    <x-helper.error campo="cd_forma_pagamento"/>
+                                    <x-helper.error campo="metodos.*"/>
+                                    <x-helper.error campo="cd_nivel_imp"/>
+                                    <x-helper.error campo="cd_categoria"/>
                                 </div>
                             @endif
                         </div>
@@ -255,7 +183,8 @@
                             <div class="row">
                                 <div class="col-12 mb-3">
                                     <label for="descricao" class="form-label">Descrição</label>
-                                    <textarea class="form-control" id="descricao" name="ds_descricao" rows="3" placeholder="Descrição detalhada do registro...">@isset($registro){{ $registro->ds_descricao }}@elseif(old('ds_descricao') !== null) {{ old('ds_descricao') }}@endif</textarea>
+                                    <textarea class="form-control" id="descricao" name="ds_descricao" rows="3"
+                                        placeholder="Descrição detalhada do registro...">{{ old('ds_descricao', $registro->ds_descricao ?? '') }}</textarea>
                                 </div>
                             </div>
 
@@ -266,13 +195,7 @@
                                         <option value="">Selecione a localização</option>
                                         @foreach($localizacaos as $localizacao)
                                             <option value="{{ $localizacao['cd_localizacao'] }}"
-                                                @isset($registro)
-                                                    {{ $registro->cd_localizacao == $localizacao['cd_localizacao'] ? 'selected' : ''}}
-                                                @endisset
-                                                @if(old('cd_localizacao') !== null)
-                                                    {{ old('cd_localizacao') == $localizacao['cd_localizacao'] ? 'selected' : '' }}
-                                                @endif
-                                            >
+                                                {{ (string) old('cd_localizacao', $registro->cd_localizacao ?? '') === (string) $localizacao['cd_localizacao'] ? 'selected' : '' }}>
                                                 {{ $localizacao['nm_localizacao'] }}
                                             </option>
                                         @endforeach
@@ -285,14 +208,8 @@
                                         <option value="">Quem realizou?</option>
                                         @foreach($realizadores as $realizador)
                                             <option value="{{ $realizador['cd_realizador'] }}"
-                                                @isset($registro)
-                                                    {{ $registro->cd_realizador == $realizador['cd_realizador'] ? 'selected' : ''}}
-                                                @endisset
-                                                @if(old('cd_realizador') !== null)
-                                                    {{ old('cd_realizador') == $realizador['cd_realizador'] ? 'selected' : '' }}
-                                                @endif
-                                            >
-                                                {{ $realizador['nm_realizador']}}
+                                                {{ (string) old('cd_realizador', $registro->cd_realizador ?? '') === (string) $realizador['cd_realizador'] ? 'selected' : '' }}>
+                                                {{ $realizador['nm_realizador'] }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -302,15 +219,8 @@
                             <div class="row">
                                 <div class="col-12 mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="status" name="ic_status"
-                                            @isset($registro)
-                                                {{ $registro->ic_status == 1 ? 'checked' : '' }}
-                                            @endisset
-                                            @if(old('ic_status') !== null)
-                                                checked
-                                            @endif
-                                            value="1"
-                                        >
+                                        <input class="form-check-input" type="checkbox" id="status" name="ic_status" value="1"
+                                            {{ old('ic_status', $registro->ic_status ?? false) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="status">
                                             <i class="bi bi-toggle-on me-1"></i>
                                             Registro ativo
@@ -321,15 +231,15 @@
 
                             @if($errors->any())
                                 <div>
-                                    <x-helper.error :campo="'ds_descricao'"/>
-                                    <x-helper.error :campo="'cd_localizacao'"/>
-                                    <x-helper.error :campo="'cd_realizador'"/>
-                                    <x-helper.error :campo="'ic_status'"/>
+                                    <x-helper.error campo="ds_descricao"/>
+                                    <x-helper.error campo="cd_localizacao"/>
+                                    <x-helper.error campo="cd_realizador"/>
+                                    <x-helper.error campo="ic_status"/>
                                 </div>
                             @endif
                         </div>
 
-                        <input type="text" class="form-control" id="modalidade" name="cd_modalidade" value="1" hidden>
+                        <input type="hidden" id="modalidade" name="cd_modalidade" value="{{ old('cd_modalidade', $registro->cd_modalidade ?? 1) }}">
 
                         @if(Auth::user()->cd_assinatura > 1)
                             <!-- GRUPO IV - Modalidade Flutuante -->
@@ -343,11 +253,8 @@
                                     <div class="col-md-6 mb-3">
                                         <label for="modalidade" class="form-label">Modalidade</label>
                                         <div class="form-control" id="legenda">
-                                            @isset($registro)
-                                                {{ $registro->cd_modalidade == 2 ? 'Flutuante' : 'Fixo'}}
-                                            @endisset
+                                            {{ (old('cd_modalidade', $registro->cd_modalidade ?? 1) == 2) ? 'Flutuante' : 'Fixo' }}
                                         </div>
-                                        <input class="Flutuante" value="2" name="cd_modalidade" hidden>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -356,56 +263,44 @@
                                             <option value="">Selecione o tipo...</option>
                                             @foreach($juros as $juro)
                                                 <option value="{{ $juro['cd_tipo_juro'] }}"
-                                                    @isset($registro)
-                                                        {{ $registro->cd_tipo_juro == $juro['cd_tipo_juro'] ? 'selected' : ''}}
-                                                    @endisset
-                                                >
-                                                    {{ $juro['nm_tipo_juro']}}
+                                                    {{ (string) old('cd_tipo_juro', $registro->cd_tipo_juro ?? '') === (string) $juro['cd_tipo_juro'] ? 'selected' : '' }}>
+                                                    {{ $juro['nm_tipo_juro'] }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label for="taxa_juros" class="form-label">
-                                            Taxa de Juros
-                                        </label>
+                                        <label for="taxa_juros" class="form-label">Taxa de Juros</label>
                                         <div class="input-group">
                                             <span class="input-group-text">%</span>
                                             <input type="number" class="form-control Flutuante" id="taxa_juros" name="pc_taxa_juros"
                                                 placeholder="0.00" step="0.01" min="0"
-                                                @isset($registro)
-                                                    value="{{ $registro->pc_taxa_juros }}"
-                                                @endisset
-                                                >
-                                       </div>
+                                                value="{{ old('pc_taxa_juros', $registro->pc_taxa_juros ?? '') }}">
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label for="incidencia" class="form-label">
-                                            Período de Capitalização
-                                        </label>
+                                        <label for="incidencia" class="form-label">Período de Capitalização</label>
                                         <div class="input-group">
                                             <span class="input-group-text">Meses</span>
                                             <input type="number" class="form-control Flutuante" id="incidencia" name="qt_meses_incidencia" min="0"
-                                                @isset($registro)
-                                                    value="{{ $registro->qt_meses_incidencia }}">
-                                                @endisset
-                                            >
-                                       </div>
+                                                value="{{ old('qt_meses_incidencia', $registro->qt_meses_incidencia ?? '') }}">
+                                        </div>
                                     </div>
                                 </div>
 
                                 @if($errors->any())
                                     <div>
-                                        <x-helper.error :campo="'cd_modalidade'"/>
-                                        <x-helper.error :campo="'cd_tipo_juro'"/>
-                                        <x-helper.error :campo="'pc_taxa_juros'"/>
-                                        <x-helper.error :campo="'qt_meses_incidencia'"/>
+                                        <x-helper.error campo="cd_modalidade"/>
+                                        <x-helper.error campo="cd_tipo_juro"/>
+                                        <x-helper.error campo="pc_taxa_juros"/>
+                                        <x-helper.error campo="qt_meses_incidencia"/>
                                     </div>
                                 @endif
                             </div>
                         @endif
+
                         <!-- Botões de Ação -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button type="reset" class="btn btn-secondary me-md-2">

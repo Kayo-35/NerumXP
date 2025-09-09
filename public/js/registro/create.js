@@ -6,7 +6,7 @@ let legenda = document.getElementById("legenda");
 
 //Obtem o elemento que contém todas as seções de dados para um registro flutuante
 let flutuanteSection = document.getElementById("flutuante");
-
+let modalidade = document.getElementById('modalidade');
 //Obtem o conjunto de campos de entrada de dados para flutuante
 let campos = document.querySelectorAll(".Flutuante");
 
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         (navigationEntry.type === "reload" ||
             navigationEntry.type === "back_foward")
     ) {
+        modalidade.value = 1;
         acionador.checked = false;
         campos.forEach(function (campo) {
             campo.disabled = true;
