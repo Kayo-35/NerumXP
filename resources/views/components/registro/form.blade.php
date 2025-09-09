@@ -48,7 +48,7 @@
                                                 @isset($registro)
                                                     {{$registro->cd_tipo_registro == $tipo['cd_tipo_registro'] ? 'selected' : ''}}
                                                 @endisset
-                                                @if((old('cd_tipo_registro' !== null))
+                                                @if((old('cd_tipo_registro' !== null)))
                                                     {{ old('cd_tipo_registro') == $tipo['cd_tipo_registro'] ? 'selected' : '' }}
                                                 @endif
                                             >
@@ -375,8 +375,14 @@
                                             <input type="number" class="form-control Flutuante" id="taxa_juros" name="pc_taxa_juros"
                                                 placeholder="0.00" step="0.01" min="0"
                                                 @isset($registro)
+<<<<<<< HEAD
                                                     value="{{ $registro->pc_taxa_juros }}" >
                                                 @endisset
+=======
+                                                    value="{{ $registro->pc_taxa_juros }}"
+                                                @endisset
+                                                >
+>>>>>>> refs/remotes/origin/test
                                        </div>
                                     </div>
 
@@ -388,8 +394,9 @@
                                             <span class="input-group-text">Meses</span>
                                             <input type="number" class="form-control Flutuante" id="incidencia" name="qt_meses_incidencia" min="0"
                                                 @isset($registro)
-                                                    value="{{ $registro->qt_meses_incidencia }}" >
+                                                    value="{{ $registro->qt_meses_incidencia }}">
                                                 @endisset
+                                            >
                                        </div>
                                     </div>
                                 </div>

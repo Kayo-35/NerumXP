@@ -215,7 +215,7 @@
     @auth
         <section class="d-flex justify-content-center">
             @if($resumo[0]->vl_debito !== null && $resumo[0]->vl_superavit !== null)
-            <div class="container bg-dark row m-3 border rounded rounded-5 p-3">
+            <div class="container bg-light row m-3 border rounded rounded-5 p-3">
                 <div class="text-center">
                     <h1 class="text-center mb-2 fw-bold text-primary">
                         RESUMO
