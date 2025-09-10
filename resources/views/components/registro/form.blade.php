@@ -241,6 +241,7 @@
 
                         <input type="hidden" id="modalidade" name="cd_modalidade" value="{{ old('cd_modalidade', $registro->cd_modalidade ?? 1) }}">
 
+                        <input id='modalidade' value="1" name="cd_modalidade" hidden>
                         @if(Auth::user()->cd_assinatura > 1)
                             <!-- GRUPO IV - Modalidade Flutuante -->
                             <div id='flutuante' class="border border-light-subtle rounded-3 p-4 mb-4 bg-light" style="display: none">
