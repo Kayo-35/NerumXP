@@ -1,7 +1,7 @@
 <div class="navbar-nav me-auto mb-2 mb-lg-0">
     <x-nav.nav-link
-        :active="request()->is('/') ? true : false"
-        :type="request()->is('/') ? 'btn' : 'a'" href="/"
+        :active="request()->is('home') ? true : false"
+        :type="request()->is('home') ? 'btn' : 'a'" href="/home"
     >
         Início
     </x-nav-link>

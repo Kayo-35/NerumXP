@@ -2,52 +2,13 @@
 
 use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Registro\RegistroController;
-use App\Models\Recursos\Registro;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
-//Testes
-use Illuminate\Support\Facades\Auth;
+Route::get('/',[HomeController::class,'guest']);
+Route::get('/home',[HomeController::class,'user'])->middleware('auth')->name('home');
 
-Route::get("/", function () {
-    if (Auth::check()) {
-        $dtHoje = new DateTime(date('Y-m-d H:m:s'));
-        $dtInicio = $dtHoje->modify('- 1 year')->format('Y-m-d H:m:s');
-        $dtHoje = date('Y-m-d H:m:s');
-
-        $resumo = DB::select(
-            "CALL spAtualizaResumo(:user,:dtInicio,:dtTermino,:dtAlvo)",
-            [
-                "user" => Auth::user()->cd_usuario,
-                'dtInicio' => $dtInicio,
-                "dtTermino" => $dtHoje,
-                "dtAlvo" => $dtHoje
-            ],
-        );
-        $qtRenda = Registro::where("cd_tipo_registro", "=", 1)
-            ->where("cd_usuario", "=", Auth::user()->cd_usuario)
-            ->get()
-            ->count();
-        $qtDespesa = Registro::where("cd_tipo_registro", "=", 2)
-            ->where("cd_usuario", "=", Auth::user()->cd_usuario)
-            ->get()
-            ->count();
-        $registrosRecentes = Registro::select('cd_registro', 'nm_registro', 'vl_valor', 'ic_pago', 'cd_categoria', 'cd_tipo_registro')
-            ->where('cd_usuario', Auth::user()->cd_usuario)
-            ->orderBy('created_at', 'desc')
-            ->limit(3)
-            ->get();
-
-        return view("home", [
-            "resumo" => $resumo,
-            "qtRenda" => $qtRenda,
-            "qtDespesa" => $qtDespesa,
-            "registrosRecentes" => $registrosRecentes
-        ]);
-    }
-    return view("home");
-})->name("home");
 
 Route::get("/about", function () {
     return view('about');

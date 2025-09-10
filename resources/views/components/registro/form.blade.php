@@ -40,7 +40,13 @@
                                         <option value="">Selecione o tipo</option>
                                         @foreach($tipos as $tipo)
                                             <option value="{{ $tipo['cd_tipo_registro'] }}"
-                                                {{ (string) old('cd_tipo_registro', $registro->cd_tipo_registro ?? '') === (string) $tipo['cd_tipo_registro'] ? 'selected' : '' }}>
+                                                @isset($registro)
+                                                    {{$registro->cd_tipo_registro == $tipo['cd_tipo_registro'] ? 'selected' : ''}}
+                                                @endisset
+                                                @if((old('cd_tipo_registro' !== null)))
+                                                    {{ old('cd_tipo_registro') == $tipo['cd_tipo_registro'] ? 'selected' : '' }}
+                                                @endif
+                                            >
                                                 {{ $tipo['nm_tipo'] }}
                                             </option>
                                         @endforeach
@@ -264,8 +270,11 @@
                                             <option value="">Selecione o tipo...</option>
                                             @foreach($juros as $juro)
                                                 <option value="{{ $juro['cd_tipo_juro'] }}"
-                                                    {{ (string) old('cd_tipo_juro', $registro->cd_tipo_juro ?? '') === (string) $juro['cd_tipo_juro'] ? 'selected' : '' }}>
-                                                    {{ $juro['nm_tipo_juro'] }}
+                                                    @isset($registro)
+                                                        {{ $registro->cd_tipo_juro == $juro['cd_tipo_juro'] ? 'selected' : ''}}
+                                                    @endisset
+                                               >
+                                                    {{ $juro['nm_tipo_juro']}}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -277,8 +286,11 @@
                                             <span class="input-group-text">%</span>
                                             <input type="number" class="form-control Flutuante" id="taxa_juros" name="pc_taxa_juros"
                                                 placeholder="0.00" step="0.01" min="0"
-                                                value="{{ old('pc_taxa_juros', $registro->pc_taxa_juros ?? '') }}">
-                                        </div>
+                                                @isset($registro)
+                                                    value="{{ $registro->pc_taxa_juros }}"
+                                                @endisset
+                                                >
+                                       </div>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
