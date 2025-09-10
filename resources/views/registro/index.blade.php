@@ -1,5 +1,5 @@
 <x-layout>
-   <div class="row justify-content-center">
+   <div class="row justify-content-center w-100">
         <div class="col-11">
             <x-registro.filterPanel :tipos=$tipos :importancias=$importancias :categorias=$categorias :modalidades=$modalidades/>
         </div>

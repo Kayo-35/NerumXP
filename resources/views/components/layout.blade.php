@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100 w-100">
     <header>
         @include("components.nav.navbar")
     </header>
@@ -31,7 +31,7 @@
 
     <!--Chart.js-->
     @auth
-        @if(request()->is('/'))
+        @if(request()->is('home'))
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="{{ asset('js/registro/grafico.js') }}"></script>
         @endif
