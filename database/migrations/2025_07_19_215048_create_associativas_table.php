@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create("metas_registro", function (Blueprint $table) {
             $table
-                ->foreignId("cd_metas")
-                ->references("cd_metas")
+                ->foreignId("cd_meta")
+                ->references("cd_meta")
                 ->on("metas")
                 ->onDelete("cascade");
             $table
@@ -22,7 +22,7 @@ return new class extends Migration {
                 ->on("registro")
                 ->onDelete("cascade");
             $table->timestamps();
-            $table->primary(["cd_metas", "cd_registro"]);
+            $table->primary(["cd_meta", "cd_registro"]);
         });
 
         Schema::create("registro_metodoPagamento", function (Blueprint $table) {
@@ -40,19 +40,18 @@ return new class extends Migration {
             $table->timestamps();
             $table->primary(["cd_metodo", "cd_registro"]);
         });
-        Schema::create("metas_projeto", function (Blueprint $table) {
-            $table
-                ->foreignId("cd_metas")
-                ->references("cd_metas")
+
+        Schema::create("metas_categoria", function (Blueprint $table) {
+            $table->foreignId("cd_meta")
+                ->references("cd_meta")
                 ->on("metas")
                 ->onDelete("cascade");
-            $table
-                ->foreignId("cd_projeto")
-                ->references("cd_projeto")
-                ->on("projeto")
+            $table->foreignId("cd_categoria")
+                ->references("cd_categoria")
+                ->on("categoria")
                 ->onDelete("cascade");
             $table->timestamps();
-            $table->primary(["cd_metas", "cd_projeto"]);
+            $table->primary(["cd_meta", "cd_categoria"]);
         });
     }
 
@@ -63,6 +62,6 @@ return new class extends Migration {
     {
         Schema::dropIfExists("metas_registro");
         Schema::dropIfExists("registro_metodoPagamento");
-        Schema::dropIfExists("metas_projeto");
+        Schema::dropIfExists("metas_categoria");
     }
 };
