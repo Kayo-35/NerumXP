@@ -48,6 +48,14 @@
                                 </h6>
                                 <div class="small-chart">
                                     <canvas id="revenueChart"></canvas>
+                        <div class="col-6">
+                            <div class="chart-card d-flex flex-column align-items-center justify-content-center">
+                                <h6 class="mb-2 text-center" style="font-size: 0.8rem;">
+                                    <i class="bi bi-arrow-up-circle me-1"></i>
+                                    % Finalizadas
+                                </h6>
+                                <div class="small-chart">
+                                    <canvas id="finalizadas"></canvas>
                                 </div>
                                 <div class="text-center mt-1">
                                 </div>
@@ -74,6 +82,14 @@
                                 </h6>
                                 <div class="small-chart">
                                     <canvas id="genericChart"></canvas>
+                        <div class="col-6">
+                            <div class="chart-card d-flex flex-column align-items-center justify-content-center">
+                                <h6 class="mb-2 text-center" style="font-size: 0.8rem;">
+                                    <i class="bi bi-arrow-up-circle me-1"></i>
+                                    Renda/Despesa
+                                </h6>
+                                <div class="small-chart">
+                                    <canvas id="comparar"></canvas>
                                 </div>
                                 <div class="text-center mt-1">
                                 </div>
@@ -93,13 +109,17 @@
                     <div class="accordion" id="goalsAccordion">
                         <!-- Goal 1 - Revenue -->
                         @foreach($metas as $key => $meta)
-                            <x-meta.list id='{{ "goal$key" }}' :meta=$meta>
-
-                            </x-meta.list>
+                            <x-meta.list id='{{ "goal$key" }}' :meta=$meta></x-meta.list>
                         @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        const qt_metas_despesa = {{ $panorama->qt_metas_despesa }};
+        const qt_metas_renda = {{$panorama->qt_metas_renda }};
+        const pc_metas_finalizadas = {{$panorama->pc_metas_finalizadas }};
+        const pc_metas_nao_finalizadas = {{ $panorama->pc_metas_nao_finalizadas}};
+    </script>
 </x-layout>

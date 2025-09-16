@@ -7,10 +7,8 @@ let legenda = document.getElementById("legenda");
 modalidade = document.getElementById("modalidade");
 //Obtem o elemento que contém todas as seções de dados para um registro flutuante
 let flutuanteSection = document.getElementById("flutuante");
-<<<<<<< HEAD
+
 let modalidade = document.getElementById('modalidade');
-=======
->>>>>>> 91779fed87477d2f6ba2dbee9c3a333ce71faa83
 //Obtem o conjunto de campos de entrada de dados para flutuante
 let campos = document.querySelectorAll(".Flutuante");
 

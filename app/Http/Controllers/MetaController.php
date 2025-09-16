@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recursos\Metas;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class MetaController extends Controller
@@ -14,8 +15,12 @@ class MetaController extends Controller
         $metas = Metas::where('cd_usuario', '=', Auth::user()->cd_usuario)
             ->orderBy('cd_nivel_imp','desc')
             ->get();
+        $panorama = DB::select('CALL sp_panorama_metas(:cd_usuario)',[
+            "cd_usuario" => Auth::user()->cd_usuario
+        ])[0];
         return view("meta.index", [
             "metas" => $metas,
+            "panorama" => $panorama
         ]);
     }
     public function show(Metas $meta) {

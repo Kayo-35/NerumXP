@@ -35,6 +35,11 @@
         @if(request()->is('home'))
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="{{ asset('js/registro/grafico.js') }}"></script>
+            <script src="{{ asset("js/metas/resumo.js") }}"></script>
+        @endif
+        @if(request()->is('meta'))
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ asset("js/metas/resumo.js") }}"></script>
         @endif
     @endauth
 </body>

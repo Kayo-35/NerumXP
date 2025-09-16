@@ -120,11 +120,63 @@ BEGIN
 END $
 delimiter ;
 
-
-describe panorama;
-drop procedure spAtualizaResumo;
-
-
+-- O procedimento a seguir é responsável por atualizar o panorama de metas associado a cada usuário;
+delimiter $$
+create procedure sp_panorama_metas(IN cd_usuario_param INT)
+begin
+    declare assinatura_usuario_var INT;
+    declare qt_metas_renda_var INT;
+    declare qt_metas_despesa_var INT;
+    declare pc_metas_finalizadas_var DECIMAL(5,2);
+    declare pc_metas_nao_finalizadas_var DECIMAL(5,2);
+    
+    select 
+        cd_assinatura into assinatura_usuario_var 
+    from usuario 
+        where cd_usuario = cd_usuario_param;
+    
+    if(assinatura_usuario_var > 1) then
+        -- qt metas renda 
+        select count(*) into qt_metas_renda_var
+            from metas as m
+            inner join tipo_metas as tm
+                using(cd_tipo_meta)
+            where 
+                tm.cd_tipo_meta in(1,2) and
+                m.cd_usuario = cd_usuario_param;
+        -- qt metas despesa 
+        select count(*) into qt_metas_despesa_var 
+            from metas as m 
+            inner join tipo_metas as tm
+                using(cd_tipo_meta)
+            where 
+                tm.cd_tipo_meta not in(1,2) and
+                m.cd_usuario = cd_usuario_param;
+        -- pc_metas_finalizadas
+        select (
+            format(
+                (select count(*) from metas where ic_finalizada = 1 and cd_usuario = cd_usuario_param) / (select count(*) from metas where cd_usuario = cd_usuario_param) * 100,2)
+        ) into pc_metas_finalizadas_var;
+        -- pc_metas_nao_finalizadas
+        select format(100 - pc_metas_finalizadas_var,2) into pc_metas_nao_finalizadas_var;
+        
+        -- Verificando a existência de algum panora prévio
+        if exists(select * from panorama_metas where cd_usuario = cd_usuario_param) then
+            update panorama_metas
+                set 
+                    qt_metas_renda = qt_metas_renda_var,
+                    qt_metas_despesa = qt_metas_despesa_var,
+                    pc_metas_finalizadas = pc_metas_finalizadas_var,
+                    pc_metas_nao_finalizadas = pc_metas_nao_finalizadas_var
+                where cd_usuario = cd_usuario_param;
+        else 
+            insert into panorama_metas(cd_usuario,qt_metas_renda,qt_metas_despesa,pc_metas_finalizadas,pc_metas_nao_finalizadas) values
+                (cd_usuario_param,qt_metas_renda_var,qt_metas_despesa_var,pc_metas_finalizadas_var,pc_metas_nao_finalizadas_var);
+        end if;
+    end if;
+    select * from panorama_metas where cd_usuario = cd_usuario_param;
+end $$
+delimiter ;
 
 
 

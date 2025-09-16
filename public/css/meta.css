@@ -154,6 +154,7 @@
  .small-chart {
      position: relative;
      height: 80px;
+     width: 200px;
      margin: 1rem 0;
  }
 
