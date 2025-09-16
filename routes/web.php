@@ -3,18 +3,18 @@
 use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MetaController;
 use App\Http\Controllers\Registro\RegistroController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[HomeController::class,'guest']);
-Route::get('/home',[HomeController::class,'user'])->middleware('auth')->name('home');
-
+Route::get('/', [HomeController::class, 'guest']);
+Route::get('/home', [HomeController::class, 'user'])->middleware('auth')->name('home');
 
 Route::get("/about", function () {
     return view('about');
 });
 
-//Registros Fixos
+//Registros
 Route::middleware("auth")
     ->controller(RegistroController::class)
     ->group(function () {
@@ -31,6 +31,35 @@ Route::middleware("auth")
         Route::get("registro/{registro}/edit", "edit")
             ->whereNumber("registro")
             ->name("registro.edit");
+
+        Route::put("registro/{registro}", "update")
+            ->whereNumber("registro")
+            ->name("registro.put");
+
+        Route::delete("registro/{registro}", "destroy")
+            ->whereNumber("registro")
+            ->name("registro.destroy");
+    });
+
+Route::middleware("auth")
+    ->controller(MetaController::class)
+    ->group(function () {
+        Route::get('meta/', "index")
+            ->name("meta.index");
+
+        Route::get("meta/create", "create")
+            ->name("meta.create");
+
+        Route::get("meta/{registro}", "show")
+            ->whereNumber("registro")
+            ->name("meta.show");
+
+        Route::get("meta/{registro}/edit", 'edit')
+            ->whereNumber('registro')
+            ->name("meta.edit");
+
+        Route::post("meta/create", "store")
+            ->name("meta.store");
 
         Route::put("registro/{registro}", "update")
             ->whereNumber("registro")

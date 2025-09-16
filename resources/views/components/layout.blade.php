@@ -6,6 +6,7 @@
     <title>NerumXP</title>
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
+    <link rel="stylesheet" href="{{ asset('css/meta.css') }}"></link>
 </head>
 <body class="d-flex flex-column min-vh-100 w-100">
     <header>
