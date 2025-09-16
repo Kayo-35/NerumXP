@@ -7,22 +7,22 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
 
-     /*
+    /*
         Essa tabela teria função semalhante a de panorama de registros, mas com a intenção de
         indicar relatórios de progresso gerais de metas
      */
     public function up(): void
     {
         Schema::create('panorama_metas', function (Blueprint $table) {
-           $table->id('cd_panorama_meta');
-           $table->foreignId('cd_meta')
-                ->references('cd_meta')
-                ->on('metas')
+            $table->id('cd_panorama_meta');
+            $table->foreignId('cd_usuario')
+                ->references('cd_usuario')
+                ->on('usuario')
                 ->onDelete('cascade');
-            $table->tinyInteger('qt_metas_renda',unsigned: true);
-            $table->tinyInteger('qt_metas_despesa',unsigned: true);
-            $table->decimal('pc_metas_finalizadas',6,3);
-            $table->decimal('pc_metas_nao_finalizadas',6,3);
+            $table->tinyInteger('qt_metas_renda', unsigned: true);
+            $table->tinyInteger('qt_metas_despesa', unsigned: true);
+            $table->decimal('pc_metas_finalizadas', 6, 3);
+            $table->decimal('pc_metas_nao_finalizadas', 6, 3);
         });
     }
 

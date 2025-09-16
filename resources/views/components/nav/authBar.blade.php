@@ -13,8 +13,9 @@
         Registros
     </x-nav-link>
     <x-nav.nav-link href="#"
-        :active="request()->is('metas*') ? true : false"
-        :type="request()->is('metas*') ? 'btn' : 'a'"
+        :active="request()->is('meta*') ? true : false"
+        :type="request()->is('meta*') ? 'btn' : 'a'"
+        href='{{ route("meta.index") }}'
     >
         Metas
     </x-nav-link>

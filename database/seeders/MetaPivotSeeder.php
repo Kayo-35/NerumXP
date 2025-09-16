@@ -20,6 +20,8 @@ class MetaPivotSeeder extends Seeder
         $categorias = Categoria::all();
         $registros = Registro::all();
 
+        //
+
         //Associando metas a categorias usando a tabela pivot(associativa)
         $metas->each(function ($meta) use ($categorias) {
             $meta->categoria()->attach(
@@ -30,13 +32,12 @@ class MetaPivotSeeder extends Seeder
         });
         //Mesmo principio, mas registros tem de ser os das categorias selecionadas :)
         $metas->each(function ($meta) use ($registros) {
-            $usuario = User::select('cd_usuario')->where('cd_assinatura', '>', 1)->get()->random(1)->first();
             $categoriaRegistro = $meta->categoria()->pluck('categoria.cd_categoria')->toArray();
             $meta->registro()->attach(
                 $registros
-                    ->where('cd_usuario', '=', $usuario->cd_usuario)
+                    ->where('cd_usuario', '=', $meta->cd_usuario)
                     ->whereIn('cd_categoria', $categoriaRegistro)
-                    ->random(rand(1, 5))
+                    ->random(rand(1, 3))
                     ->pluck('cd_registro')
                     ->toArray()
             );

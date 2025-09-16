@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Recursos\Registro;
 use App\Models\Categorizadores\Gerais\Categoria;
 use App\Models\Categorizadores\Metas\Tipo_Meta;
+use App\Models\Personas\User;
 use App\Models\Recursos\HistoricoMetas;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -18,6 +19,7 @@ class Metas extends Model
 
     protected $fillable = [
         "cd_nivel_imp",
+        "cd_usuario",
         "cd_modalidade",
         "cd_tipo_meta",
 
@@ -34,6 +36,14 @@ class Metas extends Model
         "ds_descricao",
     ];
 
+    public function usuario()
+    {
+        return $this->belongsTo(
+            User::class,
+            "cd_usuario",
+            "cd_usuario"
+        );
+    }
     public function nivel_imp()
     {
         return $this->belongsTo(
@@ -68,7 +78,8 @@ class Metas extends Model
             'cd_tipo_meta'
         );
     }
-    public function historico() {
+    public function historico()
+    {
         return $this->hasMany(
             HistoricoMetas::class,
             'cd_meta',

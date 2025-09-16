@@ -6,6 +6,7 @@
     <title>NerumXP</title>
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
+    <link rel="stylesheet" href="{{ asset('css/meta.css') }}"></link>
 </head>
 <body class="d-flex flex-column min-vh-100 w-100">
     <header>
@@ -34,6 +35,11 @@
         @if(request()->is('home'))
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="{{ asset('js/registro/grafico.js') }}"></script>
+            <script src="{{ asset("js/metas/resumo.js") }}"></script>
+        @endif
+        @if(request()->is('meta'))
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ asset("js/metas/resumo.js") }}"></script>
         @endif
     @endauth
 </body>
