@@ -12,13 +12,15 @@
     >
         Registros
     </x-nav-link>
-    <x-nav.nav-link href="#"
-        :active="request()->is('meta*') ? true : false"
-        :type="request()->is('meta*') ? 'btn' : 'a'"
-        href='{{ route("meta.index") }}'
-    >
-        Metas
-    </x-nav-link>
+    @if(Auth::user()->cd_assinatura > 1)
+		<x-nav.nav-link href="#"
+			:active="request()->is('meta*') ? true : false"
+			:type="request()->is('meta*') ? 'btn' : 'a'"
+			href='{{ route("meta.index") }}'
+		>
+			Metas
+		</x-nav-link>
+    @endif
     <x-nav.nav-link href="#">Relatórios</x-nav-link>
 </div>
 <div class="dropdown-center">

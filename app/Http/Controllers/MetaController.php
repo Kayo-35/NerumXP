@@ -11,10 +11,11 @@ class MetaController extends Controller
 {
     public function index()
     {
+        $this->authorize("access");
         //Obtem todas as metas associadas ao usuário
         $metas = Metas::where('cd_usuario', '=', Auth::user()->cd_usuario)
             ->orderBy('cd_nivel_imp','desc')
-            ->get();
+            ->paginate(9);
         $panorama = DB::select('CALL sp_panorama_metas(:cd_usuario)',[
             "cd_usuario" => Auth::user()->cd_usuario
         ])[0];

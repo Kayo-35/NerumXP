@@ -44,7 +44,11 @@
                         Dashboard de Metas
                     </h4>
                     <div class="row g-2">
+<<<<<<< HEAD
                         <div class="col-6">
+=======
+                        <div class="col-md-6 col-sm-12">
+>>>>>>> refs/remotes/origin/test
                             <div
                                 class="chart-card d-flex flex-column align-items-center justify-content-center"
                             >
@@ -62,7 +66,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6 col-sm-12">
                             <div
                                 class="chart-card d-flex flex-column align-items-center justify-content-center"
                             >
@@ -105,6 +109,11 @@
                                     :meta="$meta"
                                 ></x-meta.list>
                             @endforeach
+                            @if(method_exists($metas,'links'))
+								<div>
+									{{ $metas->links() }}
+								</div>
+                            @endif
                         @endempty
                     </div>
                 </div>
