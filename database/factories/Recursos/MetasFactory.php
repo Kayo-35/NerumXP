@@ -19,6 +19,13 @@ class MetasFactory extends Factory
      */
     public function definition(): array
     {
+        $dates = [
+            "2030-12-30",
+            "2029-12-30",
+            "2028-12-30",
+            "2027-12-30",
+            "2026-12-30",
+        ];
         $users = User::select('cd_usuario')
                 ->where('cd_assinatura', '>', 1)
                 ->get()
@@ -32,6 +39,7 @@ class MetasFactory extends Factory
             "ic_recorrente" => fake()->boolean(30),
             "ic_finalizada" => fake()->boolean(40),
             "nm_meta" => 'Indefinido',
+            "dt_termino" => $dates[array_rand($dates)],
             "ds_descricao" => fake()->text(2000),
             "ic_status" => fake()->boolean(80)
         ];

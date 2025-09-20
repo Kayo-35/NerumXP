@@ -7,7 +7,7 @@
                         <i class="bi bi-target me-2"></i>
                         Tipos de Metas
                     </h3>
-                    <a href="#" class="goal-creation-btn revenue">
+                    <a href="{{ route('meta.create',["tipo" => [1,2]]) }}" class="goal-creation-btn revenue">
                         <div class="goal-creation-icon">
                             <i class="bi bi-arrow-up-circle"></i>
                         </div>
@@ -17,7 +17,7 @@
                             acompanhe seu progresso financeiro
                         </p>
                     </a>
-                    <a href="#" class="goal-creation-btn expense">
+                    <a href="{{ route('meta.create',["tipo" => [3,4,5,6]]) }}" class="goal-creation-btn expense">
                         <div class="goal-creation-icon">
                             <i class="bi bi-arrow-down-circle"></i>
                         </div>
@@ -27,7 +27,7 @@
                             diferentes categorias
                         </p>
                     </a>
-                    <a href="#" class="goal-creation-btn generic">
+                    <a href="{{ route('meta.create',["tipo" => "generica"]) }}" class="goal-creation-btn generic">
                         <div class="goal-creation-icon">
                             <i class="bi bi-bullseye"></i>
                         </div>
@@ -44,11 +44,7 @@
                         Dashboard de Metas
                     </h4>
                     <div class="row g-2">
-<<<<<<< HEAD
-                        <div class="col-6">
-=======
                         <div class="col-md-6 col-sm-12">
->>>>>>> refs/remotes/origin/test
                             <div
                                 class="chart-card d-flex flex-column align-items-center justify-content-center"
                             >

@@ -50,24 +50,24 @@ Route::middleware("auth")
         Route::get("meta/create", "create")
             ->name("meta.create");
 
-        Route::get("meta/{registro}", "show")
-            ->whereNumber("registro")
+        Route::get("meta/{meta}", "show")
+            ->whereNumber("meta")
             ->name("meta.show");
 
-        Route::get("meta/{registro}/edit", 'edit')
-            ->whereNumber('registro')
+        Route::get("meta/{meta}/edit", 'edit')
+            ->whereNumber('meta')
             ->name("meta.edit");
 
-        Route::post("meta/create", "store")
+        Route::post("meta/meta", "store")
             ->name("meta.store");
 
-        Route::put("registro/{registro}", "update")
-            ->whereNumber("registro")
-            ->name("registro.put");
+        Route::put("meta/{meta}", "update")
+            ->whereNumber("meta")
+            ->name("meta.put");
 
-        Route::delete("registro/{registro}", "destroy")
-            ->whereNumber("registro")
-            ->name("registro.destroy");
+        Route::delete("meta/{meta}", "destroy")
+            ->whereNumber("meta")
+            ->name("meta.destroy");
     });
 
 //Registration

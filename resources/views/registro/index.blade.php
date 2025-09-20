@@ -40,7 +40,7 @@
                         {{ $registros->links() }}
                     </div>
                 @endif
-            @endempty
+            @endif
             <!-- Paginação com bootstrap-->
         </div>
     </section>

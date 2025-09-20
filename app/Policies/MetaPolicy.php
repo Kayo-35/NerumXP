@@ -14,6 +14,6 @@ class MetaPolicy
         return $meta->usuario->is($user);
     }
     public function access(User $user): bool {
-        return Auth::user()->cd_assinatura > 1;
+        return $user->cd_assinatura > 1;
     }
 }
