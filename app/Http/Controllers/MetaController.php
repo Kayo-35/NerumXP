@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorizadores\Metas\Tipo_Meta;
+use App\Models\Categorizadores\Registros\Modalidade;
 use Illuminate\Http\Request;
 use App\Models\Recursos\Metas;
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use phpDocumentor\Reflection\Types\This;
+use App\Models\Recursos\Registro;
 
 class MetaController extends Controller
 {
@@ -52,21 +52,40 @@ class MetaController extends Controller
 
         //tipos validos
         $tiposValidos = Tipo_Meta::pluck('cd_tipo_meta')->toArray();
-        $tiposValidosString = implode(',',$tiposValidos);
+        $tiposValidosString = implode(',', $tiposValidos);
 
         //Validando se a requisição para criação contém apenas os tipos
         try {
             $validated = $request->validate([
                 'tipo' => ['sometimes', 'array'],
-
                 'tipo.*' => ['in:' . $tiposValidosString],
             ]);
-        } catch (ValidationException)  {
+        } catch (ValidationException) {
             throw ValidationException::withMessages([
                 "tipos" => ['Tipos Invalidos'],
             ]);
         }
-        return view("meta.create");
+
+        $tipoRegistro = $request->query('tipo') == [1,2] ? 1 : 2;
+
+        $registros = Registro::select(
+            'registro.cd_registro',
+            'registro.cd_nivel_imp',
+            'nm_registro',
+            'vl_valor',
+            'cd_modalidade',
+            'registro.created_at',
+            'cd_categoria',
+            'ic_pago'
+        )->where('cd_tipo_registro','=',$tipoRegistro)
+        ->get();
+        $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta',$request->query('tipo'))->get();
+        $modalidadeRegistrosMeta = Modalidade::all();
+        return view("meta.create",[
+            "registros" => $registros,
+            "tiposMeta" => $tiposMeta,
+            "modalidades" => $modalidadeRegistrosMeta
+        ]);
     }
     public function edit(Metas $meta) {}
     public function store(Request $request) {}
