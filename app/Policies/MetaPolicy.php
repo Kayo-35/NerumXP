@@ -4,8 +4,6 @@ namespace App\Policies;
 
 use App\Models\Recursos\Metas;
 use App\Models\Personas\User;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\Auth;
 
 class MetaPolicy
 {

@@ -58,7 +58,7 @@ Route::middleware("auth")
             ->whereNumber('meta')
             ->name("meta.edit");
 
-        Route::post("meta/meta", "store")
+        Route::post("meta/", "store")
             ->name("meta.store");
 
         Route::put("meta/{meta}", "update")

@@ -92,12 +92,16 @@
                             </span>
                             <span>Editar</span>
                         </a>
-                        <button type="button" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-2 shadow-sm">
-                          <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10" style="width:2.2rem; height:2.2rem;">
-                            <i class="bi bi-trash text-danger fs-5"></i>
-                          </span>
-                          <span>Excluir</span>
-                        </button>
+                        <form method="POST" action="{{ route('meta.destroy',["meta" => $meta] )}}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-2 shadow-sm">
+                            <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10" style="width:2.2rem; height:2.2rem;">
+                                <i class="bi bi-trash text-danger fs-5"></i>
+                            </span>
+                            <span>Excluir</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <hr>

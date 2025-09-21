@@ -31,7 +31,8 @@ return new class extends Migration
                 ->on('tipo_metas')
                 ->onDelete('cascade');
 
-            $table->boolean('ic_recorrente');
+            $table->boolean('ic_recorrente')
+                ->nullable();
             $table->boolean('ic_finalizada')
                 ->nullable();
             $table->decimal('vl_valor_meta', 9, 2)

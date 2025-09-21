@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorizadores\Gerais\Categoria;
 use App\Models\Categorizadores\Metas\Tipo_Meta;
 use App\Models\Categorizadores\Registros\Modalidade;
-use Illuminate\Http\Request;
 use App\Models\Recursos\Metas;
+use App\Models\Recursos\Registro;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use App\Models\Recursos\Registro;
 
 class MetaController extends Controller
 {
@@ -49,7 +51,6 @@ class MetaController extends Controller
     }
     public function create(Request $request)
     {
-
         //tipos validos
         $tiposValidos = Tipo_Meta::pluck('cd_tipo_meta')->toArray();
         $tiposValidosString = implode(',', $tiposValidos);
@@ -58,7 +59,7 @@ class MetaController extends Controller
         try {
             $validated = $request->validate([
                 'tipo' => ['sometimes', 'array'],
-                'tipo.*' => ['in:' . $tiposValidosString],
+                'tipo.*' => ["in: $tiposValidosString"],
             ]);
         } catch (ValidationException) {
             throw ValidationException::withMessages([
@@ -78,17 +79,48 @@ class MetaController extends Controller
             'cd_categoria',
             'ic_pago'
         )->where('cd_tipo_registro','=',$tipoRegistro)
+        ->where('cd_usuario','=',Auth::user()->cd_usuario)
         ->get();
+
         $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta',$request->query('tipo'))->get();
         $modalidadeRegistrosMeta = Modalidade::all();
         return view("meta.create",[
+            "categorias" => Categoria::all(),
             "registros" => $registros,
             "tiposMeta" => $tiposMeta,
             "modalidades" => $modalidadeRegistrosMeta
         ]);
     }
+
+    public function store(Request $request) {
+        $registros = !empty($request->registros) ? Registro::whereIn('cd_registro',$request->registros)->get() : [];
+        foreach($registros as $registro) {
+            $this->authorize('use',$registro);
+            //$this representa a instância do controller, como um helper
+        }
+        //Validando os dados
+        $validated = $request->validate(metaRules());
+        $validated['cd_usuario'] = Auth::user()->cd_usuario; //Associando o usuário a meta
+        $validated['ic_status'] = true; //Por padrão ativa quando criada :)
+        $validated['ic_recorrente'] = false;
+
+        //Criando a meta
+        $meta = Metas::create($validated);
+
+        //Associando categorias e registros a meta
+        $meta->categoria()->sync($request->categorias);
+        $meta->registro()->sync($request->registros);
+
+        return redirect(route('meta.show',["meta" => $meta]));
+    }
+
     public function edit(Metas $meta) {}
-    public function store(Request $request) {}
+
     public function update(Metas $meta, Request $request) {}
-    public function destroy(Metas $meta) {}
+
+    public function destroy(Metas $meta) {
+        $this->authorize("use",$meta);
+        $meta->delete();
+        return redirect(route('meta.index'));
+    }
 }

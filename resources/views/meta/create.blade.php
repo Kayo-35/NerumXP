@@ -23,8 +23,9 @@
         </div>
 
         <!-- Formulário de Criação -->
-        <form id="formCriarMeta">
+        <form id="formCriarMeta" action="{{ route('meta.store') }}" method="POST">
             <!-- Painel Superior - Dados da Meta -->
+            @csrf
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="card border-0 shadow-sm">
@@ -61,7 +62,7 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="cd_nivel_imp" class="form-label fw-semibold">
                                         Tipo da Meta
                                     </label>
@@ -75,7 +76,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="cd_nivel_imp" class="form-label fw-semibold">
                                         Modalidade dos Registros
                                     </label>
@@ -87,6 +88,36 @@
                                             </option>
                                         @endforeach
                                     </select>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold mb-2" for="categoriaAccordion">
+                                        Categoria dos Registros
+                                    </label>
+                                    <div class="accordion" id="categoriaAccordion">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingCategorias">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategorias">
+                                                    Selecione as categorias
+                                                </button>
+                                            </h2>
+                                            <div id="collapseCategorias" class="accordion-collapse collapse" data-bs-parent="#categoriaAccordion">
+                                                <div class="accordion-body">
+                                                    @foreach($categorias as $categoria)
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   id="categoria_{{ $categoria->cd_categoria }}"
+                                                                   name="categorias[]"
+                                                                   value="{{ $categoria->cd_categoria }}">
+                                                            <label class="form-check-label" for="categoria_{{ $categoria->cd_categoria }}">
+                                                                {{ $categoria->nm_categoria }}
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -134,39 +165,6 @@
                                 <input type="date" class="form-control" id="dt_termino" name="dt_termino">
                             </div>
                         </div>
-
-                        <div class="row px-5 mb-3">
-                            <div class="col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="ic_status" name="ic_status" checked>
-                                    <label class="form-check-label fw-semibold" for="ic_status">
-                                        <i class="bi bi-check-circle text-success me-1"></i>
-                                        Meta Ativa
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="ic_recorrente" name="ic_recorrente">
-                                    <label class="form-check-label fw-semibold" for="ic_recorrente">
-                                        <i class="bi bi-arrow-repeat text-primary me-1"></i>
-                                        Meta Recorrente
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="ic_finalizada" name="ic_finalizada">
-                                    <label class="form-check-label fw-semibold" for="ic_finalizada">
-                                        <i class="bi bi-check2-circle text-success me-1"></i>
-                                        Meta Finalizada
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <!-- Espaço reservado para alinhamento -->
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -180,9 +178,15 @@
                                     <i class="bi bi-list-check text-primary me-2"></i>
                                     Associar Registros à Meta
                                 </h4>
-                                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">
-                                    <span id="contadorSelecionados">0</span> selecionados
-                                </span>
+                                <div>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">
+                                        <span id="contadorSelecionados">0</span> selecionados
+                                    </span>
+
+                                    <span class="badge bg-info bg-opacity-10 text-primary px-3 py-2">
+                                        <span id="contadorGeral">0</span> registros
+                                    </span>
+                                </div>
                             </div>
 
                             <!-- Filtros de Busca -->
@@ -206,7 +210,8 @@
 
                             <!-- Lista de Registros -->
                             <div id="painelRegistros" class="list-group list-group-flush" style="max-height: 400px; overflow-y: auto;">
-
+                                <!-- Aqui os elementos são inseridos dinâmicamente com o script public/js/metas/create -->
+                            </div>
                            <!-- Ações para Seleção -->
                             <div class="row mt-3 pt-3 border-top">
                                 <div class="col-md-6">

@@ -262,7 +262,7 @@
                                                         @endif
                                                     </div>
                                                     <h5 class="text-dark mb-0 fw-bold">
-                                                        R$ {{ number_format($registro->vl_valor,2,',','.') }}
+                                                        {{ $registro->nm_registro}} R$ {{ number_format($registro->vl_valor,2,',','.') }}
                                                     </h5>
                                                     <small class="text-success">
                                                         <x-helper.categoria :cdCategoria="$registro->cd_categoria"></x-helper.categoria>
