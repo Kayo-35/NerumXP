@@ -34,20 +34,26 @@
     @endif
 
     <!--Chart.js-->
+    @guest
+        @if(request()->is('register/create'))
+            <script src="{{ asset("js/contas/create.js") }}"></script>
+        @endif
+    @endguest
     @auth
         @if(request()->is('home'))
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="{{ asset('js/registro/grafico.js') }}"></script>
             <script src="{{ asset("js/metas/resumo.js") }}"></script>
         @endif
+
         @if(request()->is('meta'))
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script src="{{ asset("js/metas/resumo.js") }}"></script>
         @endif
+
         @if(request()->is('meta/create'))
             <script src="{{ asset("js/metas/create.js") }}"></script>
         @endif
-
     @endauth
 </body>
 </html>
