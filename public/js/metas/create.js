@@ -158,22 +158,34 @@ document.addEventListener('DOMContentLoaded', () => {
             addRegistros(); //Essa função é para adicionar os registros no painel
         });
     });
-
+    
     seletorModalidade.addEventListener('change', () => {
+        if(seletorModalidade.value.length == 0) {
+            init(true);
+        } else {
+            init(false);
+        }
+        
         updateRegistroArray(seletorModalidade.value);
         addRegistros();
     });
 
     let registrosFiltrados = [];
+    
+    function init(mode) {
+        painelCategoria.forEach(categoria => {
+            categoria.disabled = mode;
+        });
+    }
 
     function updateRegistroArray(modalidade) {
         //Registros vem da template blade, minha IDE por exemplo, acha que é um valor indefinido por isso
         registrosFiltrados = registros.filter((registro) => {
             if (categoriasSelecionadas.length > 0) { //Verifica se a filtragem deve incluir as categorias
-                return registro.cd_modalidade.toString() == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString())
+                return registro.cd_modalidade.toString() == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString());
             } else {
                 //Caso contrário apenas filtre por modalidade
-                return registro.cd_modalidade.toString() == modalidade
+                return registro.cd_modalidade.toString() == modalidade;
             }
         });
     }
@@ -196,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     /*
          Essas linhas executam as função de filtragem quando há recararregamento de página,
          já que o eventos meio que não são acionados sem "mundaças" de estado.
@@ -205,6 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (categoriasSelecionadas.length == 0) {
         checkCategoriasSelecionadas(painelCategoria);
     }
+    
+    init(true);
     updateRegistroArray(seletorModalidade.value);
     addRegistros();
 })

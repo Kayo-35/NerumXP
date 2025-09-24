@@ -7,7 +7,6 @@ use App\Models\Categorizadores\Metas\Tipo_Meta;
 use App\Models\Categorizadores\Registros\Modalidade;
 use App\Models\Recursos\Metas;
 use App\Models\Recursos\Registro;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
