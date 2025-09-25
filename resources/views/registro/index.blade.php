@@ -27,6 +27,7 @@
                         />
                 @endif
             @else
+                
                 @foreach($registros as $registro)
                 <a href="{{ route('registro.show',["registro" => $registro->cd_registro]) }}"
                     class="col-md-4"
