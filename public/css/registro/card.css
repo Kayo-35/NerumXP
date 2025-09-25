@@ -1,0 +1,44 @@
+.card-overlay {
+      position: absolute; /* Posiciona sobre o card */
+      inset: 0; /* top:0; right:0; bottom:0; left:0 */
+      background-color: rgba(0, 0, 0, 0.7); /* Fundo semitransparente */
+      display: flex; /* Flex para centralizar botões */
+      justify-content: center;
+      align-items: center;
+      gap: 12px; /* Espaço entre os botões */
+      opacity: 0; /* Inicialmente invisível */
+      transition: opacity 0.3s ease; /* Transição suave */
+      z-index: 2; /* Sobreposição do conteúdo do card */
+    }
+
+    /* Mostra overlay ao passar o mouse */
+    .card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    /* Estilo dos botões do overlay */
+    .card-overlay button {
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .background {
+      border: 1px solid #a3a3a3;
+      background: no-repeat center center;
+      background-size: cover;
+    }
+
+    #nm_registro {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    #nivel_imp_created_at {
+      gap: 2px;
+    }
