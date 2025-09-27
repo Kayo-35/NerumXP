@@ -54,6 +54,10 @@
         @if(request()->is('meta/create'))
             <script src="{{ asset("js/metas/create.js") }}"></script>
         @endif
+
+        @if(request()->is('meta/*/edit'))
+            <script src="{{ asset("js/metas/edit.js") }}"></script>
+        @endif
     @endauth
 </body>
 </html>

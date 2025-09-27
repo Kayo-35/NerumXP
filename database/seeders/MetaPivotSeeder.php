@@ -38,23 +38,27 @@ class MetaPivotSeeder extends Seeder
 
             //Obtendo a quantidade máxima de registros por categoria e demais constraints
             $registrosPorCategoria = Registro::select('cd_categoria', DB::raw('COUNT(cd_categoria) as max'))
-                ->where('cd_usuario','=',$meta->cd_usuario)
-                ->where('cd_tipo_registro',$cd_tipo_registro)
+                ->where('cd_usuario', '=', $meta->cd_usuario)
+                ->where('cd_tipo_registro', $cd_tipo_registro)
+                ->where('cd_modalidade', $meta->cd_modalidade)
                 ->groupBy('cd_categoria')
                 ->get()
                 ->toArray();
 
             //Associa de 0 até o maximo de registros existentes na categoria
             foreach ($registrosPorCategoria as $data) {
-                $meta->registro()->attach(
-                    $registros
-                        ->where('cd_usuario', '=', $meta->cd_usuario)
-                        ->where('cd_tipo_registro', '=', $cd_tipo_registro)
-                        ->where('cd_categoria', '=', $data['cd_categoria'])
-                        ->random(rand(0, $data['max']))
-                        ->pluck('cd_registro')
-                        ->toArray()
-                );
+                if (in_array($data['cd_categoria'], $meta->categoria()->pluck('categoria.cd_categoria')->toArray())) {
+                    $meta->registro()->attach(
+                        $registros
+                            ->where('cd_usuario', '=', $meta->cd_usuario)
+                            ->where('cd_tipo_registro', '=', $cd_tipo_registro)
+                            ->where('cd_categoria', '=', $data['cd_categoria'])
+                            ->where('cd_modalidade', $meta->cd_modalidade)
+                            ->random(rand(1, $data['max']))
+                            ->pluck('cd_registro')
+                            ->toArray()
+                    );
+                }
             }
         });
 

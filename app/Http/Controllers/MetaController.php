@@ -68,7 +68,7 @@ class MetaController extends Controller
             ]);
         }
 
-        $tipoRegistro = $request->query('tipo') == [1,2] ? 1 : 2;
+        $tipoRegistro = $request->query('tipo') == [1, 2] ? 1 : 2;
 
         $registros = Registro::select(
             'registro.cd_registro',
@@ -79,13 +79,13 @@ class MetaController extends Controller
             'registro.created_at',
             'cd_categoria',
             'ic_pago'
-        )->where('cd_tipo_registro','=',$tipoRegistro)
-        ->where('cd_usuario','=',Auth::user()->cd_usuario)
-        ->get();
+        )->where('cd_tipo_registro', '=', $tipoRegistro)
+            ->where('cd_usuario', '=', Auth::user()->cd_usuario)
+            ->get();
 
-        $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta',$request->query('tipo'))->get();
+        $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta', $request->query('tipo'))->get();
         $modalidadeRegistrosMeta = Modalidade::all();
-        return view("meta.create",[
+        return view("meta.create", [
             "categorias" => Categoria::all(),
             "registros" => $registros,
             "tiposMeta" => $tiposMeta,
@@ -94,10 +94,11 @@ class MetaController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
-        $registros = !empty($request->registros) ? Registro::whereIn('cd_registro',$request->registros)->get() : [];
-        foreach($registros as $registro) {
-            $this->authorize('use',$registro);
+    public function store(Request $request)
+    {
+        $registros = !empty($request->registros) ? Registro::whereIn('cd_registro', $request->registros)->get() : [];
+        foreach ($registros as $registro) {
+            $this->authorize('use', $registro);
             //$this representa a instância do controller, como um helper
         }
         //Validando os dados
@@ -113,15 +114,79 @@ class MetaController extends Controller
         $meta->categoria()->sync($request->categorias);
         $meta->registro()->sync($request->registros);
 
-        return redirect(route('meta.show',["meta" => $meta]));
+        return redirect(route('meta.show', ["meta" => $meta]));
     }
 
-    public function edit(Metas $meta) {}
+    public function edit(Metas $meta)
+    {
+        $this->authorize('use', $meta);
+        $tipoMeta = $meta->tipo()->get();
 
-    public function update(Metas $meta, Request $request) {}
+        //Obtem os codigos dos tipos de meta a serem inclusos no painel para edição
+        $arrayTipos = match ($tipoMeta) {
+            1, 2 => [1, 2], //O usuário pode alterar o tipo geral, mas não se é de renda ou despesa
+            default => [3, 4, 5, 6],
+        };
 
-    public function destroy(Metas $meta) {
-        $this->authorize("use",$meta);
+        $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta', $arrayTipos)->get();
+
+        $registros =  Registro::select(
+            'registro.cd_registro',
+            'registro.cd_nivel_imp',
+            'nm_registro',
+            'vl_valor',
+            'cd_modalidade',
+            'registro.created_at',
+            'cd_categoria',
+            'ic_pago'
+        )->where('cd_usuario', '=', Auth::user()->cd_usuario)
+            ->where('cd_tipo_registro', '=', in_array(1, $arrayTipos) ? 1 : 2)->get();
+
+        $registrosDaMeta = $meta->registro()->select(
+                'registro.cd_registro',
+                'registro.cd_nivel_imp',
+                'nm_registro',
+                'vl_valor',
+                'cd_modalidade',
+                'registro.created_at',
+                'cd_categoria',
+                'ic_pago'
+            )
+            ->get();
+        return view('meta.edit', [
+            "meta" => $meta,
+            "categorias" => Categoria::all(),
+            "registros" => $registros,
+            "registrosDaMeta" => $registrosDaMeta,
+            "tiposMeta" => $tiposMeta,
+            "importancias" => Nivel_imp::all(),
+            "modalidades" => Modalidade::all()
+        ]);
+    }
+
+    public function update(Metas $meta, Request $request) {
+        //Autorização
+        $this->authorize('use',$meta); //Autoriza a usar a meta
+        $registros = !empty($request->registros) ? Registro::whereIn('cd_registro', $request->registros)->get() : [];
+        foreach ($registros as $registro) { //Autoriza a vincular os registros com a meta
+            $this->authorize('use', $registro);
+        }
+
+        //Validando os dados
+        $validated = $request->validate(metaRules());
+
+        //Atualizando
+        $meta->update($validated);
+        $meta->registro()->sync($validated['registros']);
+        $meta->categoria()->sync($validated['categorias']);
+
+        //Redirecionando
+        return redirect(route('meta.show',$meta->cd_meta));
+    }
+
+    public function destroy(Metas $meta)
+    {
+        $this->authorize("use", $meta);
         $meta->delete();
         return redirect(route('meta.index'));
     }
