@@ -135,7 +135,39 @@ document.addEventListener('DOMContentLoaded', () => {
     //Exibição da quantidade de registros selecionadas
     const mostradorQuantidadeGeral = document.querySelector("#contadorGeral");
     const mostradorQuantidadeSelecionada = document.querySelector("#contadorSelecionados");
-
+    
+    //Botão para seleção total
+    const seletorCheckTodos = document.querySelector("#btnSelecionarTodos");
+    const removerCheckTodos = document.querySelector("#btnDesmarcarTodos");
+    let registrosNoPainel;
+    
+    function displayQuantidadeChecked() {
+        qtRegistrosSelecionados = registrosNoPainel.filter(registro => registro.checked === true ).length;
+        mostradorQuantidadeSelecionada.innerHTML = qtRegistrosSelecionados;
+    }
+    
+    seletorCheckTodos.addEventListener('click',(registrosNoPainel) => {
+        registrosNoPainel = document.querySelectorAll(".registro-checkbox");
+        registrosNoPainel = Array.from(registrosNoPainel);
+        if(painelRegistros.childElementCount > 0) {
+            registrosNoPainel.forEach(registro => {
+                registro.checked = true;
+            });
+        }
+        displayQuantidadeChecked();
+    });
+        
+    removerCheckTodos.addEventListener('click',() => {
+        registrosNoPainel = document.querySelectorAll(".registro-checkbox");
+        registrosNoPainel = Array.from(registrosNoPainel);
+        if(painelRegistros.childElementCount > 0) {
+            registrosNoPainel.forEach(registro => {
+                registro.checked = false;
+            });
+        }
+        displayQuantidadeChecked();
+    });
+    
     let categoriasSelecionadas = [];
 
     //painel de categorias
@@ -158,22 +190,35 @@ document.addEventListener('DOMContentLoaded', () => {
             addRegistros(); //Essa função é para adicionar os registros no painel
         });
     });
-
+    
     seletorModalidade.addEventListener('change', () => {
+        let registrosNoPainel = document.querySelectorAll(".registro-checkbox");
+        if(seletorModalidade.value.length == 0) {
+            init(true);
+        } else {
+            init(false);
+        }
+        
         updateRegistroArray(seletorModalidade.value);
         addRegistros();
     });
 
     let registrosFiltrados = [];
+    
+    function init(mode) {
+        painelCategoria.forEach(categoria => {
+            categoria.disabled = mode;
+        });
+    }
 
     function updateRegistroArray(modalidade) {
         //Registros vem da template blade, minha IDE por exemplo, acha que é um valor indefinido por isso
         registrosFiltrados = registros.filter((registro) => {
             if (categoriasSelecionadas.length > 0) { //Verifica se a filtragem deve incluir as categorias
-                return registro.cd_modalidade.toString() == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString())
+                return registro.cd_modalidade.toString() == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString());
             } else {
                 //Caso contrário apenas filtre por modalidade
-                return registro.cd_modalidade.toString() == modalidade
+                return registro.cd_modalidade.toString() == modalidade;
             }
         });
     }
@@ -196,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     /*
          Essas linhas executam as função de filtragem quando há recararregamento de página,
          já que o eventos meio que não são acionados sem "mundaças" de estado.
@@ -205,6 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (categoriasSelecionadas.length == 0) {
         checkCategoriasSelecionadas(painelCategoria);
     }
+    if(seletorModalidade.value == '') init(true);
+    
     updateRegistroArray(seletorModalidade.value);
     addRegistros();
 })

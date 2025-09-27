@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Categorizadores\Gerais\Categoria;
 use App\Models\Categorizadores\Metas\Tipo_Meta;
 use App\Models\Categorizadores\Registros\Modalidade;
+use App\Models\Categorizadores\Gerais\Nivel_imp;
 use App\Models\Recursos\Metas;
 use App\Models\Recursos\Registro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+
 
 class MetaController extends Controller
 {
@@ -87,6 +89,7 @@ class MetaController extends Controller
             "categorias" => Categoria::all(),
             "registros" => $registros,
             "tiposMeta" => $tiposMeta,
+            "importancias" => Nivel_imp::all(),
             "modalidades" => $modalidadeRegistrosMeta
         ]);
     }

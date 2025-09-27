@@ -44,7 +44,7 @@
                         Dashboard de Metas
                     </h4>
                     <div class="row g-2">
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-lg-6 col-md-12">
                             <div
                                 class="chart-card d-flex flex-column align-items-center justify-content-center"
                             >
@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-lg-6 col-md-12">
                             <div
                                 class="chart-card d-flex flex-column align-items-center justify-content-center"
                             >
