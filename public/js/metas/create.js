@@ -135,7 +135,39 @@ document.addEventListener('DOMContentLoaded', () => {
     //Exibição da quantidade de registros selecionadas
     const mostradorQuantidadeGeral = document.querySelector("#contadorGeral");
     const mostradorQuantidadeSelecionada = document.querySelector("#contadorSelecionados");
-
+    
+    //Botão para seleção total
+    const seletorCheckTodos = document.querySelector("#btnSelecionarTodos");
+    const removerCheckTodos = document.querySelector("#btnDesmarcarTodos");
+    let registrosNoPainel;
+    
+    function displayQuantidadeChecked() {
+        qtRegistrosSelecionados = registrosNoPainel.filter(registro => registro.checked === true ).length;
+        mostradorQuantidadeSelecionada.innerHTML = qtRegistrosSelecionados;
+    }
+    
+    seletorCheckTodos.addEventListener('click',(registrosNoPainel) => {
+        registrosNoPainel = document.querySelectorAll(".registro-checkbox");
+        registrosNoPainel = Array.from(registrosNoPainel);
+        if(painelRegistros.childElementCount > 0) {
+            registrosNoPainel.forEach(registro => {
+                registro.checked = true;
+            });
+        }
+        displayQuantidadeChecked();
+    });
+        
+    removerCheckTodos.addEventListener('click',() => {
+        registrosNoPainel = document.querySelectorAll(".registro-checkbox");
+        registrosNoPainel = Array.from(registrosNoPainel);
+        if(painelRegistros.childElementCount > 0) {
+            registrosNoPainel.forEach(registro => {
+                registro.checked = false;
+            });
+        }
+        displayQuantidadeChecked();
+    });
+    
     let categoriasSelecionadas = [];
 
     //painel de categorias
@@ -160,6 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     seletorModalidade.addEventListener('change', () => {
+        let registrosNoPainel = document.querySelectorAll(".registro-checkbox");
         if(seletorModalidade.value.length == 0) {
             init(true);
         } else {
@@ -216,8 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (categoriasSelecionadas.length == 0) {
         checkCategoriasSelecionadas(painelCategoria);
     }
+    if(seletorModalidade.value == '') init(true);
     
-    init(true);
     updateRegistroArray(seletorModalidade.value);
     addRegistros();
 })

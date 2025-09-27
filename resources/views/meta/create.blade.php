@@ -42,7 +42,7 @@
                                         Nome da Meta
                                     </label>
                                     <input type="text" class="form-control" id="nm_meta" name="nm_meta"
-                                        placeholder="Digite o nome da sua meta">
+                                        placeholder="Digite o nome da sua meta" value="{{ old('nm_meta',$meta->nm_meta ?? '') }}">
                                 </div>
 
                                 <!-- Nível de Importância -->
@@ -53,10 +53,11 @@
                                     </label>
                                     <select class="form-select" id="cd_nivel_imp" name="cd_nivel_imp">
                                         <option value="">Selecione...</option>
-                                        <option value="1">Baixa</option>
-                                        <option value="2">Média</option>
-                                        <option value="3">Alta</option>
-                                        <option value="4">Crítica</option>
+                                        @foreach($importancias as $importancia)
+                                            <option value="{{ $importancia->cd_nivel_imp }}" {{ old('cd_nivel_imp',$meta->cd_nivel_imp ?? '') == $importancia->cd_nivel_imp ? 'selected' : ''}}>
+                                                {{ $importancia->sg_nivel_imp }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -69,7 +70,7 @@
                                     <select class="form-select" id="cd_tipo_meta" name="cd_tipo_meta">
                                         <option value="">Selecione...</option>
                                         @foreach($tiposMeta as $tipo)
-                                            <option value="{{ $tipo->cd_tipo_meta }}">
+                                            <option value="{{ $tipo->cd_tipo_meta }}" {{ old('cd_tipo_meta', $meta->cd_tipo_meta ?? '') == $tipo->cd_tipo_meta ? 'selected' : '' }}>
                                                 {{ $tipo->nm_meta }}
                                             </option>
                                         @endforeach
@@ -83,7 +84,7 @@
                                     <select class="form-select" id="cd_modalidade" name="cd_modalidade">
                                         <option value="">Selecione...</option>
                                         @foreach($modalidades as $modalidade)
-                                            <option value="{{ $modalidade->cd_modalidade}}">
+                                            <option value="{{ $modalidade->cd_modalidade}}" {{ old('cd_modalidade', $meta->cd_modalidade ?? '') == $modalidade->cd_modalidade ? 'selected' : '' }}>
                                                 {{ $modalidade->nm_modalidade}}
                                             </option>
                                         @endforeach
@@ -108,7 +109,10 @@
                                                             <input class="form-check-input" type="checkbox"
                                                                    id="categoria_{{ $categoria->cd_categoria }}"
                                                                    name="categorias[]"
-                                                                   value="{{ $categoria->cd_categoria }}">
+                                                                   value="{{ $categoria->cd_categoria }}"
+                                                                    @if(old('categorias') !== null)
+                                                                        {{ in_array($categoria->cd_categoria, old('categorias')) ? 'checked' : '' }}>
+                                                                    @endif
                                                             <label class="form-check-label" for="categoria_{{ $categoria->cd_categoria }}">
                                                                 {{ $categoria->nm_categoria }}
                                                             </label>
@@ -128,9 +132,18 @@
                                         Descrição
                                     </label>
                                     <textarea class="form-control" id="ds_descricao" name="ds_descricao" rows="3"
-                                        placeholder="Descreva os detalhes da sua meta..."></textarea>
+                                        placeholder="Descreva os detalhes da sua meta...">{{ old('ds_descricao',$meta->ds_descricao ?? '') }}</textarea>
                                 </div>
                             </div>
+                            @if($errors->any())
+                                <x-helper.error campo="nm_meta"></x-helper.error>
+                                <x-helper.error campo="cd_nivel_imp"></x-helper.error>
+                                <x-helper.error campo="cd_tipo_meta"></x-helper.error>
+                                <x-helper.error campo="categorias"></x-helper.error>
+                                <x-helper.error campo="ds_descricao"></x-helper.error>
+                                <x-helper.error campo="pc_meta"></x-helper.error>
+                                <x-helper.error campo="vl_valor_meta"></x-helper.error>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -162,12 +175,17 @@
                                     <i class="bi bi-calendar-event text-secondary me-1"></i>
                                     Data de Término
                                 </label>
-                                <input type="date" class="form-control" id="dt_termino" name="dt_termino">
+                                <input type="date" class="form-control" id="dt_termino" name="dt_termino"
+                                    value={{ old('dt_termino', $meta->dt_termino ?? '') }}>
                             </div>
+                            @if($errors->any())
+                                <x-helper.error campo="dt_termino"></x-helper.error>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
+            
             <!-- Painel Inferior - Seleção de Registros -->
             <div class="row mb-4">
                 <div class="col-12 w-100">
