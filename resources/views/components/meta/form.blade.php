@@ -300,6 +300,7 @@
     const registros = @json($registros);
     @isset($meta)
         const valorMeta = {{ $meta->vl_valor_meta ?? $meta->pc_meta }};
-        const registrosDaMeta = @json($registrosDaMeta->pluck('cd_registro')->toArray())
+        const registrosDaMeta = @json($registrosDaMeta->pluck('cd_registro')->toArray());
+        const tipoMeta = {{ $meta->cd_tipo_meta }};
     @endisset
 </script>

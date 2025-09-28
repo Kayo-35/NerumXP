@@ -46,6 +46,7 @@ class Registro extends Model
         "ds_descricao",
         "qt_parcelas",
         "qt_parcelas_pagas",
+        "updated_at"
     ];
     //Relacionamentos
     public function usuario()
