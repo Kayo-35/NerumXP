@@ -13,7 +13,7 @@ function painelPercentual() {
         </label>
         <div class="input-group">
             <input type="number" class="form-control" id="pc_meta" name="pc_meta"
-                step="0.01" min="0" max="100" placeholder="0,00" value="${valorMeta}">
+                step="0.001" min="0" max="100" placeholder="0,000" value="${valorMeta}">
                 <span class="input-group-text">%</span>
         </div>
     `
@@ -28,7 +28,7 @@ function painelValorFixo() {
         <div class="input-group">
             <span class="input-group-text">R$</span>
             <input type="number" class="form-control" id="vl_valor_meta" name="vl_valor_meta"
-                step="0.01" min="0" placeholder="0,00" value="${valorMeta}">
+                step="0.001" min="0" placeholder="0,000" value="${valorMeta}">
         </div>
     `;
 }
@@ -111,9 +111,9 @@ function getCategoriaIcon(codigo) {
     }
 }
 
+let painel;
 const tiposFixos = ['1', '2', '3', '4'];
 const tiposPercentual = ['5', '6'];
-let painel;
 
 seletorTipoValorMeta.addEventListener('change', () => {
     check();
@@ -128,9 +128,22 @@ function check() {
         painel = painelDefault();
     }
     painelInsereValor.innerHTML = painel;
+    painelValor(tipoMeta);
 }
 
 window.onload = check;
+
+function painelValor(codigo) {
+    if (tiposFixos.includes(codigo.toString())) {
+        painel = painelValorFixo();
+    } else if (tiposPercentual.includes(codigo.toString())) {
+        painel = painelPercentual();
+    } else {
+        painel = painelDefault();
+    }
+    painelInsereValor.innerHTML = painel;
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     //Exibição dos registros
@@ -230,8 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateRegistroArray(modalidade) {
         //Registros vem da template blade, minha IDE por exemplo, acha que é um valor indefinido por isso
         registrosFiltrados = registros.filter((registro) => {
-            if (categoriasSelecionadas.length > 0) { //Verifica se a filtragem deve incluir as categorias
-                return registro.cd_modalidade.toString() == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString());
+            if (categoriasSelecionadas.length > 0) { //Verifica se a filtragem deve incluir as categorias    
+                return registro.cd_modalidade == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString())
             } else {
                 //Caso contrário apenas filtre por modalidade
                 return registro.cd_modalidade.toString() == modalidade;
@@ -241,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addRegistros() {
         painelRegistros.innerHTML = '';
+    
         registrosFiltrados.forEach((registro) => {
             let checkRegistro = document.createElement('div');
             checkRegistro.innerHTML = resumoRegistro(registro.cd_registro, registro.nm_registro, getCategoriaIcon(registro.cd_categoria), registro.vl_valor, registro.created_at.split('T')[0]);

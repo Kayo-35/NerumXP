@@ -15,6 +15,7 @@ use App\Models\Categorizadores\Registros\Tipo;
 use App\Models\Personas\Realizador;
 use App\Models\Recursos\Registro;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class RegistroController extends Controller
@@ -56,6 +57,33 @@ class RegistroController extends Controller
     }
     public function show(Registro $registro)
     {
+        /*
+        $resultadosRenda = Registro::select('categoria.nm_categoria',DB::raw('SUM(vl_valor) as "ganhoTotal"'))
+            ->join('categoria','categoria.cd_categoria','=','registro.cd_categoria')
+            ->where('cd_usuario','=',Auth::user()->cd_usuario)
+            ->where('cd_tipo_registro','=',1)
+            ->whereYear('created_at',date('Y'))
+            ->groupBy('registro.cd_categoria','categoria.nm_categoria')
+            ->get();
+        $resultadosDespesa = Registro::select('categoria.nm_categoria',DB::raw('SUM(vl_valor) as "despesaTotal"'))
+            ->join('categoria','categoria.cd_categoria','=','registro.cd_categoria')
+            ->where('cd_usuario','=',Auth::user()->cd_usuario)
+            ->where('cd_tipo_registro','=',2)
+            ->whereYear('created_at',date('Y'))
+            ->groupBy('registro.cd_categoria','categoria.nm_categoria')
+            ->get();
+            
+        $rendaAnual = [];
+        foreach($resultadosRenda as $dados) {
+            $rendaAnual[$dados->nm_categoria] = $dados->ganhoTotal;
+        }
+        $despesaAnual= [];
+        foreach($resultadosDespesa as $dados) {
+            $despesaAnual[$dados->nm_categoria] = $dados->despesaTotal;
+        }
+        
+        dd($rendaAnual);
+        */
         //Autorizando accesso ao recurso ou não
         $this->authorize("use", $registro);
         $metodos = $registro->metodo_pagamento()->get();

@@ -43,7 +43,7 @@
                         <i class="bi bi-pie-chart me-2"></i>
                         Dashboard de Metas
                     </h4>
-                    <div class="row g-2">
+                    <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div
                                 class="chart-card d-flex flex-column align-items-center justify-content-center"
@@ -56,7 +56,7 @@
                                     Despesa/Renda
                                 </h6>
                                 <div
-                                    class="small-chart d-flex justify-content-center"
+                                    class="small-chart d-flex justify-content-center h-100"
                                 >
                                     <canvas id="comparar"></canvas>
                                 </div>
@@ -74,7 +74,7 @@
                                     % Finalizadas
                                 </h6>
                                 <div
-                                    class="small-chart d-flex justify-content-center"
+                                    class="small-chart d-flex justify-content-center h-100"
                                 >
                                     <canvas id="finalizadas"></canvas>
                                 </div>
