@@ -22,6 +22,7 @@ class MetaController extends Controller
         $metas = Metas::where('cd_usuario', '=', Auth::user()->cd_usuario)
             ->orderBy('cd_nivel_imp', 'desc')
             ->paginate(9);
+
         $panorama = DB::select('CALL sp_panorama_metas(:cd_usuario)', [
             "cd_usuario" => Auth::user()->cd_usuario
         ])[0];

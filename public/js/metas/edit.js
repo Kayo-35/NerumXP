@@ -111,9 +111,9 @@ function getCategoriaIcon(codigo) {
     }
 }
 
+let painel;
 const tiposFixos = ['1', '2', '3', '4'];
 const tiposPercentual = ['5', '6'];
-let painel;
 
 seletorTipoValorMeta.addEventListener('change', () => {
     check();
@@ -128,9 +128,22 @@ function check() {
         painel = painelDefault();
     }
     painelInsereValor.innerHTML = painel;
+    painelValor(tipoMeta);
 }
 
 window.onload = check;
+
+function painelValor(codigo) {
+    if (tiposFixos.includes(codigo.toString())) {
+        painel = painelValorFixo();
+    } else if (tiposPercentual.includes(codigo.toString())) {
+        painel = painelPercentual();
+    } else {
+        painel = painelDefault();
+    }
+    painelInsereValor.innerHTML = painel;
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     //Exibição dos registros

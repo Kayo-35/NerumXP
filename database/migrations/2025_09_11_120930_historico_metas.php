@@ -27,7 +27,7 @@ return new class extends Migration
                 ->nullable();
             $table->decimal('pc_alvo', 6, 3)
                 ->nullable();
-            $table->decimal('pc_progresso', 9, 2)
+            $table->decimal('pc_progresso', 6, 3)
                 ->nullable();
             $table->timestamps();
         });
