@@ -27,14 +27,20 @@
                         />
                 @endif
             @else
-                @foreach($registros as $registro)
-                <a href="{{ route('registro.show',["registro" => $registro->cd_registro]) }}"
-                    class="col-md-4"
-                    style="text-decoration: none"
-                >
-                    <x-registro.card :registro="$registro"></x-registro.card>
-                </a>
-                @endforeach
+                <section class="container my-5">
+                    <div class="row g-5 justify-content-start">
+                        @foreach($registros as $registro)
+                            <div class="col-sm-12 col-md-6 col-lg-4 d-flex justify-content-center">
+                                <a href="{{ route('registro.show',["registro" => $registro->cd_registro]) }}"
+                                    class="col-md-4 w-100"
+                                    style="text-decoration: none; min-width: 400px; max-width: 400px;"
+                                >
+                                    <x-registro.card :registro="$registro"></x-registro.card>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
                 @if(method_exists($registros,"links"))
                     <div>
                         {{ $registros->links() }}

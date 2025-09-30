@@ -7,6 +7,7 @@
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
     <link rel="stylesheet" href="{{ asset('css/meta.css') }}"></link>
+    <link rel="stylesheet" href="{{ asset('css/components/accountPanel.css') }}">
     @if(request()->is("registro"))
         <link rel="stylesheet" href="{{ asset('css/registro/card.css')}}"></link>
     @endif
