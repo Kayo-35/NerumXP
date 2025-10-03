@@ -29,11 +29,20 @@
     transition: background 0.2s;
 }
 
-.background {
+.bg-cartao-verde {
     border: 1px solid #a3a3a3;
-    background: no-repeat;
+    background-image: url('../../img/registros/bgCartaoVerde.png');
+    background-repeat: no-repeat;
+    background-position: center center;
     background-size: cover;
-    background-position: center;
+}
+
+.bg-cartao-vermelho {
+    border: 1px solid #a3a3a3;
+    background-image: url('../../img/registros/bgCartaoVermelho.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
 }
 
 #nm_registro {

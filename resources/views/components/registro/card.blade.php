@@ -7,7 +7,7 @@
 >
   <div class="d-flex g-4 align-items-stretch">
     <div class="col h-100 d-flex justify-content-center">
-      <div class="dimensions card h-100 background shadow-sm p-4 position-relative overflow-hidden rounded-5 text-white {{ $registro->ic_status == 0 ? 'opacity-75' : ''}}" style="background: url('{{ $registro->cd_tipo_registro === 1 ? asset('img/registros/bgCartaoVerde.png') : asset('img/registros/bgCartaoVermelho.png') }}')">
+      <div class="dimensions card h-100 background shadow-sm p-4 position-relative overflow-hidden rounded-5 text-white {{ $registro->cd_tipo_registro === 1 ? 'bg-cartao-verde' : 'bg-cartao-vermelho' }} {{ $registro->ic_status == 0 ? 'opacity-75' : ''}}">
         <!-- ===== Overlay com botões ===== -->
         <div class="card-overlay">
           <!-- Botão excluir -->
