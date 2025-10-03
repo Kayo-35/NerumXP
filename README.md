@@ -1,33 +1,66 @@
-# Projeto NerumXP
+# NerumXP
 
-Componentes tecnológicos:
+Aplicação web construída com Laravel no back-end e tecnologias web modernas no front-end, seguindo práticas de segurança e organização MVC.
 
-- Laravel (Framework full-stack): Gerenciará todos os aspectos do back-end e fornecerá suporte para o front. Permitirá nosso projeto atingir padrões industriais de segurança e eficiência.
-- HTML/CSS/JavaScript: Serão utilizado para construir os aspectos de interface normalmente
-- MySQL/MariaDB: Nossas bases de dados
-- Talvez no futuro alguma Framework JavaScript (De preferência React ou Vue)
+## Tecnologias
 
-# Aonde devo enviar meus arquivos?
+- **Laravel** - Framework PHP full-stack para back-end
+- **HTML/CSS/JavaScript** - Interface e interatividade
+- **Chart.js** - Biblioteca para visualização de gráficos
+- **MySQL/MariaDB** - Banco de dados relacional
+- **Bootstrap** - Framework CSS para estilização
 
-Samuel,Kallyu e William enviem as paginas que criarem: Home, Sobre e de Login no diretório anz que tanto(kayo como josé) serão responsáveis por adaptarem as mesmas para views
+## Instalação
 
-## Instruções para quando clonarem pela primeira vez o repositório:
+**Pré-requisitos:** PHP, Composer, NPM e MySQL/MariaDB.
 
-> Necessários uma única vez antes de iniciar o projeto
+1. Clone o repositório e entre na pasta do projeto
+2. Instale as dependências:composer install
+npm install3. 
+3. Configure o ambiente:
+`cp .env.example .env`
 
-1. Use **npm install** (instala as dependências do front-end)
-2. **composer install** (o mesmo para o back end php)
-3. Crie uma cópia do arquivo **.env.example** com nome **.env**
+`php artisan key:generate`
 
-- (contém configurações de ambiente de execução, por isso cada pc teria uma, por exemplo número da porta da sua base de dados, etc, altere o valor de session_driver para file porque não estamos utilizando uma base de dados para isso.
+4. Configure o banco de dados no arquivo `.env` e defina 
 
-4. **Execute php artisan key:generate** (Um valor de env para ser usado pelo algoritmo quando criptografa algo, preciso para a aplicação
-5. Logo após **npm run build** (Compila as dependências do bootstrap)
+`SESSION_DRIVER=file`
 
-## Como executar a aplicação?
+Acesso o diretorio database e extraia as procedures/functions que a aplicação utiliza
 
-- **php artisan serve**
+5. Compile os assets:
 
-## Recomendações
+npm run build
 
-- Estude MVC e OOP(Orientação a objetos) com PHP antes de tentar começar a aprender Laravel!
+## Uso
+
+## Estrutura
+
+O projeto segue a estrutura padrão do Laravel com organização MVC:
+- `app/` - Lógica da aplicação
+- `resources/views/` - Templates Blade
+- `resources/js/` - JavaScript e componentes
+- `resources/css/` - Estilos CSS
+- `public/` - Assets públicos
+
+## Configuração
+
+Principais variáveis do `.env`:
+- `APP_NAME` - Nome da aplicação
+- `DB_CONNECTION=mysql` - Tipo de banco
+- `DB_HOST`, `DB_PORT`, `DB_DATABASE` - Configurações do banco
+- `SESSION_DRIVER=file` - Driver de sessão
+
+## Contribuição
+
+1. Abra uma issue descrevendo a mudança proposta
+2. Crie um branch de feature
+3. Faça commit das alterações com mensagens descritivas.
+
+## Licença
+
+Este projeto está sob licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+
+## Contato
+
+Para dúvidas e sugestões, abra uma issue no repositório.

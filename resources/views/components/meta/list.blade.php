@@ -86,7 +86,7 @@
                           </span>
                           <span>Ver detalhes</span>
                         </a>
-                        <a class="btn btn-outline-warning btn-sm d-flex align-items-center gap-2 shadow-sm" href="{{ route('meta.create') }}">
+                        <a class="btn btn-outline-warning btn-sm d-flex align-items-center gap-2 shadow-sm" href="{{ route('meta.edit', ["meta" => $meta->cd_meta]) }}">
                             <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-warning bg-opacity-10" style="width:2.2rem; height:2.2rem;">
                                 <i class="bi bi-pencil text-warning fs-5"></i>
                             </span>
