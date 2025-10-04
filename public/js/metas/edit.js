@@ -16,7 +16,7 @@ function painelPercentual() {
                 step="0.001" min="0" max="100" placeholder="0,000" value="${valorMeta}">
                 <span class="input-group-text">%</span>
         </div>
-    `
+    `;
 }
 
 function painelValorFixo() {
@@ -47,7 +47,14 @@ function painelDefault() {
     `;
 }
 
-function resumoRegistro(id, titulo, categoria, valor, createdAt, checked = null) {
+function resumoRegistro(
+    id,
+    titulo,
+    categoria,
+    valor,
+    createdAt,
+    checked = null,
+) {
     return `
     <div class="list-group-item border-0 px-0">
             <div class="row align-items-center">
@@ -112,10 +119,10 @@ function getCategoriaIcon(codigo) {
 }
 
 let painel;
-const tiposFixos = ['1', '2', '3', '4'];
-const tiposPercentual = ['5', '6'];
+const tiposFixos = ["1", "2", "3", "4"];
+const tiposPercentual = ["5", "6"];
 
-seletorTipoValorMeta.addEventListener('change', () => {
+seletorTipoValorMeta.addEventListener("change", () => {
     check();
 });
 
@@ -144,34 +151,37 @@ function painelValor(codigo) {
     painelInsereValor.innerHTML = painel;
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     //Exibição dos registros
-    const seletorModalidade = document.getElementById('cd_modalidade');
+    const seletorModalidade = document.getElementById("cd_modalidade");
     const painelRegistros = document.querySelector("#painelRegistros");
 
     //Exibição da quantidade de registros selecionadas
     const mostradorQuantidadeGeral = document.querySelector("#contadorGeral");
-    const mostradorQuantidadeSelecionada = document.querySelector("#contadorSelecionados");
+    const mostradorQuantidadeSelecionada = document.querySelector(
+        "#contadorSelecionados",
+    );
 
     //Botão para seleção total
     const seletorCheckTodos = document.querySelector("#btnSelecionarTodos");
     const removerCheckTodos = document.querySelector("#btnDesmarcarTodos");
-    let registrosNoPainel = document.querySelectorAll('.registro-checkbox');
+    let registrosNoPainel = document.querySelectorAll(".registro-checkbox");
 
     function displayQuantidadeChecked() {
         if (registrosNoPainel !== undefined) {
-            qtRegistrosSelecionados = Array.from(registrosNoPainel).filter(registro => registro.checked === true).length;
+            qtRegistrosSelecionados = Array.from(registrosNoPainel).filter(
+                (registro) => registro.checked === true,
+            ).length;
             mostradorQuantidadeSelecionada.innerHTML = qtRegistrosSelecionados;
         }
-        registrosNoPainel = document.querySelectorAll('.registro-checkbox');
+        registrosNoPainel = document.querySelectorAll(".registro-checkbox");
     }
 
-    seletorCheckTodos.addEventListener('click', (registrosNoPainel) => {
+    seletorCheckTodos.addEventListener("click", (registrosNoPainel) => {
         registrosNoPainel = document.querySelectorAll(".registro-checkbox");
         registrosNoPainel = Array.from(registrosNoPainel);
         if (painelRegistros.childElementCount > 0) {
-            registrosNoPainel.forEach(registro => {
+            registrosNoPainel.forEach((registro) => {
                 registro.checked = true;
             });
         }
@@ -179,16 +189,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     registrosNoPainel.forEach((registro) => {
-        registro.addEventListener('change', reg => {
+        registro.addEventListener("change", (reg) => {
             displayQuantidadeChecked();
         });
     });
 
-    removerCheckTodos.addEventListener('click', () => {
+    removerCheckTodos.addEventListener("click", () => {
         registrosNoPainel = document.querySelectorAll(".registro-checkbox");
         registrosNoPainel = Array.from(registrosNoPainel);
         if (painelRegistros.childElementCount > 0) {
-            registrosNoPainel.forEach(registro => {
+            registrosNoPainel.forEach((registro) => {
                 registro.checked = false;
             });
         }
@@ -198,27 +208,34 @@ document.addEventListener('DOMContentLoaded', () => {
     let categoriasSelecionadas = [];
 
     //painel de categorias
-    const painelCategoria = document.querySelectorAll('.accordion-body div input');
+    const painelCategoria = document.querySelectorAll(
+        ".accordion-body div input",
+    );
 
     /*
         Esse painel representa o seletor de categorias de registros, contendo multiplas chechboxes, se
         nenhuma for selecionada por padrão a lista de registros é filtrada apenas pela modalidade. Caso
         contrário também pela categoria
     */
-    painelCategoria.forEach((categoria) => { //Adicionei o evento a todas as categorias
-        categoria.addEventListener('input', () => { //Change verifica a cada vez que o valor da mesma se altera
+    painelCategoria.forEach((categoria) => {
+        //Adicionei o evento a todas as categorias
+        categoria.addEventListener("input", () => {
+            //Change verifica a cada vez que o valor da mesma se altera
             if (categoria.checked) {
                 categoriasSelecionadas.push(categoria.value); //Inclui a categoria no array
             } else {
                 //Retira a categoria que não estiver mais selecionada
-                categoriasSelecionadas = categoriasSelecionadas.filter(categoriaPresente => categoriaPresente !== categoria.value);
+                categoriasSelecionadas = categoriasSelecionadas.filter(
+                    (categoriaPresente) =>
+                        categoriaPresente !== categoria.value,
+                );
             }
             updateRegistroArray(seletorModalidade.value); //Atualizo o array que armazena os objetos(registros) a serem exibidos
             addRegistros(); //Essa função é para adicionar os registros no painel
         });
     });
 
-    seletorModalidade.addEventListener('change', () => {
+    seletorModalidade.addEventListener("change", () => {
         let registrosNoPainel = document.querySelectorAll(".registro-checkbox");
         if (seletorModalidade.value.length == 0) {
             init(true);
@@ -234,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function init(mode) {
         painelInsereValor.innerHTML = painel;
-        painelCategoria.forEach(categoria => {
+        painelCategoria.forEach((categoria) => {
             categoria.disabled = mode;
         });
         displayQuantidadeChecked();
@@ -243,8 +260,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateRegistroArray(modalidade) {
         //Registros vem da template blade, minha IDE por exemplo, acha que é um valor indefinido por isso
         registrosFiltrados = registros.filter((registro) => {
-            if (categoriasSelecionadas.length > 0) { //Verifica se a filtragem deve incluir as categorias    
-                return registro.cd_modalidade == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString())
+            if (categoriasSelecionadas.length > 0) {
+                //Verifica se a filtragem deve incluir as categorias
+                return (
+                    registro.cd_modalidade == modalidade &&
+                    categoriasSelecionadas.includes(
+                        registro.cd_categoria.toString(),
+                    )
+                );
             } else {
                 //Caso contrário apenas filtre por modalidade
                 return registro.cd_modalidade.toString() == modalidade;
@@ -253,11 +276,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function addRegistros() {
-        painelRegistros.innerHTML = '';
-    
+        painelRegistros.innerHTML = "";
+        console.log(registrosFiltrados);
         registrosFiltrados.forEach((registro) => {
-            let checkRegistro = document.createElement('div');
-            checkRegistro.innerHTML = resumoRegistro(registro.cd_registro, registro.nm_registro, getCategoriaIcon(registro.cd_categoria), registro.vl_valor, registro.created_at.split('T')[0]);
+            let checkRegistro = document.createElement("div");
+            checkRegistro.innerHTML = resumoRegistro(
+                registro.cd_registro,
+                registro.nm_registro,
+                getCategoriaIcon(registro.cd_categoria),
+                registro.vl_valor,
+                registro.created_at.split("T")[0],
+            );
             painelRegistros.appendChild(checkRegistro);
         });
         mostradorQuantidadeGeral.innerHTML = painelRegistros.childElementCount;
@@ -265,10 +294,11 @@ document.addEventListener('DOMContentLoaded', () => {
         registrosNoPainel = document.querySelectorAll(".registro-checkbox");
 
         //Marca todos aqueles que estão selecionados e define que a função contador seja sempre acionada mediante clique
-        registrosNoPainel.forEach(registro => {
-            if (registrosDaMeta.some(regMeta => registro.value == regMeta)) registro.checked = true;
+        registrosNoPainel.forEach((registro) => {
+            if (registrosDaMeta.some((regMeta) => registro.value == regMeta))
+                registro.checked = true;
 
-            registro.addEventListener('input', () => {
+            registro.addEventListener("input", () => {
                 displayQuantidadeChecked();
             });
         });
@@ -286,12 +316,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     painelRegistros.insertBefore(div, painelRegistros.firstChild);
                 });
         */
-        let selecionados = Array.from(registrosNoPainel).filter(registro => registro.checked === true);
-        selecionados.forEach(selecionado => selecionado.parentNode.parentNode.parentNode.parentNode.parentNode.remove());
-        selecionados.forEach(selecionado => {
+        let selecionados = Array.from(registrosNoPainel).filter(
+            (registro) => registro.checked === true,
+        );
+        selecionados.forEach((selecionado) =>
+            selecionado.parentNode.parentNode.parentNode.parentNode.parentNode.remove(),
+        );
+        selecionados.forEach((selecionado) => {
             painelRegistros.insertBefore(
-                selecionado.parentNode.parentNode.parentNode.parentNode.parentNode,
-                painelRegistros.firstChild
+                selecionado.parentNode.parentNode.parentNode.parentNode
+                    .parentNode,
+                painelRegistros.firstChild,
             );
         });
     }
@@ -301,7 +336,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (categoria.checked) {
                 categoriasSelecionadas.push(categoria.value);
             } else {
-                categoriasSelecionadas = categoriasSelecionadas.filter(categoriaPresente => categoriaPresente !== categoria.value);
+                categoriasSelecionadas = categoriasSelecionadas.filter(
+                    (categoriaPresente) =>
+                        categoriaPresente !== categoria.value,
+                );
             }
         });
     }
@@ -316,7 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateRegistroArray(seletorModalidade.value);
     addRegistros();
-    if (seletorModalidade.value == '') init(true)
+    if (seletorModalidade.value == "") init(true);
     else init(false); //Passei quase uma hora para verificar que bastando trocar a ordem os valores que eu precisava surgiriam
-
-})
+});

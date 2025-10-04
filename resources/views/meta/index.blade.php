@@ -58,7 +58,7 @@
                                 <div
                                     class="small-chart d-flex justify-content-center h-100"
                                 >
-                                    <canvas id="comparar"></canvas>
+                                    <canvas id="comparar" class="img-fluid"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                                 <div
                                     class="small-chart d-flex justify-content-center h-100"
                                 >
-                                    <canvas id="finalizadas"></canvas>
+                                    <canvas id="finalizadas" class="img-fluid"></canvas>
                                 </div>
                             </div>
                         </div>
