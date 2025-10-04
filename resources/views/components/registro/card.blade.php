@@ -5,23 +5,23 @@
         ])
     }}
 >
-  <div class="d-flex g-4 align-items-stretch">
-    <div class="col h-100">
-      <div class="card h-100 background shadow-sm p-4 position-relative overflow-hidden rounded-5 text-white {{ $registro->ic_status == 0 ? 'opacity-75' : ''}}" style="background: url('{{ $registro->cd_tipo_registro === 1 ? asset('img/registros/bgCartaoVerde.png') : asset('img/registros/bgCartaoVermelho.png')}}')">
+  <div class="d-flex align-items-stretch">
+    <div class="col h-100 d-flex justify-content-center">
+      <div class="dimensions card h-100 background shadow-sm p-3 position-relative overflow-hidden rounded-5 text-white {{ $registro->cd_tipo_registro === 1 ? 'bg-cartao-verde' : 'bg-cartao-vermelho' }} {{ $registro->ic_status == 0 ? 'opacity-75' : ''}}">
         <!-- ===== Overlay com botões ===== -->
         <div class="card-overlay">
           <!-- Botão excluir -->
           <form action="{{ route("registro.destroy", [$registro]) }}" method="POST">
             @csrf
             @method("DELETE")
-            <button class="btn btn-danger btn-sm" aria-label="Excluir">
+            <button class="btn btn-danger btn-sm">
               <i class="bi bi-trash"></i>
             </button>
           </form>
           <!-- Botão editar -->
           <form action="{{ route("registro.edit", [$registro]) }}">
             @csrf
-            <button class="btn btn-success btn-sm" aria-label="Editar">
+            <button class="btn btn-success btn-sm">
               <i class="bi bi-pencil"></i>
             </button>
           </form>
@@ -29,7 +29,7 @@
           <!-- Botão visualizar -->
           <form action="{{ route("registro.show", [$registro]) }}">
             @csrf
-            <button class="btn btn-primary btn-sm" aria-label="Visualizar">
+            <button class="btn btn-primary btn-sm">
               <i class="bi bi-eye"></i>
             </button>
           </form>
@@ -64,7 +64,7 @@
         <!-- ===== Avaliação com estrelas + data ===== -->
         <div class="d-flex align-items-center justify-content-between px-3 pb-0 pt-1" id="nivel_imp_created_at">
           <!-- Estrelas -->
-          <div aria-label="Avaliação: 5 estrelas">
+          <div>
             @for ($i = 0;$i < $registro->cd_nivel_imp;$i++)
               <i class="bi bi-star-fill fs-6 me-1" style="margin-bottom:0;"></i>
             @endfor

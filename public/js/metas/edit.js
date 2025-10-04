@@ -13,7 +13,7 @@ function painelPercentual() {
         </label>
         <div class="input-group">
             <input type="number" class="form-control" id="pc_meta" name="pc_meta"
-                step="0.01" min="0" max="100" placeholder="0,00">
+                step="0.001" min="0" max="100" placeholder="0,000" value="${valorMeta}">
                 <span class="input-group-text">%</span>
         </div>
     `
@@ -28,7 +28,7 @@ function painelValorFixo() {
         <div class="input-group">
             <span class="input-group-text">R$</span>
             <input type="number" class="form-control" id="vl_valor_meta" name="vl_valor_meta"
-                step="0.01" min="0" placeholder="0,00">
+                step="0.001" min="0" placeholder="0,000" value="${valorMeta}">
         </div>
     `;
 }
@@ -47,14 +47,14 @@ function painelDefault() {
     `;
 }
 
-function resumoRegistro(id, titulo, categoria, valor, createdAt) {
+function resumoRegistro(id, titulo, categoria, valor, createdAt, checked = null) {
     return `
     <div class="list-group-item border-0 px-0">
             <div class="row align-items-center">
                 <div class="col-auto">
                     <div class="form-check">
                         <input class="form-check-input registro-checkbox" type="checkbox"
-                            value="${id}" id="${id}" name="registros[]">
+                            value="${id}" id="${id}" name="registros[]" ${checked}>
                     </div>
                 </div>
                 <div class="col-auto">
@@ -111,11 +111,15 @@ function getCategoriaIcon(codigo) {
     }
 }
 
+let painel;
 const tiposFixos = ['1', '2', '3', '4'];
 const tiposPercentual = ['5', '6'];
-let painel;
 
 seletorTipoValorMeta.addEventListener('change', () => {
+    check();
+});
+
+function check() {
     if (tiposFixos.includes(seletorTipoValorMeta.value)) {
         painel = painelValorFixo();
     } else if (tiposPercentual.includes(seletorTipoValorMeta.value)) {
@@ -124,7 +128,21 @@ seletorTipoValorMeta.addEventListener('change', () => {
         painel = painelDefault();
     }
     painelInsereValor.innerHTML = painel;
-});
+    painelValor(tipoMeta);
+}
+
+window.onload = check;
+
+function painelValor(codigo) {
+    if (tiposFixos.includes(codigo.toString())) {
+        painel = painelValorFixo();
+    } else if (tiposPercentual.includes(codigo.toString())) {
+        painel = painelPercentual();
+    } else {
+        painel = painelDefault();
+    }
+    painelInsereValor.innerHTML = painel;
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -139,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //Botão para seleção total
     const seletorCheckTodos = document.querySelector("#btnSelecionarTodos");
     const removerCheckTodos = document.querySelector("#btnDesmarcarTodos");
-    let registrosNoPainel;
+    let registrosNoPainel = document.querySelectorAll('.registro-checkbox');
 
     function displayQuantidadeChecked() {
         if (registrosNoPainel !== undefined) {
@@ -158,6 +176,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         displayQuantidadeChecked();
+    });
+
+    registrosNoPainel.forEach((registro) => {
+        registro.addEventListener('change', reg => {
+            displayQuantidadeChecked();
+        });
     });
 
     removerCheckTodos.addEventListener('click', () => {
@@ -201,24 +225,26 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             init(false);
         }
-
         updateRegistroArray(seletorModalidade.value);
         addRegistros();
+        displayQuantidadeChecked(registrosNoPainel);
     });
 
     let registrosFiltrados = [];
 
     function init(mode) {
+        painelInsereValor.innerHTML = painel;
         painelCategoria.forEach(categoria => {
             categoria.disabled = mode;
         });
+        displayQuantidadeChecked();
     }
 
     function updateRegistroArray(modalidade) {
         //Registros vem da template blade, minha IDE por exemplo, acha que é um valor indefinido por isso
         registrosFiltrados = registros.filter((registro) => {
-            if (categoriasSelecionadas.length > 0) { //Verifica se a filtragem deve incluir as categorias
-                return registro.cd_modalidade.toString() == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString());
+            if (categoriasSelecionadas.length > 0) { //Verifica se a filtragem deve incluir as categorias    
+                return registro.cd_modalidade == modalidade && categoriasSelecionadas.includes(registro.cd_categoria.toString())
             } else {
                 //Caso contrário apenas filtre por modalidade
                 return registro.cd_modalidade.toString() == modalidade;
@@ -228,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addRegistros() {
         painelRegistros.innerHTML = '';
+        console.log(registrosFiltrados);
         registrosFiltrados.forEach((registro) => {
             let checkRegistro = document.createElement('div');
             checkRegistro.innerHTML = resumoRegistro(registro.cd_registro, registro.nm_registro, getCategoriaIcon(registro.cd_categoria), registro.vl_valor, registro.created_at.split('T')[0]);
@@ -239,12 +266,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //Marca todos aqueles que estão selecionados e define que a função contador seja sempre acionada mediante clique
         registrosNoPainel.forEach(registro => {
+            if (registrosDaMeta.some(regMeta => registro.value == regMeta)) registro.checked = true;
+
             registro.addEventListener('input', () => {
                 displayQuantidadeChecked();
             });
         });
 
+        /*Reeordena os registros
+            Essa era a minha abordagem, eu removia todos os elementos selecionados, depois os recriava para então os inserir no topo, bem complexo
+            e consumia muitos recursos. Então aprendir que insertBefore permite manipular elementos já existentes no DOM
+            selecionados.forEach(selecionado => selecionado.parentNode.parentNode.parentNode.parentNode.parentNode.remove());
+                selecionados.forEach(selecionado => {
+                    let registroSelecionado = registros.filter(registro => registro.cd_registro == selecionado.id);
+                    let icon = getCategoriaIcon(registroSelecionado.cd_categoria);
+                    let registroAInserir = resumoRegistro(registroSelecionado[0].cd_registro, registroSelecionado[0].nm_registro,icon, registroSelecionado[0].vl_valor, registroSelecionado[0].created_at.slice(0,registroSelecionado[0].created_at.indexOf('T')),'checked');
+                    let div = document.createElement('div');
+                    div.innerHTML = registroAInserir;
+                    painelRegistros.insertBefore(div, painelRegistros.firstChild);
+                });
+        */
+        let selecionados = Array.from(registrosNoPainel).filter(registro => registro.checked === true);
+        selecionados.forEach(selecionado => selecionado.parentNode.parentNode.parentNode.parentNode.parentNode.remove());
+        selecionados.forEach(selecionado => {
+            painelRegistros.insertBefore(
+                selecionado.parentNode.parentNode.parentNode.parentNode.parentNode,
+                painelRegistros.firstChild
+            );
+        });
     }
+
     function checkCategoriasSelecionadas(painelCategoria) {
         painelCategoria.forEach((categoria) => {
             if (categoria.checked) {
@@ -266,5 +317,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateRegistroArray(seletorModalidade.value);
     addRegistros();
     if (seletorModalidade.value == '') init(true)
-    else init(false);
+    else init(false); //Passei quase uma hora para verificar que bastando trocar a ordem os valores que eu precisava surgiriam
+
 })

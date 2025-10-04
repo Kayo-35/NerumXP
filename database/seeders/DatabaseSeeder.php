@@ -9,6 +9,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\NamesSeeder;
 use Database\Seeders\MetaPivotSeeder;
 use Database\Seeders\MetasNamesSeeder;
+use Database\Seeders\TestHistoricoRegistroSeeder;
 
 class DatabaseSeeder extends Seeder
 {

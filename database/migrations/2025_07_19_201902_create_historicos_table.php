@@ -18,11 +18,6 @@ return new class extends Migration {
                 ->references("cd_registro")
                 ->on("registro")
                 ->onDelete("cascade");
-            $table
-                ->foreignId("cd_tipo_historico")
-                ->references("cd_tipo_historico")
-                ->on("tipo_historico")
-                ->onDelete("cascade");
             $table->decimal("vl_valor", 9, 2);
             $table->timestamps();
         });

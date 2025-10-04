@@ -300,16 +300,20 @@
                             </div>
 
                             <div class="col-md-4">
-                                <button class="btn btn-outline-secondary w-100 py-3">
+                                <a class="btn btn-outline-secondary w-100 py-3" href="{{ route('meta.edit',$meta->cd_meta) }}">
                                     <i class="bi bi-pencil-square me-2"></i>
                                     <span class="fw-bold">Editar Meta</span>
-                                </button>
+                                </a>
                             </div>
                            <div class="col-md-4">
-                                <button class="btn btn-outline-danger w-100 py-3">
-                                    <i class="bi bi-trash-fill me-2"></i>
-                                    <span class="fw-bold">Excluir Meta</span>
-                                </button>
+                               <form action="{{ route('meta.destroy', $meta->cd_meta) }}" method="POST">
+                                   @csrf
+                                   @method("DELETE")
+                                    <button class="btn btn-outline-danger w-100 py-3">
+                                        <i class="bi bi-trash-fill me-2"></i>
+                                        <span class="fw-bold">Excluir Meta</span>
+                                    </button>
+                               </form>
                             </div>
                         </div>
                     </div>
