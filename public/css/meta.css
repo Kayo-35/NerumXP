@@ -158,22 +158,19 @@
     background: linear-gradient(135deg, #6c757d, #adb5bd);
 }
 
-<<<<<<< HEAD
  .small-chart {
      position: relative;
      height: 80px;
      width: 200px;
      margin: 1rem 0;
  }
-=======
+
 .small-chart {
     position: relative;
     width: 150px;
     margin: 1rem 0;
 }
->>>>>>> refs/remotes/origin/test
 
 .goals-list {
-    max-height: 100vh;
     overflow-y: auto;
 }

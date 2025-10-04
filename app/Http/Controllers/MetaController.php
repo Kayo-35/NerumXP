@@ -33,6 +33,7 @@ class MetaController extends Controller
     }
     public function show(Metas $meta)
     {
+        $this->authorize('use',$meta);
         //Exibe uma única meta
         $registrosMeta = $meta->registro()
             ->select(
@@ -121,16 +122,15 @@ class MetaController extends Controller
     public function edit(Metas $meta)
     {
         $this->authorize('use', $meta);
-        $tipoMeta = $meta->tipo()->get();
+        $tipoMeta = $meta->tipo()->select('cd_tipo_meta')->first();
 
         //Obtem os codigos dos tipos de meta a serem inclusos no painel para edição
-        $arrayTipos = match ($tipoMeta) {
+        $arrayTipos = match ($tipoMeta->cd_tipo_meta) {
             1, 2 => [1, 2], //O usuário pode alterar o tipo geral, mas não se é de renda ou despesa
             default => [3, 4, 5, 6],
         };
 
         $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta', $arrayTipos)->get();
-
         $registros =  Registro::select(
             'registro.cd_registro',
             'registro.cd_nivel_imp',
@@ -154,6 +154,7 @@ class MetaController extends Controller
                 'ic_pago'
             )
             ->get();
+ 
         return view('meta.edit', [
             "meta" => $meta,
             "categorias" => Categoria::all(),
@@ -175,10 +176,9 @@ class MetaController extends Controller
 
         //Validando os dados
         $validated = $request->validate(metaRules());
-
         //Atualizando
         $meta->update($validated);
-        $meta->registro()->sync($validated['registros']);
+        $meta->registro()->sync($registros);
         $meta->categoria()->sync($validated['categorias']);
 
         //Redirecionando

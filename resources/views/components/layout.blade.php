@@ -7,6 +7,10 @@
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
     <link rel="stylesheet" href="{{ asset('css/meta.css') }}"></link>
+    <link rel="stylesheet" href="{{ asset('css/components/accountPanel.css') }}">
+    @if(request()->is("registro"))
+        <link rel="stylesheet" href="{{ asset('css/registro/card.css')}}"></link>
+    @endif
     @if(request()->is("meta/*"))
         <link rel="stylesheet" href="{{ asset('css/meta.show.css') }}"></link>
     @endif
@@ -57,6 +61,11 @@
 
         @if(request()->is('meta/*/edit'))
             <script src="{{ asset("js/metas/edit.js") }}"></script>
+        @endif
+
+        @if(request()->is('relatorio*'))
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="{{ asset("js/relatorios/categoria.js") }}"></script>
         @endif
     @endauth
 </body>

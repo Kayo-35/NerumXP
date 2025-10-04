@@ -5,90 +5,76 @@
         ])
     }}
 >
-    <div class="d-flex g-4 align-items-stretch">
-        <div class="col h-100">
-            <div
-                class="card bg-gradient h-100 position-relative overflow-hidden rounded-4 shadow-lg text-white mx-auto {{ $registro->cd_tipo_registro == 1 ? "bg-success" : "bg-danger" }} {{ $registro->ic_status == 0 ? 'opacity-75' : ''}}"
-            >
-                <div class="d-flex justify-content-between card-header bg-dark">
-                    <div class="d-flex justify-content-start">
-                        <div>
-                            <form
-                                action="{{ route("registro.destroy", [$registro]) }}"
-                                method="POST"
-                            >
-                                @csrf
-                                @method("DELETE")
-                                <button
-                                    class="btn btn-outline-danger btn-sm me-2"
-                                >
-                                    <i class="bi bi-trash fw-bold">
-                                        <span class="mx-1">Excluir</span>
-                                    </i>
-                                </button>
-                            </form>
-                        </div>
+  <div class="d-flex align-items-stretch">
+    <div class="col h-100 d-flex justify-content-center">
+      <div class="dimensions card h-100 background shadow-sm p-3 position-relative overflow-hidden rounded-5 text-white {{ $registro->cd_tipo_registro === 1 ? 'bg-cartao-verde' : 'bg-cartao-vermelho' }} {{ $registro->ic_status == 0 ? 'opacity-75' : ''}}">
+        <!-- ===== Overlay com botões ===== -->
+        <div class="card-overlay">
+          <!-- Botão excluir -->
+          <form action="{{ route("registro.destroy", [$registro]) }}" method="POST">
+            @csrf
+            @method("DELETE")
+            <button class="btn btn-danger btn-sm">
+              <i class="bi bi-trash"></i>
+            </button>
+          </form>
+          <!-- Botão editar -->
+          <form action="{{ route("registro.edit", [$registro]) }}">
+            @csrf
+            <button class="btn btn-success btn-sm">
+              <i class="bi bi-pencil"></i>
+            </button>
+          </form>
 
-                        <div>
-                            <form
-                                action="{{
-                                    route("registro.edit", [
-                                        $registro,
-                                    ])
-                                }}"
-                            >
-                                @csrf
-                                <button class="btn btn-outline-warning btn-sm">
-                                    <i class="bi bi-pencil">
-                                        <span class="mx-1">Editar</span>
-                                    </i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    @if ($registro->cd_modalidade == 2)
-                        <div>
-                            <span class="badge bg-primary me-2">
-                                <i class="bi bi-graph-up">Flutuante</i>
-                            </span>
-                        </div>
-                    @endif
-                </div>
-                <div class="pe-2 pt-2">
-                    <div class="d-flex align-items-center justify-content-end">
-                        @if ($registro->ic_pago == 1)
-                            <span class="badge bg-dark me-2">PAGO</span>
-                        @endif
-
-                        <x-helper.categoria
-                            :cdCategoria="$registro->cd_categoria"
-                        />
-                    </div>
-                </div>
-                <div
-                    class="card-body pb-2 d-flex flex-column justify-content-center text-center pt-0"
-                >
-                    <div class="fw-bold fs-4 mb-1">
-                        {{ $registro->nm_registro }}
-                    </div>
-                    <div class="fs-4 fw-bold my-2">
-                        R$ {{ str_replace(".", ",", $registro->vl_valor) }}
-                    </div>
-                    <div class="small text-white">
-                        <div>
-                            Criado em:
-                            {{ date("d/m/Y", strtotime($registro->created_at)) }}
-                            as
-                            {{ date("H:m", strtotime($registro->created_at)) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="p-2 d-flex align-items-center text-warning">
-                    @for ($i = 0;$i < $registro->cd_nivel_imp;$i++)
-                        <i class="bi bi-star-fill fs-6 me-1"></i>
-                    @endfor
-                </div>
-            </div>
+          <!-- Botão visualizar -->
+          <form action="{{ route("registro.show", [$registro]) }}">
+            @csrf
+            <button class="btn btn-primary btn-sm">
+              <i class="bi bi-eye"></i>
+            </button>
+          </form>
         </div>
-    </div>
+        <!-- ===== Corpo do card ===== -->
+        <div class="card-body pb-3 d-flex flex-column pt-0">
+
+          <!-- Título do card + ícone -->
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0" id="nm_registro">
+              {{ $registro->nm_registro }}
+            </h5>
+            <x-helper.categoria :cdCategoria="$registro->cd_categoria"/>
+          </div>
+
+          <!-- Valor do item -->
+          <p class="fs-2 fw-bold mb-0">
+            R$ {{ str_replace(".", ",", $registro->vl_valor) }}
+          </p>
+
+          <!-- Badges empilhadas à direita -->
+          <div class="d-flex flex-column align-items-end gap-1 mt-0">
+            @if ($registro->ic_pago == 1)
+              <span class="badge text-bg-dark">Pago</span>
+            @endif
+            @if ($registro->cd_modalidade == 2)
+              <span class="badge text-bg-primary bi bi-bar-chart-line-fill">Flutuante</span>
+            @endif
+          </div>
+        </div> <!-- Fim card-body -->
+
+        <!-- ===== Avaliação com estrelas + data ===== -->
+        <div class="d-flex align-items-center justify-content-between px-3 pb-0 pt-1" id="nivel_imp_created_at">
+          <!-- Estrelas -->
+          <div>
+            @for ($i = 0;$i < $registro->cd_nivel_imp;$i++)
+              <i class="bi bi-star-fill fs-6 me-1" style="margin-bottom:0;"></i>
+            @endfor
+          </div>
+
+          <!-- Data -->
+          <small class="text-end mb-0">{{ date("d/m", strtotime($registro->created_at)) }}</small>
+        </div>
+
+      </div> <!-- Fim card -->
+    </div> <!-- Fim coluna card -->
+  </div> <!-- Fim row -->
 </div>

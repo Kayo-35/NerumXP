@@ -79,6 +79,8 @@ return [
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                //Habilita nomes de periodos de tempo em pt_br para consultas
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET lc_time_names = '" . env('DB_LOCALE_TIME_NAMES', 'en_US') . "'",
             ]) : [],
         ],
 
@@ -147,7 +149,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 

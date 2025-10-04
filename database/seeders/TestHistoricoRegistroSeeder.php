@@ -29,7 +29,7 @@ class TestHistoricoRegistroSeeder extends Seeder
                 //Permite a variação
                 $aumento = fake()->boolean(60);
                 //Recorda a nova data
-                $timeStamp = fake()->dateTimeBetween(startDate: $registro->updated_at, endDate: ('+ 3 months'));
+                $timeStamp = fake()->dateTimeBetween(startDate: $registro->updated_at, endDate: ('+ 1 months'));
 
                 $registro->update([
                     "vl_valor" => $aumento
