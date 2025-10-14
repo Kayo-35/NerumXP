@@ -49,6 +49,6 @@ class RegisterController extends Controller
         request()->session()->regenerate();
 
         // Redirecionar para a página inicial
-        return redirect("/");
+        return redirect("/home");
     }
 }

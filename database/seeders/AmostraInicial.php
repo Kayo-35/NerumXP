@@ -92,15 +92,42 @@ class AmostraInicial extends Seeder
             ["nm_tipo_juro" => "Composto"],
         ]);
 
-        DB::table("tipo_historico")->insert([
-            ["nm_tipo_historico" => "Receita"],
-            ["nm_tipo_historico" => "Despesa"],
-            ["nm_tipo_historico" => "Tranferência"],
-        ]);
-
         DB::table("tipo_registro")->insert([
             ["nm_tipo" => "Renda"],
             ["nm_tipo" => "Despesa"],
+        ]);
+
+        DB::table("tipo_metas")->insert([
+            [
+                "cd_tipo_registro" => 1,
+                "nm_meta" => 'Alcançar',
+                "ic_percentual" => false
+            ],
+            [
+                "cd_tipo_registro" => 1,
+                "nm_meta" => 'Poupar',
+                "ic_percentual" => false
+            ],
+            [
+                "cd_tipo_registro" => 2,
+                "nm_meta" => 'Limitar gastos geral',
+                "ic_percentual" => false
+            ],
+            [
+                "cd_tipo_registro" => 2,
+                "nm_meta" => 'Limitar gastos categoria',
+                "ic_percentual" => false
+            ],
+            [
+                "cd_tipo_registro" => 2,
+                "nm_meta" => 'Limitar %gastos geral',
+                "ic_percentual" => true
+            ],
+            [
+                "cd_tipo_registro" => 2,
+                "nm_meta" => 'Limitar %gastos categoria',
+                "ic_percentual" => true
+            ],
         ]);
     }
 }

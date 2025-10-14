@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Categorizadores\Registros\Juro;
 use App\Models\Categorizadores\Registros\Modalidade;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Registro extends Model
 {
@@ -24,7 +25,7 @@ class Registro extends Model
     //Definições básicas
     protected $table = "registro";
     protected $primaryKey = "cd_registro";
-    public $timestamps = true; //Apenas em período de testes!!!
+    public $timestamps = false; //Apenas em período de testes!!!
     protected $fillable = [
         "cd_usuario",
         "cd_tipo_registro",
@@ -46,6 +47,7 @@ class Registro extends Model
         "ds_descricao",
         "qt_parcelas",
         "qt_parcelas_pagas",
+        "updated_at"
     ];
     //Relacionamentos
     public function usuario()
@@ -209,5 +211,53 @@ class Registro extends Model
             ->orderBy("nm_registro", "asc");
 
         return $registros->get();
+    }
+
+    public static function relatorioTotalPorCategoria(int $tipoRegistro, string $ano): array
+    {
+        $dados = DB::table('registro AS r')
+            ->join('categoria AS c', 'r.cd_categoria', '=', 'c.cd_categoria')
+            ->select(
+                'c.nm_categoria',
+                DB::raw('SUM(r.vl_valor) AS total')
+            )
+            ->where('r.cd_tipo_registro', '=', $tipoRegistro)
+            ->where('cd_usuario', '=', Auth::user()->cd_usuario)
+            ->whereYear('created_at', $ano)
+            ->groupBy('c.nm_categoria')
+            ->get();
+
+        $resultado = $dados->mapWithKeys(fn($categoria) => [$categoria->nm_categoria => $categoria->total]);
+        return $resultado->all();
+    }
+
+    public static function relatorioTotalPorMes(int $tipoRegistro, string $ano): array
+    {
+        $dados = DB::table('registro AS r')
+            ->select(
+                DB::raw('MONTH(r.created_at) as ordemMes'),
+                DB::raw('MONTHNAME(r.created_at) as mes'),
+                DB::raw('SUM(r.vl_valor) as totalMensal')
+            )->where('cd_usuario', '=', Auth::user()->cd_usuario)
+            ->where('cd_tipo_registro', '=', $tipoRegistro)
+            ->whereYear('created_at', $ano)
+            ->groupBy('mes', 'ordemMes')
+            ->orderBy('ordemMes', 'asc')
+            ->get();
+
+        $resultado = $dados->mapWithKeys(fn($mes) => [ucfirst($mes->mes) => (float) $mes->totalMensal])->all();
+
+        $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        $resultado = array_map(function ($mes) use ($resultado) {
+            return array_key_exists($mes, $resultado) ? [$mes => $resultado[$mes]] : [$mes => 0];
+        }, $meses);
+
+        $final = [];
+        foreach($resultado as $data) {
+            foreach($data as $mes => $valor) {
+                $final[$mes] = $valor;
+            }
+        }
+        return $final;
     }
 }

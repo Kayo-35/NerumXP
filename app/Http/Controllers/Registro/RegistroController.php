@@ -15,6 +15,7 @@ use App\Models\Categorizadores\Registros\Tipo;
 use App\Models\Personas\Realizador;
 use App\Models\Recursos\Registro;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class RegistroController extends Controller
@@ -56,13 +57,14 @@ class RegistroController extends Controller
     }
     public function show(Registro $registro)
     {
-        //Autorizando accesso ao recurso ou não
+       //Autorizando accesso ao recurso ou não
         $this->authorize("use", $registro);
         $metodos = $registro->metodo_pagamento()->get();
-
+        $historico = $registro->historico()->select('vl_valor','updated_at')->orderBy('updated_at','desc')->get();
         return view("registro.show", [
             "registro" => $registro,
             "metodos" => $metodos ?? new Collection(),
+            "historicos" => $historico->all() ?? []
         ]);
     }
     public function create(?Request $request)

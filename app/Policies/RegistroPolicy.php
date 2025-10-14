@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Recursos\Registro;
 use App\Models\Personas\User;
-use Illuminate\Auth\Access\Response;
 
 class RegistroPolicy
 {

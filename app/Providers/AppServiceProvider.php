@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\Models\Personas\User;
-use App\Models\Recursos\Registro;
+use App\Models\Recursos\Metas;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Recursos\Registro;
+use App\Policies\MetaPolicy;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -15,9 +16,6 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    protected $policies = [
-        Registro::class => RegistroPolicy::class,
-    ];
     public function register(): void
     {
         //
@@ -31,5 +29,7 @@ class AppServiceProvider extends ServiceProvider
         //configs
         Paginator::useBootstrapFive();
         Blade::component("components.registro.form", "registro.form");
+        Gate::policy(Metas::class, MetaPolicy::class);
+        Gate::policy(Registro::class,RegistroPolicy::class);
     }
 }

@@ -2,6 +2,8 @@
 
 use App\Models\Recursos\Registro;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use App\Models\Categorizadores\Gerais\Categoria;
 
 function registroRules(): array
 {
@@ -61,6 +63,60 @@ function registroRules(): array
         "ds_descricao" => ["nullable", "max:255"],
         "pc_taxa_juros" => ["nullable", "numeric", "between:0,999.999"],
         "qt_meses_incidencia" => ["nullable", "integer", "min:0", "max:99"],
+    ];
+}
+function metaRules(): array
+{
+    return [
+        "nm_meta" => [
+            "required",
+            "min:4",
+            "max:50"
+        ],
+        "registros" => [
+            "nullable",
+            "array",
+        ],
+        "cd_nivel_imp" => [
+            "required",
+            "integer",
+            "exists:nivel_imp,cd_nivel_imp"
+        ],
+        "cd_tipo_meta" => [
+            "required",
+            "integer",
+            "exists:tipo_metas,cd_tipo_meta"
+        ],
+        "cd_modalidade" => [
+            "required",
+            "integer",
+            "exists:modalidade,cd_modalidade"
+        ],
+        "categorias" => [
+            "required",
+            "array"
+        ],
+        "categorias.*" => [
+            Rule::in(Categoria::pluck('cd_categoria')->toArray())
+        ],
+        "vl_valor_meta" => [
+            "nullable",
+            "numeric",
+            "between:0,9999999.99"
+        ],
+        "pc_meta" => [
+            "nullable",
+            "numeric",
+            "between:0,99.999"
+        ],
+        "dt_termino" => [
+            "required",
+            "date",
+        ],
+        "ds_descricao" => [
+            "nullable",
+            "max:65535"
+        ]
     ];
 }
 
