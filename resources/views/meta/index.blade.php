@@ -38,50 +38,52 @@
                         </p>
                     </a>
                 </div>
-                <div class="dashboard-section p-4">
-                    <h4 class="mb-4">
-                        <i class="bi bi-pie-chart me-2"></i>
-                        Dashboard de Metas
-                    </h4>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            <div
-                                class="chart-card d-flex flex-column align-items-center justify-content-center"
-                            >
-                                <h6
-                                    class="mb-2 text-center"
-                                    style="font-size: 0.8rem"
-                                >
-                                    <i class="bi bi-arrow-up-circle me-1"></i>
-                                    Despesa/Renda
-                                </h6>
+                @if(!empty($metas->all()))
+                    <div class="dashboard-section p-4">
+                        <h4 class="mb-4">
+                            <i class="bi bi-pie-chart me-2"></i>
+                            Dashboard de Metas
+                        </h4>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12">
                                 <div
-                                    class="small-chart d-flex justify-content-center h-100"
+                                    class="chart-card d-flex flex-column align-items-center justify-content-center"
                                 >
-                                    <canvas id="comparar" class="img-fluid"></canvas>
+                                    <h6
+                                        class="mb-2 text-center"
+                                        style="font-size: 0.8rem"
+                                    >
+                                        <i class="bi bi-arrow-up-circle me-1"></i>
+                                        Despesa/Renda
+                                    </h6>
+                                    <div
+                                        class="small-chart d-flex justify-content-center h-100"
+                                    >
+                                        <canvas id="comparar" class="img-fluid"></canvas>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div
-                                class="chart-card d-flex flex-column align-items-center justify-content-center"
-                            >
-                                <h6
-                                    class="mb-2 text-center"
-                                    style="font-size: 0.8rem"
-                                >
-                                    <i class="bi bi-arrow-up-circle me-1"></i>
-                                    % Finalizadas
-                                </h6>
+                            <div class="col-lg-6 col-md-12">
                                 <div
-                                    class="small-chart d-flex justify-content-center h-100"
+                                    class="chart-card d-flex flex-column align-items-center justify-content-center"
                                 >
-                                    <canvas id="finalizadas" class="img-fluid"></canvas>
+                                    <h6
+                                        class="mb-2 text-center"
+                                        style="font-size: 0.8rem"
+                                    >
+                                        <i class="bi bi-arrow-up-circle me-1"></i>
+                                        % Finalizadas
+                                    </h6>
+                                    <div
+                                        class="small-chart d-flex justify-content-center h-100"
+                                    >
+                                        <canvas id="finalizadas" class="img-fluid"></canvas>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12">
                 <h3 class="text-dark mb-4">
@@ -90,12 +92,13 @@
                 </h3>
                 <div class="goals-list">
                     <div class="accordion" id="goalsAccordion">
-                        @empty($metas)
+                        @empty($metas->all())
                             <x-helper.nothing
                                 icon="bi-question-circle"
                                 title="Nenhuma meta encontrada"
                                 text="Cadastre suas metas e as consulte nessa página sempre que necessário"
-                                route="{{route('home')}}"
+                                labelIcon="bi-arrow-clockwise"
+                                route="{{ route('home') }}"
                                 label="Home Page"
                             />
                         @else
@@ -117,10 +120,12 @@
         </div>
     </div>
     <script>
-        const qt_metas_despesa = {{ $panorama->qt_metas_despesa }};
-        const qt_metas_renda = {{ $panorama->qt_metas_renda }};
-        const pc_metas_finalizadas = {{ $panorama->pc_metas_finalizadas }};
-        const pc_metas_nao_finalizadas =
-            {{ $panorama->pc_metas_nao_finalizadas }};
+        @unless(empty($metas->all()))
+            const qt_metas_despesa = {{ $panorama->qt_metas_despesa }};
+            const qt_metas_renda = {{ $panorama->qt_metas_renda }};
+            const pc_metas_finalizadas = {{ $panorama->pc_metas_finalizadas }};
+            const pc_metas_nao_finalizadas =
+                {{ $panorama->pc_metas_nao_finalizadas }};
+        @endunless
     </script>
 </x-layout>

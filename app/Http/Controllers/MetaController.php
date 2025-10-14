@@ -23,17 +23,20 @@ class MetaController extends Controller
             ->orderBy('cd_nivel_imp', 'desc')
             ->paginate(9);
 
-        $panorama = DB::select('CALL sp_panorama_metas(:cd_usuario)', [
-            "cd_usuario" => Auth::user()->cd_usuario
-        ])[0];
+        if (!empty($metas->all())) {
+            $panorama = DB::select('CALL sp_panorama_metas(:cd_usuario)', [
+                "cd_usuario" => Auth::user()->cd_usuario
+            ])[0];
+        }
+
         return view("meta.index", [
             "metas" => $metas,
-            "panorama" => $panorama
+            "panorama" => $panorama ?? []
         ]);
     }
     public function show(Metas $meta)
     {
-        $this->authorize('use',$meta);
+        $this->authorize('use', $meta);
         //Exibe uma única meta
         $registrosMeta = $meta->registro()
             ->select(
@@ -144,17 +147,17 @@ class MetaController extends Controller
             ->where('cd_tipo_registro', '=', in_array(1, $arrayTipos) ? 1 : 2)->get();
 
         $registrosDaMeta = $meta->registro()->select(
-                'registro.cd_registro',
-                'registro.cd_nivel_imp',
-                'nm_registro',
-                'vl_valor',
-                'cd_modalidade',
-                'registro.created_at',
-                'cd_categoria',
-                'ic_pago'
-            )
+            'registro.cd_registro',
+            'registro.cd_nivel_imp',
+            'nm_registro',
+            'vl_valor',
+            'cd_modalidade',
+            'registro.created_at',
+            'cd_categoria',
+            'ic_pago'
+        )
             ->get();
- 
+
         return view('meta.edit', [
             "meta" => $meta,
             "categorias" => Categoria::all(),
@@ -166,9 +169,10 @@ class MetaController extends Controller
         ]);
     }
 
-    public function update(Metas $meta, Request $request) {
+    public function update(Metas $meta, Request $request)
+    {
         //Autorização
-        $this->authorize('use',$meta); //Autoriza a usar a meta
+        $this->authorize('use', $meta); //Autoriza a usar a meta
         $registros = !empty($request->registros) ? Registro::whereIn('cd_registro', $request->registros)->get() : [];
         foreach ($registros as $registro) { //Autoriza a vincular os registros com a meta
             $this->authorize('use', $registro);
@@ -182,7 +186,7 @@ class MetaController extends Controller
         $meta->categoria()->sync($validated['categorias']);
 
         //Redirecionando
-        return redirect(route('meta.show',$meta->cd_meta));
+        return redirect(route('meta.show', $meta->cd_meta));
     }
 
     public function destroy(Metas $meta)

@@ -266,6 +266,18 @@
                     </div>
                 </form>
             </div>
+            @if($errors->any())
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <x-helper.error campo="cd_tipo_registro"/>
+                        <x-helper.error campo="modalidades"/>
+                        <x-helper.error campo="dt_inicio"/>
+                        <x-helper.error campo="dt_fim"/>
+                        <x-helper.error campo="vl_valor_minimo"/>
+                        <x-helper.error campo="ic_status"/>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>
