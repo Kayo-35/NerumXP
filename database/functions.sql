@@ -180,5 +180,44 @@ BEGIN
 END$$
 DELIMITER ;
 
-select sfRDFixaTotal(2,1,'2024-01-01',CURDATE());
-select sfRendaFlutuante(2,'2024-01-01',CURDATE(),'2028-01-01');
+-- Gerenciamento de metas e auxiliares
+DELIMITER $$
+CREATE FUNCTION sfSomatorioValorMetas(
+    cd_meta_param INT
+) RETURNS DECIMAL(12,2)
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE somatorio_var DECIMAL(12,2) DEFAULT 0;
+    select
+        sum(vl_valor)
+    into 
+        somatorio_var
+    from
+        registro 
+    where
+        cd_registro in (select cd_registro from metas_registro where cd_meta = cd_meta_param);
+    
+    RETURN somatorio_var;
+END
+DELIMITER ;
+
+DELIMITER $$
+CREATE FUNCTION sfSomatorioValorRegistroCategoria(
+    cd_categoria_param INT
+) RETURNS DECIMAL(12,2)
+DETERMINISTIC
+READS SQL DATA
+BEGIN
+    DECLARE somatorio_var DECIMAL(12,2) DEFAULT 0;
+    select 
+        sum(vl_valor) 
+    into 
+        somatorio_var
+    from registro 
+    where cd_categoria = cd_categoria_param;
+    
+    RETURN somatorio_var;
+END
+DELIMITER ;
+

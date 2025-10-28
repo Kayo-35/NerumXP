@@ -26,9 +26,9 @@
                             <div class="col-md-4 text-md-end mt-3 mt-md-0">
                                 <h1 class="mb-3 fw-bold text-light" style="font-size: 2.5rem;">
                                     @isset($meta->vl_valor_meta)
-                                        R$ {{ number_format($meta->vl_valor_meta,2,decimal_separator: ',') }}
+                                        R$ {{ number_format($meta->vl_valor_meta,2,decimal_separator: ',', thousands_separator: '.') }}
                                     @else
-                                        {{ number_format($meta->pc_meta,2,decimal_separator: ',')}}%
+                                        {{ number_format($meta->pc_meta,2,decimal_separator: ',', thousands_separator: '.')}}%
                                     @endisset
                                 </h1>
                                 @if($meta->ic_status === 1)
@@ -66,7 +66,7 @@
                                     <label class="form-label text-secondary fw-bold mb-2">Valor Alvo</label>
                                     <h2 class="text-primary mb-3 fw-bold">
                                         {{ isset($meta->vl_valor_meta) ? 'R$' : ''}}
-                                        {{ $meta->vl_valor_meta ?? number_format($meta->pc_meta,2,',')."%"}}
+                                        {{ number_format($meta->vl_valor_meta, thousands_separator: '.', decimal_separator: ',') ?? number_format($meta->pc_meta,2,',')."%"}}
                                     </h2>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                     <label class="form-label text-secondary fw-bold mb-2">Valor Atual</label>
                                     <h2 class="text-warning mb-3 fw-bold">
                                         {{ isset($meta->vl_valor_meta) ? 'R$' : ''}}
-                                        {{ $meta->vl_valor_progresso ?? number_format($meta->pc_progresso,2,',')."%"}}
+                                        {{ number_format($meta->vl_valor_progresso, decimal_separator: ',') ?? number_format($meta->pc_progresso,2,',')."%"}}
                                     </h2>
                                 </div>
                             </div>

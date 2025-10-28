@@ -119,13 +119,8 @@ function getCategoriaIcon(codigo) {
 }
 
 let painel;
-<<<<<<< HEAD
 const tiposFixos = ['1', '2', '3', '4'];
 const tiposPercentual = ['5', '6'];
-=======
-const tiposFixos = ["1", "2", "3", "4"];
-const tiposPercentual = ["5", "6"];
->>>>>>> 0bb5e94fe28e540b6a2904d3b3186ea2ba518835
 
 seletorTipoValorMeta.addEventListener("change", () => {
     check();
@@ -156,12 +151,8 @@ function painelValor(codigo) {
     painelInsereValor.innerHTML = painel;
 }
 
-<<<<<<< HEAD
 
-document.addEventListener('DOMContentLoaded', () => {
-=======
 document.addEventListener("DOMContentLoaded", () => {
->>>>>>> 0bb5e94fe28e540b6a2904d3b3186ea2ba518835
     //Exibição dos registros
     const seletorModalidade = document.getElementById("cd_modalidade");
     const painelRegistros = document.querySelector("#painelRegistros");
