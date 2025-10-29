@@ -71,25 +71,21 @@ class MetaPivotSeeder extends Seeder
                 case 3: //Metas de Limitar valor fixo(despesa)
                     $meta->update([
                         'vl_valor_meta' => fake()->randomFloat(2, 200, 10000),
-                        'vl_valor_progresso' => fake()->randomFloat(2, 0, 10000)
                     ]);
                     break;
                 case 4: //Limitar valor por categoria
                     $meta->update([
                         'vl_valor_meta' => fake()->randomFloat(2, 50, 4000),
-                        'vl_valor_progresso' => fake()->randomFloat(2, 0, 4000)
                     ]);
                     break;
                 case 5: //Limitar valor por percentagem geral
                     $meta->update([
                         'pc_meta' => fake()->randomFloat(3, 10, 90),
-                        'pc_progresso' => fake()->randomFloat(3, 10, 75),
                     ]);
                     break;
                 case 6: //Limitar valor por percentagem de categoria
                     $meta->update([
                         'pc_meta' => fake()->randomFloat(3, 10, 40),
-                        'pc_progresso' => fake()->randomFloat(3, 10, 30),
                     ]);
                     break;
             }
