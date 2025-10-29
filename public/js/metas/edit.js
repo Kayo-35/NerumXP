@@ -122,6 +122,7 @@ let painel;
 const tiposFixos = ['1', '2', '3', '4'];
 const tiposPercentual = ['5', '6'];
 
+
 seletorTipoValorMeta.addEventListener("change", () => {
     check();
 });

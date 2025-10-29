@@ -31,6 +31,7 @@ Acesso o diretorio database e extraia as procedures/functions que a aplicação 
 5. Compile os assets:
 
 npm run build
+<<<<<<< HEAD
 
 ## Uso
 
@@ -64,3 +65,39 @@ Este projeto está sob licença MIT. Consulte o arquivo `LICENSE` para mais deta
 ## Contato
 
 Para dúvidas e sugestões, abra uma issue no repositório.
+
+=======
+
+## Uso
+
+## Estrutura
+
+O projeto segue a estrutura padrão do Laravel com organização MVC:
+- `app/` - Lógica da aplicação
+- `resources/views/` - Templates Blade
+- `resources/js/` - JavaScript e componentes
+- `resources/css/` - Estilos CSS
+- `public/` - Assets públicos
+
+## Configuração
+
+Principais variáveis do `.env`:
+- `APP_NAME` - Nome da aplicação
+- `DB_CONNECTION=mysql` - Tipo de banco
+- `DB_HOST`, `DB_PORT`, `DB_DATABASE` - Configurações do banco
+- `SESSION_DRIVER=file` - Driver de sessão
+
+## Contribuição
+
+1. Abra uma issue descrevendo a mudança proposta
+2. Crie um branch de feature
+3. Faça commit das alterações com mensagens descritivas.
+
+## Licença
+
+Este projeto está sob licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
+
+## Contato
+
+Para dúvidas e sugestões, abra uma issue no repositório.
+>>>>>>> test
