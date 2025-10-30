@@ -29,7 +29,6 @@ class RegistroFactory extends Factory
             "cd_modalidade" => 1,
             "cd_tipo_registro" => fake()->numberBetween(1, 2),
             "cd_nivel_imp" => fake()->numberBetween(1, 5),
-            "cd_categoria" => fake()->numberBetween(1, 9),
             "cd_localizacao" => fake()->numberBetween(1, 7),
             "cd_realizador" => fake()->numberBetween(1, 3),
             "vl_valor" => fake()->randomFloat(2, 20, 3000),
@@ -52,6 +51,7 @@ class RegistroFactory extends Factory
             $user = User::find($attributes["cd_usuario"]);
             if ($user && $user->cd_assinatura > 1) {
                 return [
+                    "cd_categoria" => fake()->numberBetween(1, 9),
                     "cd_modalidade" => 2,
                     "cd_tipo_juro" => fake()->numberBetween(1, 2),
                     "pc_taxa_juros" => fake()->randomFloat(3, 0.1, 30),
@@ -63,6 +63,24 @@ class RegistroFactory extends Factory
                 ];
             }
             return [];
+        });
+    }
+    public function renda()
+    {
+        return $this->state(function () {
+            $fontesRenda = [1,7,8];
+            return [
+                'cd_categoria' => $fontesRenda[array_rand($fontesRenda)]
+            ];
+        });
+    }
+    public function despesa()
+    {
+        return $this->state(function () {
+            $fontesDespesa = [2,3,4,5,6];
+            return [
+                'cd_categoria' => $fontesDespesa[array_rand($fontesDespesa)]
+            ];
         });
     }
 }

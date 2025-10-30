@@ -26,5 +26,17 @@ class RegistroPivotSeeder extends Seeder
                     ->toArray(),
             );
         });
+        // Responsável por atribuir categorias condizentes com os tipos de registro
+        // Renda provenientes apenas de salários, investimentos, outros e alimentação(vales)
+        // Despesa as demais categorias, incluindo outros
+        $registros->each(function ($registro) {
+            $fontesRenda = [1,7,8,9];
+            $fontesDespesa = [2,3,4,5,6,9];
+            $registro->update([
+                'cd_categoria' => in_array($registro->cd_tipo_registro, $fontesRenda)
+                    ? $fontesRenda[array_rand($fontesRenda)]
+                    : $fontesDespesa[array_rand($fontesDespesa)],
+            ]);
+        });
     }
 }

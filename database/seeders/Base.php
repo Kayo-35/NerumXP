@@ -16,7 +16,8 @@ class Base extends Seeder
     public function run(): void
     {
         User::factory(5)->create();
-        Registro::factory(300)->create();
+        Registro::factory(150)->renda()->create();
+        Registro::factory(150)->despesa()->create();
         Registro::factory(100)->flutuante()->create();
         Metas::factory(50)->create();
     }

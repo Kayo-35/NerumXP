@@ -90,7 +90,7 @@ END
 delimiter ;
 
 delimiter $$
-CREATE TRIGGER tr_status_meta_bi
+CREATE TRIGGER tr_status_meta_bi 
     BEFORE INSERT ON metas
     FOR EACH ROW
 BEGIN
@@ -100,22 +100,22 @@ BEGIN
     DECLARE done_flag BOOL DEFAULT FALSE;
     DECLARE c_cd_categoria_meta INT;
     DECLARE cd_tipo_meta_var INT;
-
+    
     -- cursor para obtenção das categorias das metas e loop futuro
-    DECLARE cursor_metas CURSOR FOR
+    DECLARE cursor_metas CURSOR FOR 
         select cd_categoria from metas_categoria where cd_meta = NEW.cd_meta;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_flag = TRUE;
-
+    
     -- Obtendo o valor total de todos os registros associados a meta e tipo da meta
     select sfSomatorioValorMetas(NEW.cd_meta) into somatorio_vl_meta_var;
     select cd_tipo_meta into cd_tipo_meta_var from metas where cd_meta = NEW.cd_meta;
-
+    
     -- Realizando encaminhamento condicional de acordo com o tipo de meta
     if(cd_tipo_meta_var < 7) then
         if(cd_tipo_meta_var > 4) then
             -- Obtendo o somatorio do valor dos registros associados as categorias da meta
             OPEN cursor_metas;
-
+            
             metas_loop: LOOP
                 fetch cursor_metas into c_cd_categoria_meta;
                 if done_flag then
@@ -123,11 +123,11 @@ BEGIN
                 end if;
                 set categorias_somatorio_var = categorias_somatorio_var + sfSomatorioValorRegistroCategoria(c_cd_categoria_meta);
             END LOOP metas_loop;
-
+            
             CLOSE cursor_metas;
-
+            
             SET NEW.pc_progresso = somatorio_vl_meta_var / categorias_somatorio_var * 100;
-        else
+        else 
             SET NEW.vl_valor_progresso = somatorio_vl_meta_var;
         end if;
     end if;
@@ -156,18 +156,18 @@ END $$
 delimiter ;
 
 delimiter $$
-CREATE TRIGGER tr_registroChange_au
-    AFTER UPDATE ON registro
+CREATE TRIGGER tr_registroChange_au 
+    AFTER UPDATE ON registro 
     FOR EACH ROW
 BEGIN
     DECLARE c_cd_meta INT;
     DECLARE done_flag BOOL DEFAULT FALSE;
-
+    
     -- Cursor para todas as metas que o registro pertence
-    DECLARE cursor_metas_registro CURSOR FOR
+    DECLARE cursor_metas_registro CURSOR FOR 
         select cd_meta from metas_registro where cd_registro = OLD.cd_registro;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_flag = TRUE;
-
+    
     if(select count(*) from metas_registro where cd_registro = OLD.cd_registro > 0) then
         -- Atualiza todas as metas pertencentes ao registro
         OPEN cursor_metas_registro;
@@ -181,28 +181,29 @@ BEGIN
         CLOSE cursor_metas_registro;
     end if;
 END $$
+delimiter ;
 
 delimiter $$
-CREATE TRIGGER tr_registroChange_bd
-    BEFORE DELETE ON metas_registro
+CREATE TRIGGER tr_registroChange_ad
+    AFTER DELETE ON registro 
     FOR EACH ROW
 BEGIN
     DECLARE c_cd_meta INT;
     DECLARE done_flag BOOL DEFAULT FALSE;
-
-    DECLARE cursor_metas_registro CURSOR FOR
-        select cd_meta from metas_registro where cd_registro = OLD.cd_registro;
+    
+    -- Cursor para todas as metas que o registro pertence
+    DECLARE cursor_metas_registro CURSOR FOR 
+        select cd_meta from metas where cd_usuario = OLD.cd_usuario;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_flag = TRUE;
-
-    if(select count(*) from metas_registro where cd_registro = OLD.cd_registro > 0) then
-        OPEN cursor_metas_registro;
-            metas_do_registro: loop
-                fetch cursor_metas_registro into c_cd_meta;
-                if done_flag then
-                    leave metas_do_registro;
-                end if;
-                CALL spGerenteMetas(c_cd_meta);
-            end loop metas_do_registro;
-        CLOSE cursor_metas_registro;
-    end if;
+    -- Atualiza todas as metas pertencentes ao registro
+    OPEN cursor_metas_registro;
+        metas_do_registro: loop
+            fetch cursor_metas_registro into c_cd_meta;
+            if done_flag then
+                leave metas_do_registro;
+            end if;
+            CALL spGerenteMetas(c_cd_meta);
+        end loop metas_do_registro;
+    CLOSE cursor_metas_registro;
 END $$
+delimiter ;

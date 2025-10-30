@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 class Registro extends Model
 {
     use HasFactory;
+
     //Definições básicas
     protected $table = "registro";
     protected $primaryKey = "cd_registro";
@@ -141,7 +142,7 @@ class Registro extends Model
     //Métodos de Consulta
 
 
-    static function indexQuery(array $filters): object
+    public static function indexQuery(array $filters): object
     {
         //Construindo a consulta
         $registros = Registro::where("cd_usuario", '=', Auth::user()->cd_usuario);
@@ -227,7 +228,7 @@ class Registro extends Model
             ->groupBy('c.nm_categoria')
             ->get();
 
-        $resultado = $dados->mapWithKeys(fn($categoria) => [$categoria->nm_categoria => $categoria->total]);
+        $resultado = $dados->mapWithKeys(fn ($categoria) => [$categoria->nm_categoria => $categoria->total]);
         return $resultado->all();
     }
 
@@ -245,7 +246,7 @@ class Registro extends Model
             ->orderBy('ordemMes', 'asc')
             ->get();
 
-        $resultado = $dados->mapWithKeys(fn($mes) => [ucfirst($mes->mes) => (float) $mes->totalMensal])->all();
+        $resultado = $dados->mapWithKeys(fn ($mes) => [ucfirst($mes->mes) => (float) $mes->totalMensal])->all();
 
         $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         $resultado = array_map(function ($mes) use ($resultado) {
@@ -253,8 +254,8 @@ class Registro extends Model
         }, $meses);
 
         $final = [];
-        foreach($resultado as $data) {
-            foreach($data as $mes => $valor) {
+        foreach ($resultado as $data) {
+            foreach ($data as $mes => $valor) {
                 $final[$mes] = $valor;
             }
         }
