@@ -25,7 +25,7 @@ class Registro extends Model
     //Definições básicas
     protected $table = "registro";
     protected $primaryKey = "cd_registro";
-    public $timestamps = false; //Apenas em período de testes!!!
+    public $timestamps = true; //Apenas em período de testes!!!
     protected $fillable = [
         "cd_usuario",
         "cd_tipo_registro",
@@ -246,7 +246,7 @@ class Registro extends Model
             ->get();
 
         $resultado = $dados->mapWithKeys(fn($mes) => [ucfirst($mes->mes) => (float) $mes->totalMensal])->all();
-
+        
         $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         $resultado = array_map(function ($mes) use ($resultado) {
             return array_key_exists($mes, $resultado) ? [$mes => $resultado[$mes]] : [$mes => 0];

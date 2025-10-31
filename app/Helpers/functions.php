@@ -138,3 +138,27 @@ function indexFiltersRules(): array
         "modalidade" => ["nullable", "integer"],
     ];
 }
+
+function saudacao(): string {
+    $horario = date('H:i:s');
+
+    if ($horario >= '05:00:00' && $horario < '12:00:00') {
+        return 'Bom dia, ';
+    } elseif ($horario >= '12:00:00' && $horario < '18:00:00') {
+        return 'Boa tarde, ';
+    } else {
+        return 'Boa noite, ';
+    }
+}
+
+function emojiSaudacao(): string {
+    $horario = date('H:i:s'); 
+
+    if ($horario >= '05:00:00' && $horario < '12:00:00') {
+        return ' ☀️';
+    } elseif ($horario >= '12:00:00' && $horario < '18:00:00') {
+        return ' 🌅'; 
+    } else {
+        return ' 🌙';
+    }
+}
