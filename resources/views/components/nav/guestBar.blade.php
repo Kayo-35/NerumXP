@@ -14,6 +14,6 @@
     <a class="nav-link me-2 nav-custom" href="/login/create">
         <strong>Login</strong>
     </a>
-    <a class="btn btn-lg btn-success shadow-sm btn-cta" href="/register/create">
-        Comece já
+    <a class="btn btn-md btn-success shadow-sm btn-cta" href="/register/create">
+        <b>Comece já</b>
     </a>

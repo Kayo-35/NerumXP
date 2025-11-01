@@ -25,7 +25,7 @@
             @include("components.nav.navbar")
         @endguest
         @auth
-            @include("components.nav.sidebar")
+            @include("components.nav.authBar")
         @endauth
     </header>
 
