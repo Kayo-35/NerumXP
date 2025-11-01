@@ -129,5 +129,10 @@ class AmostraInicial extends Seeder
                 "ic_percentual" => true
             ],
         ]);
+
+        DB::table('tipo_metas')
+            ->insert([
+                'nm_meta' => 'Metas genéricas'
+            ]);
     }
 }

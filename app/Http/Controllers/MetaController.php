@@ -8,11 +8,11 @@ use App\Models\Categorizadores\Registros\Modalidade;
 use App\Models\Categorizadores\Gerais\Nivel_imp;
 use App\Models\Recursos\Metas;
 use App\Models\Recursos\Registro;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-
 
 class MetaController extends Controller
 {
@@ -63,7 +63,7 @@ class MetaController extends Controller
 
         //Validando se a requisição para criação contém apenas os tipos
         try {
-            $validated = $request->validate([
+            $request->validate([
                 'tipo' => ['sometimes', 'array'],
                 'tipo.*' => ["in: $tiposValidosString"],
             ]);
@@ -73,20 +73,9 @@ class MetaController extends Controller
             ]);
         }
 
-        $tipoRegistro = $request->query('tipo') == [1, 2] ? 1 : 2;
-
-        $registros = Registro::select(
-            'registro.cd_registro',
-            'registro.cd_nivel_imp',
-            'nm_registro',
-            'vl_valor',
-            'cd_modalidade',
-            'registro.created_at',
-            'cd_categoria',
-            'ic_pago'
-        )->where('cd_tipo_registro', '=', $tipoRegistro)
-            ->where('cd_usuario', '=', Auth::user()->cd_usuario)
-            ->get();
+        //Verifica se a requisição é para uma meta genérica, se sim encaminha para a view direto
+        $tipo = $this->metaGenerica($request->query('tipo'));
+        $registros = $this->getRegistroMeta($request->query('tipo'));
 
         $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta', $request->query('tipo'))->get();
         $modalidadeRegistrosMeta = Modalidade::all();
@@ -95,7 +84,8 @@ class MetaController extends Controller
             "registros" => $registros,
             "tiposMeta" => $tiposMeta,
             "importancias" => Nivel_imp::all(),
-            "modalidades" => $modalidadeRegistrosMeta
+            "modalidades" => $modalidadeRegistrosMeta,
+            "tipo" => $tipo === true ? 1 : 0 //Indica que não é uma meta genérica
         ]);
     }
 
@@ -107,10 +97,21 @@ class MetaController extends Controller
             //$this representa a instância do controller, como um helper
         }
         //Validando os dados
-        $validated = $request->validate(metaRules());
+        if ($request['cd_tipo_meta'] != '7') {
+            $validated = $request->validate(metaRules()); //para metas não genéricas
+        } else {
+            $request['objetivo'] = $this->processaCheckBoxes($request['objetivo']);
+            $validated = $request->validate(metaGenericaRules()) ; //metas genéricas
+            $generica = true;
+        }
+
         $validated['cd_usuario'] = Auth::user()->cd_usuario; //Associando o usuário a meta
         $validated['ic_status'] = true; //Por padrão ativa quando criada :)
         $validated['ic_recorrente'] = false;
+
+        if ($generica) {
+            dd(array_column($validated['objetivo'], 'status'));
+        }
 
         //Criando a meta
         $meta = Metas::create($validated);
@@ -194,5 +195,50 @@ class MetaController extends Controller
         $this->authorize("use", $meta);
         $meta->delete();
         return redirect(route('meta.index'));
+    }
+
+    //Métodos helper
+    private function metaGenerica(array $tipo): bool
+    {
+        $tipoGenerico = Tipo_Meta::where('nm_meta', '=', 'Metas genéricas')
+            ->value('cd_tipo_meta');
+
+        $tipo = $tipoGenerico == $tipo[0] ? true : false;
+        return $tipo;
+    }
+    private function getRegistroMeta(array $tipo): Collection
+    {
+        $tipoRegistro = $tipo == [1, 2] ? 1 : 2;
+
+        $registros = Registro::select(
+            'registro.cd_registro',
+            'registro.cd_nivel_imp',
+            'nm_registro',
+            'vl_valor',
+            'cd_modalidade',
+            'registro.created_at',
+            'cd_categoria',
+            'ic_pago'
+        )->where('cd_tipo_registro', '=', $tipoRegistro)
+            ->where('cd_usuario', '=', Auth::user()->cd_usuario)
+            ->get();
+
+        return $registros;
+    }
+    private function processaCheckBoxes(?array $objetivos): array
+    {
+        if (!empty($objetivos)) {
+            return array_map(function ($objetivo) {
+                if ($objetivo == 'on' || $objetivo == 'off') {
+                    return $objetivo === 'on' ? true : false;
+                } else {
+                    return $objetivo;
+                }
+            }, $objetivos);
+        }
+        return [];
+    }
+    private function salvarObjetivos(?array $objetivos): void
+    {
     }
 }

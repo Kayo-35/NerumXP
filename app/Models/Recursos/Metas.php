@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Metas extends Model
 {
     use HasFactory;
+
     protected $table = "metas";
     protected $primaryKey = "cd_meta";
 
@@ -82,6 +83,14 @@ class Metas extends Model
     {
         return $this->hasMany(
             HistoricoMetas::class,
+            'cd_meta',
+            'cd_meta'
+        );
+    }
+    public function objetivos()
+    {
+        return $this->hasMany(
+            Objetivo::class,
             'cd_meta',
             'cd_meta'
         );

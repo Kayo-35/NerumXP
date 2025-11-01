@@ -77,15 +77,15 @@ function metaRules(): array
             "nullable",
             "array",
         ],
-        "cd_nivel_imp" => [
-            "required",
-            "integer",
-            "exists:nivel_imp,cd_nivel_imp"
-        ],
         "cd_tipo_meta" => [
             "required",
             "integer",
             "exists:tipo_metas,cd_tipo_meta"
+        ],
+        "cd_nivel_imp" => [
+            "required",
+            "integer",
+            "exists:nivel_imp,cd_nivel_imp"
         ],
         "cd_modalidade" => [
             "required",
@@ -116,6 +116,40 @@ function metaRules(): array
         "ds_descricao" => [
             "nullable",
             "max:65535"
+        ]
+    ];
+}
+
+function metaGenericaRules(): array
+{
+    return [
+        "nm_meta" => [
+            "required",
+            "min:4",
+            "max:50"
+        ],
+        "cd_nivel_imp" => [
+            "required",
+            "integer",
+            "exists:nivel_imp,cd_nivel_imp"
+        ],
+        "cd_tipo_meta" => [
+            "required",
+            "integer",
+            "exists:tipo_metas,cd_tipo_meta"
+        ],
+        "dt_termino" => [
+            "required",
+            "date",
+            Rule::date()->after(today()),
+        ],
+        "ds_descricao" => [
+            "nullable",
+            "string",
+            "max:65535"
+        ],
+        "objetivo" => [
+            "nullable"
         ]
     ];
 }

@@ -1,6 +1,5 @@
 @props([
     "titulo",
-    "meta",
     "route",
     "impotancias",
     "tiposMeta",

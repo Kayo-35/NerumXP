@@ -27,7 +27,7 @@
                             diferentes categorias
                         </p>
                     </a>
-                    <a href="{{ route('meta.create',["tipo" => "generica"]) }}" class="goal-creation-btn generic">
+                    <a href="{{ route('meta.create',["tipo" => [7]]) }}" class="goal-creation-btn generic">
                         <div class="goal-creation-icon">
                             <i class="bi bi-bullseye"></i>
                         </div>

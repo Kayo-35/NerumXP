@@ -57,6 +57,7 @@
 
         @if(request()->is('meta/create'))
             <script src="{{ asset("js/metas/create.js") }}"></script>
+            <script src="{{ asset("js/metas/createGenerica.js") }}"
         @endif
 
         @if(request()->is('meta/*/edit'))

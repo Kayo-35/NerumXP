@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,12 +17,12 @@ return new class extends Migration
                 ->on("usuario")
                 ->onDelete("cascade");
 
-            $table->decimal("vl_superavit",9,2)->nullable();
-            $table->decimal("vl_juros_superavit",9,2)->nullable();
-            $table->decimal("vl_debito",9,2)->nullable();
-            $table->decimal("vl_juros_debito",9,2)->nullable();
+            $table->decimal("vl_superavit", 9, 2)->nullable();
+            $table->decimal("vl_juros_superavit", 9, 2)->nullable();
+            $table->decimal("vl_debito", 9, 2)->nullable();
+            $table->decimal("vl_juros_debito", 9, 2)->nullable();
 
-            $table->decimal("balanco",9,2)->nullable();
+            $table->decimal("balanco", 9, 2)->nullable();
             //Intervalo de análise do panorma
             $table->timestamp("dt_inicio");
             $table->timestamp("dt_termino");

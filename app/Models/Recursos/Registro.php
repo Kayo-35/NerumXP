@@ -2,7 +2,7 @@
 
 namespace App\Models\Recursos;
 
-use App\Models\Categorizadores\Gerais\Categoria;
+use App\Models\Cauegorizadores\Gerais\Categoria;
 use App\Models\Categorizadores\Gerais\Localizacao;
 use App\Models\Categorizadores\Gerais\Nivel_imp;
 use App\Models\Categorizadores\Pagamento\FormaPagamento;
