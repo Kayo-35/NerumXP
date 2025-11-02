@@ -18,6 +18,7 @@ return new class () extends Migration {
                 ->on("metas")
                 ->onDelete("cascade");
 
+            $table->boolean('ic_status');
             $table->string('ds_descricao', 255);
             $table
                 ->date('dt_conclusao')

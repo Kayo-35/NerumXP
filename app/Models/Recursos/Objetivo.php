@@ -11,6 +11,12 @@ class Objetivo extends Model
     protected $primaryKey = "cd_objetivo_meta";
     public $timestamps = true;
 
+    protected $fillable = [
+        'cd_meta',
+        'ic_status',
+        'ds_descricao',
+        'dt_conclusao'
+    ];
     //Relacionamentos
     public function metas()
     {

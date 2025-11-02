@@ -7,6 +7,7 @@ use App\Models\Categorizadores\Metas\Tipo_Meta;
 use App\Models\Categorizadores\Registros\Modalidade;
 use App\Models\Categorizadores\Gerais\Nivel_imp;
 use App\Models\Recursos\Metas;
+use App\Models\Recursos\Objetivo;
 use App\Models\Recursos\Registro;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -91,16 +92,21 @@ class MetaController extends Controller
 
     public function store(Request $request)
     {
-        $registros = !empty($request->registros) ? Registro::whereIn('cd_registro', $request->registros)->get() : [];
-        foreach ($registros as $registro) {
-            $this->authorize('use', $registro);
-            //$this representa a instância do controller, como um helper
-        }
+        $registros = [];
+        $generica = false;
+
         //Validando os dados
         if ($request['cd_tipo_meta'] != '7') {
+            $registros = !empty($request->registros)
+                ? Registro::whereIn('cd_registro', $request->registros)->get()
+                : [];
+
+            foreach ($registros as $registro) {
+                $this->authorize('use', $registro);
+            }
             $validated = $request->validate(metaRules()); //para metas não genéricas
         } else {
-            $request['objetivo'] = $this->processaCheckBoxes($request['objetivo']);
+            $request['objetivos'] = $this->processaCheckBoxes($request);
             $validated = $request->validate(metaGenericaRules()) ; //metas genéricas
             $generica = true;
         }
@@ -109,17 +115,25 @@ class MetaController extends Controller
         $validated['ic_status'] = true; //Por padrão ativa quando criada :)
         $validated['ic_recorrente'] = false;
 
-        if ($generica) {
-            dd(array_column($validated['objetivo'], 'status'));
-        }
-
         //Criando a meta
         $meta = Metas::create($validated);
 
-        //Associando categorias e registros a meta
-        $meta->categoria()->sync($request->categorias);
-        $meta->registro()->sync($request->registros);
+        if ($generica) {
+            foreach ($validated['objetivos'] as $objetivo) {
+                Objetivo::create([
+                    'cd_meta' => $meta->cd_meta,
+                    'ds_descricao' => $objetivo[0] ?? $objetivo[1],
+                    'dt_conclusao' => $validated['dt_termino'],
+                    'ic_status' => array_key_first($objetivo) == 1 ? false : true
+                ]);
+            }
+        } else {
+            //Associando categorias e registros a meta
+            $meta->categoria()->sync($request->categorias);
+            $meta->registro()->sync($request->registros);
+        }
 
+        dd($meta);
         return redirect(route('meta.show', ["meta" => $meta]));
     }
 
@@ -206,6 +220,7 @@ class MetaController extends Controller
         $tipo = $tipoGenerico == $tipo[0] ? true : false;
         return $tipo;
     }
+
     private function getRegistroMeta(array $tipo): Collection
     {
         $tipoRegistro = $tipo == [1, 2] ? 1 : 2;
@@ -225,18 +240,21 @@ class MetaController extends Controller
 
         return $registros;
     }
-    private function processaCheckBoxes(?array $objetivos): array
+
+    private function processaCheckBoxes(Request $request): array
     {
-        if (!empty($objetivos)) {
-            return array_map(function ($objetivo) {
-                if ($objetivo == 'on' || $objetivo == 'off') {
-                    return $objetivo === 'on' ? true : false;
-                } else {
-                    return $objetivo;
-                }
-            }, $objetivos);
-        }
-        return [];
+        $result = array_filter($request->all(), function ($valor) {
+            if (is_array($valor)) {
+                return $valor;
+            };
+        });
+        $result = array_map(function ($obj) {
+            if (count($obj) === 1) {
+                return [false => $obj[0]];
+            }
+            return [true => $obj[1]];
+        }, $result);
+        return $result;
     }
     private function salvarObjetivos(?array $objetivos): void
     {

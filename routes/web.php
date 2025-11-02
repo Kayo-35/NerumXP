@@ -76,8 +76,8 @@ Route::middleware("auth")
 //Relatorios
 Route::middleware("auth")
     ->controller(RelatorioController::class)
-    ->group(function() {
-       Route::get("relatorio/",'index')->name("relatorio.index");
+    ->group(function () {
+        Route::get("relatorio/", 'index')->name("relatorio.index");
     });
 
 //Registration

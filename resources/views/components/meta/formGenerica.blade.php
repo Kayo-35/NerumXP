@@ -110,25 +110,24 @@
                         </h4>
 
                         <div class="row mb-3">
-                            <div class="col-12">
+                            <div id="secaoObj" class="col-12">
                                 <div class="d-flex align-items-start">
                                     <div class="form-check me-3 mt-1">
-                                        <input type="hidden" name="objetivo[status][]" value="off">
-                                        <input class="form-check-input" type="checkbox" name="objetivo[]">
+                                        <input class="form-check-input" type="checkbox" name="objetivo1[]">
                                         <label class="form-check-label"></label>
                                     </div>
 
                                     <div class="flex-grow-1">
                                         <label class="form-label fw-semibold text-dark mb-1">
-                                            Descrição:
+                                            Objetivo 1:
                                         </label>
-                                        <input type="text" class="form-control d-inline w-100" name="objetivo[]">
+                                        <input type="text" class="form-control d-inline w-100" name="objetivo1[]">
                                     </div>
                                 </div>
                             </div>
                             <div class="row m-4">
                                 <div class="col-12">
-                                    <button type="button" class="btn btn-outline-primary">
+                                    <button id="adicionaObjetivo" type="button" class="btn btn-outline-primary">
                                         <i class="bi bi-plus-circle me-2"></i>
                                         Adicionar Novo Objetivo
                                     </button>

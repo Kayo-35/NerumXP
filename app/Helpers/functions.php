@@ -148,8 +148,16 @@ function metaGenericaRules(): array
             "string",
             "max:65535"
         ],
-        "objetivo" => [
-            "nullable"
+        "objetivos" => [
+            "nullable",
+            "array"
+        ],
+        "objetivos.*" => [
+            "array",
+        ],
+        "objetivos.*.*" => [
+            "string",
+            "max: 255"
         ]
     ];
 }
