@@ -1,7 +1,7 @@
 <x-layout>
   
   @if($resumo[0]->vl_debito !== null && $resumo[0]->vl_superavit !== null)
-    <div class="container">
+    <div class="container-fluid">
       <div class="row g-4">
         <!-- Saudação -->
         <div class="col-12 text-lg-start text-center mb-4">

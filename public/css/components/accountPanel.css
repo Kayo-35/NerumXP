@@ -1,11 +1,11 @@
 /* Estilos para o item de menu do painel da conta */
-    .account-panel-item .nav-link {
+    .account-panel-link {
         /* Remove o padding padrão do nav-link para o ícone de seta ficar na borda */
         padding-right: 1rem !important; 
     }
     
     /* Garante que o texto do menu não seja muito largo */
-    .account-panel-item .menu-text {
+    .account-panel-link .menu-text {
         flex-grow: 1;
         white-space: nowrap;
         overflow: hidden;
@@ -13,55 +13,65 @@
     }
 
     /* Estilo para o ícone de seta */
-    .account-panel-item .collapse-icon {
+    .account-panel-link .collapse-icon {
         transition: transform 0.3s ease;
     }
     
     /* Rotação do ícone quando expandido */
-    .account-panel-item .nav-link[aria-expanded="true"] .collapse-icon {
+    .account-panel-link[aria-expanded="true"] .collapse-icon {
         transform: rotate(180deg);
     }
 
     /* Estilo para o conteúdo colapsado */
-    .account-panel-item .account-info-content {
-        background-color: rgba(0, 0, 0, 0.1); /* Fundo sutil para destacar */
-        border-radius: 0.5rem;
-        margin-left: 1rem; /* Alinhamento visual */
-        margin-right: 0.5rem;
+    .account-panel-collapse {
+        /* Garante que o collapse não empurre a largura do sidebar */
+        width: 100%; 
+        padding-left: 1rem; /* Ajuste para alinhamento */
+        padding-right: 0.5rem;
         margin-bottom: 0.5rem;
     }
 
+    .account-panel-collapse .account-info-content {
+        background-color: rgba(0, 0, 0, 0.1); /* Fundo sutil para destacar */
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+    }
+
     /* Estilos para os itens de informação */
-    .account-panel-item .info-item {
+    .account-panel-collapse .info-item {
         display: flex;
         align-items: center;
         margin-bottom: 0.5rem;
         padding: 0.25rem 0;
     }
 
-    .account-panel-item .info-icon {
+    .account-panel-collapse .info-icon {
         font-size: 1.2rem;
         margin-right: 0.5rem;
         width: 24px; /* Ajuste para alinhamento */
         text-align: center;
+        color: white;
     }
 
-    .account-panel-item .info-content {
+    .account-panel-collapse .info-content {
         line-height: 1.2;
     }
 
-    .account-panel-item .info-label {
+    .account-panel-collapse .info-label {
         font-size: 0.7rem;
         font-weight: 400;
         opacity: 0.8;
         margin-bottom: 0;
+        color: white;
     }
 
-    .account-panel-item .info-value {
+    .account-panel-collapse .info-value {
         font-size: 0.85rem;
         font-weight: 600;
         margin: 0;
-        white-space: nowrap;
+        color: white;
+        word-break: break-all;
+        /*white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-overflow: ellipsis;*/
     }

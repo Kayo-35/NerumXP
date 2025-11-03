@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg d-lg-none navbar-dark shadow-sm gradient-bg">
     <div class="container-fluid">
     <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home')}}">
         <img
         src="img/logo_projeto_fundo_branco.png"
         alt="Logo NerumXP"
@@ -26,29 +26,21 @@
 
     <!-- Menu colapsado no mobile -->
     <div class="collapse navbar-collapse mt-2" id="mobileMenu">
-        <ul class="navbar-nav ms-auto">
+        <div class="navbar-nav ms-auto">
         @include('components.nav.accountPanel')
-        <li class="nav-item">
-            <a href="#" class="nav-link d-flex text-white align-items-center">
+        <a href="{{ route('home')}}" class="nav-link d-flex text-white align-items-center">
             <i class="bi bi-cup-hot-fill me-2 icon-menu"></i> Resumo
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link text-white d-flex align-items-center">
+        </a>
+        <a href="{{ route('registro.index')}}" class="nav-link text-white d-flex align-items-center">
             <i class="bi bi-receipt me-2 icon-menu"></i> Registros
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link text-white d-flex align-items-center">
+        </a>
+        <a href="#" class="nav-link text-white d-flex align-items-center">
             <i class="bi bi-clipboard-data-fill me-2 icon-menu"></i> Relatórios
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link text-white d-flex align-items-center">
+        </a>
+        <a href="{{ route('meta.index')}}" class="nav-link text-white d-flex align-items-center">
             <i class="bi bi-award-fill me-2 icon-menu"></i> Metas
-            </a>
-        </li>
-        </ul>
+        </a>
+        </div>
     </div>
     </div>
 </nav>
@@ -70,32 +62,24 @@
     </div>
 
     <!-- Menu de navegação -->
-    <ul class="nav nav-pills flex-column mb-auto">
+    <div class="nav nav-pills flex-column mb-auto">
         @include('components.nav.accountPanel')
-        <li class="nav-item">
-        <a href="#" class="nav-link text-white d-flex align-items-center mb-2 shadow-sm">
+        <a href="{{ route('home')}}" class="nav-link text-white d-flex align-items-center mb-2 shadow-sm">
             <i class="bi bi-cup-hot-fill fs-3 me-2"></i>
             <span class="menu-text">Resumo</span>
         </a>
-        </li>
-        <li>
-        <a href="#" class="nav-link text-white d-flex align-items-center mb-2 shadow-sm">
+        <a href="{{ route('registro.index')}}" class="nav-link text-white d-flex align-items-center mb-2 shadow-sm">
             <i class="bi bi-receipt fs-3 me-2"></i>
             <span class="menu-text">Registros</span>
         </a>
-        </li>
-        <li>
         <a href="#" class="nav-link text-white d-flex align-items-center mb-2 shadow-sm">
             <i class="bi bi-clipboard-data-fill fs-3 me-2"></i>
             <span class="menu-text">Relatórios</span>
         </a>
-        </li>
-        <li>
-        <a href="#" class="nav-link text-white d-flex align-items-center mb-2 shadow-sm">
+        <a href="{{ route('meta.index')}}" class="nav-link text-white d-flex align-items-center mb-2 shadow-sm">
             <i class="bi bi-award-fill fs-3 me-2"></i>
             <span class="menu-text">Metas</span>
         </a>
-        </li>
-    </ul>
+    </div>
     </div>
 </div>

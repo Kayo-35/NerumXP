@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="{{ asset('css/meta.show.css') }}"></link>
     @endif
 </head>
-<body class="{{ Auth::check() ? 'bg-light-green' : 'd-flex flex-column min-vh-100 w-100' }}">
+<body class="{{ Auth::check() ? 'bg-light-green' : 'bg-white' }} d-flex flex-column min-vh-100">
     <header>
         @guest
             @include("components.nav.navbar")
@@ -42,7 +42,7 @@
     @endguest
 
     @auth
-        <main class="content bg-light-green py-5 ps-lg-4">
+        <main class="content bg-light-green py-5 ps-lg-4 flex-grow-1">
             {{ $slot }}
         </main>
         <footer
