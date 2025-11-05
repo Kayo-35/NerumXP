@@ -17,8 +17,6 @@
 
 .dimensions {
     min-height: 230px;
-    min-width: 350px;
-    max-width: 350px;
 }
 /* Estilo dos botões do overlay */
 .card-overlay button {

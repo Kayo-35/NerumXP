@@ -2,7 +2,7 @@
 ["tipos","categorias","importancias","modalidades"]
 )
 <div class="container-fluid p-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex flex-wrap justify-content-start align-items-center gap-3 mb-3">
         <button
             class="btn btn-outline-primary border-0 rounded-3 px-4 py-2 shadow-sm d-flex align-items-center"
             type="button"
@@ -15,13 +15,10 @@
             <i class="bi bi-chevron-down ms-2 transition-rotate" id="chevronIcon"></i>
         </button>
 
-        <div class="m-3">
-            <div class="me-3 rounded rounded-5">
-                <a class="btn btn-lg btn-outline-primary px-5 py-0" href="{{ route("registro.create") }}">
-                    <i class="bi bi-plus fs-2"></i>
-                </a>
-            </div>
-        </div>
+        <a href="{{ route("registro.create") }}" class="btn btn-primary rounded-3 px-4 py-2 shadow-sm d-flex align-items-center">
+            <i class="bi bi-plus-lg me-2"></i>
+            <span class="fw-medium">Novo Registro</span>
+        </a>
 
         <!--Incluir JavaScript futuro para visualização de contagem-->
         <span
