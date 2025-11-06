@@ -21,6 +21,7 @@ class MetaController extends Controller
     {
         //Obtem todas as metas associadas ao usuário
         $metas = Metas::where('cd_usuario', '=', Auth::user()->cd_usuario)
+            ->orderBy('cd_tipo_meta', 'desc')
             ->orderBy('cd_nivel_imp', 'desc')
             ->paginate(9);
 
@@ -51,10 +52,18 @@ class MetaController extends Controller
                 'ic_pago'
             )
             ->get();
-        return view("meta.show", [
-            "meta" => $meta,
-            "registrosMeta" => $registrosMeta
-        ]);
+        if ($meta->cd_tipo_meta < 7) {
+            return view("meta.show", [
+                "meta" => $meta,
+                "registrosMeta" => $registrosMeta
+            ]);
+        } else {
+            return view('meta.showGenerica', [
+                "meta" => $meta,
+                "numObjetivosConcluidos" => $meta->objetivos()->where('ic_status', 1)->count(),
+                "numObjetivos" => $meta->objetivos()->count()
+            ]);
+        }
     }
     public function create(Request $request)
     {
@@ -123,8 +132,9 @@ class MetaController extends Controller
                 Objetivo::create([
                     'cd_meta' => $meta->cd_meta,
                     'ds_descricao' => $objetivo[0] ?? $objetivo[1],
-                    'dt_conclusao' => $validated['dt_termino'],
-                    'ic_status' => array_key_first($objetivo) == 1 ? false : true
+                    'dt_conclusao' => array_key_first($objetivo) == 1 ? null : date('Y/m/d H:m:s'),
+                    'ic_status' => array_key_first($objetivo) == 1 ? true : false
+                    //Caso não haja check haveria um único elemento, chave 0
                 ]);
             }
         } else {
@@ -132,13 +142,12 @@ class MetaController extends Controller
             $meta->categoria()->sync($request->categorias);
             $meta->registro()->sync($request->registros);
         }
-
-        dd($meta);
         return redirect(route('meta.show', ["meta" => $meta]));
     }
 
     public function edit(Metas $meta)
     {
+        dd($meta);
         $this->authorize('use', $meta);
         $tipoMeta = $meta->tipo()->select('cd_tipo_meta')->first();
 

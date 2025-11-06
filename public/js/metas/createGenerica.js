@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     let adicionaObjetivo = document.querySelector('#adicionaObjetivo');
+    let secaoObjetivo = document.querySelector('#secaoObj');
+    let checkBoxes = document.querySelectorAll('#secaoObj input[type="checkbox"');
 
     //Atribui valor falso ao estado de checkboxes não submetidas a cada alteração de estado
     function atribuiEstadoCheck() {
@@ -11,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    //Responsável por renumerar as seções quando elementos forem removidos
+
 
     //Responsável por criar novas seções para objetivos
     adicionaObjetivo.addEventListener('click', () => {
@@ -19,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
         numeroDeObjetivos = document.querySelectorAll('input[type="checkbox"]').length;
         novoObj = objetivoTemplate(numeroDeObjetivos + 1);
         secaoObjetivo.appendChild(novoObj);
+        let checkBox = novoObj.querySelector('input[type="checkbox"');
+        checkBox.addEventListener('input', () => {
+            atribuiCheck(checkBox)
+        });
         init();
     });
 
@@ -36,16 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function atribuiCheck(checkBox) {
-        if (!checkBox.checked) {
-            checkBox.value = 'off';
-        } else {
+        if (checkBox.checked) {
             checkBox.value = 'on';
+        } else {
+            checkBox.value = 'off';
         }
     }
 
     function init() {
         let checkBoxes = document.querySelectorAll('input[type="checkbox"]')
-        console.log(checkBoxes);
         checkBoxes.forEach((checkBox) => {
             atribuiCheck(checkBox);
         });
