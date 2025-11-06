@@ -1,0 +1,56 @@
+/* Cards de resumo */
+.bg-gray-light {
+  background-color: #f2f2f2 !important;
+}
+
+.resumo-card {
+  transition: transform 0.2s ease;
+}
+
+.resumo-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Títulos e cabeçalhos */
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #1e3c3a; /* tom escuro e elegante */
+}
+
+/* Textos gerais, labels, descrições */
+body, p, span, .badge, .list-group-item {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+/* Valores e números */
+.resumo-card p,
+.text-success,
+.text-danger,
+.registro-item .col-md-3 {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+}
+
+/* Responsividade de leitura */
+@media (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+
+  .resumo-card .card-body {
+    text-align: center;
+  }
+
+  .registros .registro-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .registro-item .col-md-4,
+  .registro-item .col-md-3,
+  .registro-item .col-md-2 {
+    margin-bottom: 5px;
+  }
+}

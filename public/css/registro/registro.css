@@ -1,0 +1,4 @@
+#painelFiltragem {
+    position: relative; /* Necessário para o z-index funcionar */
+    z-index: 10;
+}

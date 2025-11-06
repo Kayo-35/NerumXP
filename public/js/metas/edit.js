@@ -119,9 +119,8 @@ function getCategoriaIcon(codigo) {
 }
 
 let painel;
-const tiposFixos = ['1', '2', '3', '4'];
-const tiposPercentual = ['5', '6'];
-
+const tiposFixos = ["1", "2", "3", "4"];
+const tiposPercentual = ["5", "6"];
 
 seletorTipoValorMeta.addEventListener("change", () => {
     check();
@@ -151,7 +150,6 @@ function painelValor(codigo) {
     }
     painelInsereValor.innerHTML = painel;
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
     //Exibição dos registros

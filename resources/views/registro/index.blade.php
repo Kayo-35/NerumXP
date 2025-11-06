@@ -10,8 +10,8 @@
         </div>
     </div>
 
-    <section id="painelCards" class="mx-5">
-        <div class="row mx-2">
+    <section id="painelCards" class="container-fluid my-3">
+        <div class="row g-4">
             @if ($registros->isEmpty())
                 @if ($qtRegistros === 0)
                     <x-helper.nothing
@@ -32,36 +32,31 @@
                     />
                 @endif
             @else
-                <section class="container my-1">
-                    <div class="row justify-content-start">
-                        @foreach ($registros as $registro)
-                            <div
-                                class="col-xl-4 col-md-6 col-sm-12 d-flex justify-content-center"
-                            >
-                                <a
-                                    href="{{ route("registro.show", ["registro" => $registro->cd_registro]) }}"
-                                    class="col-md-4 w-100"
-                                    style="
-                                        text-decoration: none;
-                                        min-width: 400px;
-                                        max-width: 400px;
-                                    "
-                                >
-                                    <x-registro.card
-                                        :registro="$registro"
-                                    ></x-registro.card>
-                                </a>
-                            </div>
-                        @endforeach
+                @foreach ($registros as $registro)
+                    <div
+                        class="col-12 col-md-6 col-lg-4 d-flex justify-content-center"
+                    >
+                        <a
+                            href="{{ route("registro.show", ["registro" => $registro->cd_registro]) }}"
+                            class="w-100"
+                            style="
+                                text-decoration: none;
+                                max-width: 400px;
+                            "
+                        >
+                            <x-registro.card
+                                :registro="$registro"
+                            ></x-registro.card>
+                        </a>
                     </div>
-                </section>
-                @if (method_exists($registros, "links"))
-                    <div>
-                        {{ $registros->links() }}
-                    </div>
-                @endif
+                @endforeach
+            @endif
+        </div>
+            @if (method_exists($registros, "links") && !$registros->isEmpty())
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $registros->links() }}
+                </div>
             @endif
             <!-- Paginação com bootstrap-->
-        </div>
     </section>
 </x-layout>

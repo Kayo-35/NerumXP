@@ -124,10 +124,3 @@
 .footer-custom p {
   color: #CCCCCC;
 }
-
-@media (min-width: 992px) {
-  .footer-custom {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-  }
-}

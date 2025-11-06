@@ -1,4 +1,5 @@
 <x-layout>
+    <h1 class='text-center'>Relatórios</h1>
     <div class="row justify-content-around m-5">
         <div class="col-md-5 col-sm-12 border rounded rounded-5">
             <canvas id="despesaPorCategoria"></canvas>

@@ -1,13 +1,10 @@
 <div
     {{
         $attributes->merge([
-            "class" => "container mt-4 mb-4",
+            "class" => "dimensions card h-100 background shadow-sm p-3 position-relative overflow-hidden rounded-5 text-white " . ($registro->cd_tipo_registro === 1 ? 'bg-cartao-verde' : 'bg-cartao-vermelho') . " " . ($registro->ic_status == 0 ? 'opacity-75' : '')
         ])
     }}
 >
-  <div class="d-flex align-items-stretch">
-    <div class="col h-100 d-flex justify-content-center">
-      <div class="dimensions card h-100 background shadow-sm p-3 position-relative overflow-hidden rounded-5 text-white {{ $registro->cd_tipo_registro === 1 ? 'bg-cartao-verde' : 'bg-cartao-vermelho' }} {{ $registro->ic_status == 0 ? 'opacity-75' : ''}}">
         <!-- ===== Overlay com botões ===== -->
         <div class="card-overlay">
           <!-- Botão excluir -->
@@ -73,8 +70,4 @@
           <!-- Data -->
           <small class="text-end mb-0">{{ date("d/m", strtotime($registro->created_at)) }}</small>
         </div>
-
-      </div> <!-- Fim card -->
-    </div> <!-- Fim coluna card -->
-  </div> <!-- Fim row -->
 </div>

@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Public+Sans:wght@300;400;500&family=Source+Sans+Pro:wght@400;500&family=DM+Sans:wght@500;600&display=swap');
+
+/* ===== Background geral ===== */
+.bg-light-green {
+  background-color: #e9f5eb;
+}
+
+/* ===== Gradiente usado em navbar e sidebar ===== */
+.gradient-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 151, 178, 1) 0%,
+    rgba(88, 152, 61, 1) 100%
+  );
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 15rem;
+}
+
+/* Sidebar ocupa toda a altura da tela */
+.vh-100 {
+  height: 100vh !important;
+}
+
+/* Sidebar fixa no desktop */
+@media (min-width: 992px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  .content {
+    margin-left: 240px; /* Empurra o conteúdo para a direita */
+  }
+}
+
+/* Hover dos links do menu */
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+}
+
+/* ===== Logo e textos ===== */
+.brand-text {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 500;
+  color: #fff;
+}
+
+.logo-desktop {
+  padding-left: 12px;
+}
+
+/* ===== Ícones do menu ===== */
+.icon-menu {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 250;
+  color: #fff;
+}
+
+/* ===== Texto dos menus ===== */
+.menu-text {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 500;
+  color: #fff;
+}
