@@ -181,7 +181,8 @@ function indexFiltersRules(): array
     ];
 }
 
-function saudacao(): string {
+function saudacao(): string
+{
     $horario = date('H:i:s');
 
     if ($horario >= '05:00:00' && $horario < '12:00:00') {
@@ -193,13 +194,14 @@ function saudacao(): string {
     }
 }
 
-function emojiSaudacao(): string {
-    $horario = date('H:i:s'); 
+function emojiSaudacao(): string
+{
+    $horario = date('H:i:s');
 
     if ($horario >= '05:00:00' && $horario < '12:00:00') {
         return ' ☀️';
     } elseif ($horario >= '12:00:00' && $horario < '18:00:00') {
-        return ' 🌅'; 
+        return ' 🌅';
     } else {
         return ' 🌙';
     }

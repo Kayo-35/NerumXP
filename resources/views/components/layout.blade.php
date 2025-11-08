@@ -6,9 +6,15 @@
     <title>NerumXP - Organize sua vida financeira</title>
     <meta name="description" content="Controle seus ganhos, acompanhe gastos e alcance metas com o NerumXP. Relatórios visuais e planos para todos.">
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
-    @auth<link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
-    <link rel="stylesheet" href="{{ asset('css/resumo.css') }}"></link>@endauth
-    @guest<link rel="stylesheet" href="{{ asset('css/guest.css') }}"></link>@endguest
+
+    @auth
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
+        <link rel="stylesheet" href="{{ asset('css/resumo.css') }}"></link>
+    @endauth
+    @guest
+        <link rel="stylesheet" href="{{ asset('css/guest.css') }}"></link>
+    @endguest
+
     <link rel="stylesheet" href="{{ asset('css/meta.css') }}"></link>
     <link rel="stylesheet" href="{{ asset('css/components/accountPanel.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/sideBar.css') }}"></link>
@@ -34,7 +40,7 @@
         <section class="flex-grow-1">
             {{ $slot }}
         </section>
-    
+
         <footer
             class="footer py-3 border-top mt-0 footer-custom"
         >
@@ -79,12 +85,16 @@
         @endif
 
         @if(request()->is('meta/create'))
-            <script src="{{ asset("js/metas/create.js") }}"></script>
-            <script src="{{ asset("js/metas/createGenerica.js") }}"
+            @if(request()->query->all()['tipo'][0] != 7)
+                <script src="{{ asset("js/metas/create.js") }}"></script>
+            @else
+                <script src="{{ asset("js/metas/createGenerica.js") }}"></script>
+            @endif
         @endif
 
         @if(request()->is('meta/*/edit'))
             <script src="{{ asset("js/metas/edit.js") }}"></script>
+            <script src="{{ asset("js/metas/createGenerica.js") }}"></script>
         @endif
 
         @if(request()->is('relatorio*'))

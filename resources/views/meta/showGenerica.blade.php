@@ -184,8 +184,14 @@
                                     <div class="col-auto text-center" style="min-width: 120px;">
                                         <small class="text-secondary d-block fw-semibold">Concluído em</small>
                                         <small class="text-dark">
-                                            <i class="bi bi-check-circle text-success me-1"></i>
-                                            {{ date('d/m/Y', strtotime($objetivo->dt_conclusao)) }}
+                                            @isset($objetivo->dt_conclusao)
+                                                <i class="bi bi-check-circle text-success me-1"></i>
+                                                {{ date('d/m/Y', strtotime($objetivo->dt_conclusao)) }}
+                                            @else
+                                                <span class="badge text-bg-warning fw-bold">
+                                                    PENDENTE
+                                                </span>
+                                            @endisset
                                         </small>
                                     </div>
                                 </div>

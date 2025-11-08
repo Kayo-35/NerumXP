@@ -1,7 +1,9 @@
 @props([
+    'meta',
     'titulo',
     'route',
-    'importancias'
+    'importancias',
+    'objetivos'
 ])
 <div class="container mt-4">
     <!-- Cabeçalho da Página -->
@@ -111,21 +113,56 @@
 
                         <div class="row mb-3">
                             <div id="secaoObj" class="col-12">
-                                <div class="d-flex align-items-start">
-                                    <div class="form-check me-3 mt-1">
-                                        <input class="form-check-input" type="checkbox" name="objetivo1[]">
-                                        <label class="form-check-label"></label>
-                                    </div>
+                                @if(empty($objetivos))
+                                    <div class="row d-flex align-items-center">
+                                        <div class="col-11">
+                                            <div class="d-flex align-items-start mb-2">
+                                                <div class="form-check me-3 mt-1">
+                                                    <input class="form-check-input" type="checkbox" name="objetivo1[]">
+                                                </div>
 
-                                    <div class="flex-grow-1">
-                                        <label class="form-label fw-semibold text-dark mb-1">
-                                            Objetivo 1:
-                                        </label>
-                                        <input type="text" class="form-control d-inline w-100" name="objetivo1[]">
+                                                <div class="flex-grow-1">
+                                                    <label class="form-label fw-semibold text-dark mb-1">
+                                                        Objetivo 1
+                                                    </label>
+                                                    <input type="text" class="form-control d-inline w-100" name="objetivo1[]">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-1 d-flex align-items-center">
+                                            <button type="button" id="remove1" class="btn btn-lg btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
+                                @else
+                                    @foreach($objetivos as $key => $objetivo)
+                                        <div class="row d-flex align-items-center" id="{{ $key + 1}}obj">
+                                            <div class="col-11">
+                                                <div class="d-flex align-items-start mb-2">
+                                                    <input type="hidden" name="objetivo{{ $key + 1}}[cd_objetivo_meta]" value="{{ $objetivo->cd_objetivo_meta }}">
+                                                    <div class="form-check me-3 mt-1">
+                                                        <input class="form-check-input" type="checkbox" name="objetivo{{ $key + 1 }}[]" {{ $objetivo->ic_status === 1 ? 'checked' : '' }}>
+                                                    </div>
+
+                                                    <div class="flex-grow-1">
+                                                        <label class="form-label fw-semibold text-dark mb-1">
+                                                            Objetivo {{ $key + 1 }}:
+                                                        </label>
+                                                        <input type="text" class="form-control d-inline w-100" name="objetivo{{ $key + 1 }}[]" value="{{ $objetivo->ds_descricao }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-1 d-flex align-items-center">
+                                                <button type="button" id="remove{{$key + 1}}" class="btn btn-lg btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
-                            <div class="row m-4">
+                           <div class="row m-4">
                                 <div class="col-12">
                                     <button id="adicionaObjetivo" type="button" class="btn btn-outline-primary">
                                         <i class="bi bi-plus-circle me-2"></i>
@@ -144,10 +181,10 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <button type="button" class="btn btn-outline-secondary w-100 me-2">
+                                <a class="btn btn-outline-secondary w-100 me-2" href="{{ route('meta.index') }}">
                                     <i class="bi bi-arrow-left me-1"></i>
                                     Cancelar
-                                </button>
+                                </a>
                             </div>
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary w-100">

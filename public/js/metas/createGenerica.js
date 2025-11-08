@@ -1,19 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     let adicionaObjetivo = document.querySelector('#adicionaObjetivo');
-    let secaoObjetivo = document.querySelector('#secaoObj');
-    let checkBoxes = document.querySelectorAll('#secaoObj input[type="checkbox"');
 
-    //Atribui valor falso ao estado de checkboxes não submetidas a cada alteração de estado
-    function atribuiEstadoCheck() {
-        let checkBoxes = document.querySelectorAll('input[type="checkbox"]')
-        checkBoxes.forEach((checkBox) => {
-            checkBox.addEventListener('input', () => {
-                atribuiCheck(checkBox);
-            });
-        });
+    //Util para requisições de atualização
+    let secaoObjetivos = document.querySelector('#secaoObj');
+    let objetivos = secaoObjetivos.querySelectorAll('input[type="checkbox"]');
+    if (objetivos.length > 0) {
+        removeObjetivos();
     }
-
-
 
     //Responsável por criar novas seções para objetivos
     adicionaObjetivo.addEventListener('click', () => {
@@ -30,14 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Atribuir eventos para os botões de remoção
     adicionaObjetivo.addEventListener('click', () => {
-        let removeBotoes = document.querySelectorAll('[id^="remove"]');
-        removeBotoes.forEach((removeObj) => {
-            removeObj.addEventListener('click', () => {
-                numObj = removeObj.id.match(/\d+/)[0];
-                let objetivoRemover = document.querySelector(`[id^='${numObj}']`);
-                if (objetivoRemover != undefined) objetivoRemover.remove();
-            });
-        });
+        removeObjetivos();
         init();
     });
 
@@ -47,6 +33,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             checkBox.value = 'off';
         }
+    }
+
+    function removeObjetivos() {
+        let removeBotoes = document.querySelectorAll('[id^="remove"]');
+        removeBotoes.forEach((removeObj) => {
+            removeObj.addEventListener('click', () => {
+                numObj = removeObj.id.match(/\d+/)[0];
+                let objetivoRemover = document.querySelector(`[id^='${numObj}']`);
+                if (objetivoRemover != undefined) objetivoRemover.remove();
+            });
+        });
     }
 
     function init() {
@@ -65,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="d-flex align-items-start mb-2">
                     <div class="form-check me-3 mt-1">
                         <input class="form-check-input" type="checkbox" name="objetivo${numeroObjetivo}[]">
-                        <label class="form-check-label"></label>
                     </div>
 
                     <div class="flex-grow-1">

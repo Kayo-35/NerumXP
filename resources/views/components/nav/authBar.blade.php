@@ -4,7 +4,7 @@
     <!-- Logo -->
     <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home')}}">
         <img
-        src="img/logo_projeto_fundo_branco.png"
+        src="{{ asset('img/logo_projeto_fundo_branco.png') }}"
         alt="Logo NerumXP"
         width="30"
         />

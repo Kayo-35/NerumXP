@@ -147,49 +147,61 @@ class MetaController extends Controller
 
     public function edit(Metas $meta)
     {
-        dd($meta);
         $this->authorize('use', $meta);
-        $tipoMeta = $meta->tipo()->select('cd_tipo_meta')->first();
+        $tipoMeta = $meta->tipo()->pluck('cd_tipo_meta')->first();
+        $cdTipoGenerico = Tipo_Meta::where('nm_meta', '=', 'Metas Genéricas')
+            ->pluck('cd_tipo_meta')
+            ->first();
 
-        //Obtem os codigos dos tipos de meta a serem inclusos no painel para edição
-        $arrayTipos = match ($tipoMeta->cd_tipo_meta) {
-            1, 2 => [1, 2], //O usuário pode alterar o tipo geral, mas não se é de renda ou despesa
-            default => [3, 4, 5, 6],
-        };
+        if ($tipoMeta != $cdTipoGenerico) {
+            //Obtem os codigos dos tipos de meta a serem inclusos no painel para edição
+            $arrayTipos = match ($tipoMeta->cd_tipo_meta) {
+                1, 2 => [1, 2], //O usuário pode alterar o tipo geral, mas não se é de renda ou despesa
+                default => [3, 4, 5, 6],
+            };
 
-        $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta', $arrayTipos)->get();
-        $registros =  Registro::select(
-            'registro.cd_registro',
-            'registro.cd_nivel_imp',
-            'nm_registro',
-            'vl_valor',
-            'cd_modalidade',
-            'registro.created_at',
-            'cd_categoria',
-            'ic_pago'
-        )->where('cd_usuario', '=', Auth::user()->cd_usuario)
-            ->where('cd_tipo_registro', '=', in_array(1, $arrayTipos) ? 1 : 2)->get();
+            $tiposMeta = Tipo_Meta::whereIn('cd_tipo_meta', $arrayTipos)->get();
+            $registros =  Registro::select(
+                'registro.cd_registro',
+                'registro.cd_nivel_imp',
+                'nm_registro',
+                'vl_valor',
+                'cd_modalidade',
+                'registro.created_at',
+                'cd_categoria',
+                'ic_pago'
+            )->where('cd_usuario', '=', Auth::user()->cd_usuario)
+                ->where('cd_tipo_registro', '=', in_array(1, $arrayTipos) ? 1 : 2)->get();
 
-        $registrosDaMeta = $meta->registro()->select(
-            'registro.cd_registro',
-            'registro.cd_nivel_imp',
-            'nm_registro',
-            'vl_valor',
-            'cd_modalidade',
-            'registro.created_at',
-            'cd_categoria',
-            'ic_pago'
-        )
+            $registrosDaMeta = $meta->registro()->select(
+                'registro.cd_registro',
+                'registro.cd_nivel_imp',
+                'nm_registro',
+                'vl_valor',
+                'cd_modalidade',
+                'registro.created_at',
+                'cd_categoria',
+                'ic_pago'
+            )
+                ->get();
+            return view('meta.edit', [
+                "meta" => $meta,
+                "categorias" => Categoria::all(),
+                "registros" => $registros,
+                "registrosDaMeta" => $registrosDaMeta,
+                "tiposMeta" => $tiposMeta,
+                "importancias" => Nivel_imp::all(),
+                "modalidades" => Modalidade::all(),
+                "tipo" => 0
+            ]);
+        }
+        $objetivos = $meta->objetivos()
             ->get();
-
         return view('meta.edit', [
             "meta" => $meta,
-            "categorias" => Categoria::all(),
-            "registros" => $registros,
-            "registrosDaMeta" => $registrosDaMeta,
-            "tiposMeta" => $tiposMeta,
+            "objetivos" => $objetivos ?? [],
             "importancias" => Nivel_imp::all(),
-            "modalidades" => Modalidade::all()
+            "tipo" => 1
         ]);
     }
 
@@ -197,17 +209,66 @@ class MetaController extends Controller
     {
         //Autorização
         $this->authorize('use', $meta); //Autoriza a usar a meta
-        $registros = !empty($request->registros) ? Registro::whereIn('cd_registro', $request->registros)->get() : [];
-        foreach ($registros as $registro) { //Autoriza a vincular os registros com a meta
-            $this->authorize('use', $registro);
-        }
 
-        //Validando os dados
-        $validated = $request->validate(metaRules());
-        //Atualizando
-        $meta->update($validated);
-        $meta->registro()->sync($registros);
-        $meta->categoria()->sync($validated['categorias']);
+        $cdTipoGenerico = Tipo_Meta::where('nm_meta', '=', 'Metas Genéricas')
+            ->pluck('cd_tipo_meta')
+            ->first();
+
+        if ($meta->cd_tipo_meta != $cdTipoGenerico) {
+            $registros = !empty($request->registros) ?
+                Registro::whereIn('cd_registro', $request->registros)->get() : [];
+            foreach ($registros as $registro) { //Autoriza a vincular os registros com a meta
+                $this->authorize('use', $registro);
+            }
+            $validated = $request->validate(metaRules());
+
+            //Atualizand a meta
+            $meta->update($validated);
+            $meta->registro()->sync($registros);
+            $meta->categoria()->sync($validated['categorias']);
+        } else {
+            //Obtem apenas os objetivos enviados
+            $objetivosNoForm = array_filter($request->all(), fn ($valor) => is_array($valor));
+
+            //Valida os dados
+            $validated = $request->validate(metaGenericaRules());
+
+            //Verifica se os objetivos enviados são realmente pertencentes a meta, senão eu aplico 403
+            $this->autorizarObjetivos(array_column($objetivosNoForm, 'cd_objetivo_meta'), $meta->cd_meta);
+
+            //Atualiza os metadados da meta
+            $meta->update($validated);
+
+            //Checar se houve alterações nos objetivos associados a meta, atualizando se necessário
+            foreach ($objetivosNoForm as $objetivoNoForm) {
+                $objetivoNaBase = Objetivo::find($objetivoNoForm['cd_objetivo_meta']);
+                $descricao = $objetivoNoForm[0] != 'on' ? $objetivoNoForm[0] : $objetivoNoForm[1];
+                $status = $objetivoNoForm[0] == 'on' ? 1 : 0;
+
+                $objetivoNaBase->update([
+                    'ds_descricao' => $descricao,
+                    'ic_status' => $status,
+                    'dt_conclusao' => $status === 1 ? date('Y-m-d') : null
+                ]);
+            }
+
+            //Remove os objetivos que foram removidos no form
+            $codigosPresentes = array_map(
+                fn ($objetivo) => (int) $objetivo,
+                array_column($objetivosNoForm, 'cd_objetivo_meta')
+            );
+            //Verifica se o conjunto de objetivos enviados é o mesmo presente na base
+            $codigosRemover = array_diff(
+                $meta->objetivos()->pluck('cd_objetivo_meta')->toArray(),
+                $codigosPresentes
+            );
+            if (!empty($codigosRemover)) {
+                foreach ($codigosRemover as $codigo) {
+                    $objetivo = Objetivo::find($codigo);
+                    $objetivo->delete();
+                }
+            }
+        }
 
         //Redirecionando
         return redirect(route('meta.show', $meta->cd_meta));
@@ -265,7 +326,14 @@ class MetaController extends Controller
         }, $result);
         return $result;
     }
-    private function salvarObjetivos(?array $objetivos): void
+    public function autorizarObjetivos(array $cdObjetivos, int $codigoMeta): void
     {
+        foreach ($cdObjetivos as $codigo) {
+            $objetivo = Objetivo::find($codigo);
+
+            if ($objetivo->cd_meta != $codigoMeta) {
+                abort(403, 'Ação não autorizada');
+            }
+        }
     }
 }
