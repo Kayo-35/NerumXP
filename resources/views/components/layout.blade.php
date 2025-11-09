@@ -49,6 +49,7 @@
     @endguest
 
     @auth
+        @include('components.feedback')
         <main class="content bg-light-green py-5 ps-lg-4 flex-grow-1">
             {{ $slot }}
         </main>
@@ -58,6 +59,7 @@
             @include("components.nav.footer")
         </footer>
     @endauth
+
     <!-- Scripts js -->
     @if(request()->is('registro/create*'))
         <script src="{{ asset("js/registro/create.js") }}"></script>

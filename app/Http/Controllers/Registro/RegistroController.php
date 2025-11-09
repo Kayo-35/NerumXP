@@ -31,7 +31,7 @@ class RegistroController extends Controller
             //Validation
             $request->boolean("ic_pago");
             $request->boolean("ic_status");
-            $request['vl_valor_minimo'] = str_replace(',','.',$request['vl_valor_minimo']);
+            $request['vl_valor_minimo'] = str_replace(',', '.', $request['vl_valor_minimo']);
 
             $filters = $request->validate(indexFiltersRules());
             $registros = Registro::indexQuery($filters);
@@ -57,10 +57,10 @@ class RegistroController extends Controller
     }
     public function show(Registro $registro)
     {
-       //Autorizando accesso ao recurso ou não
+        //Autorizando accesso ao recurso ou não
         $this->authorize("use", $registro);
         $metodos = $registro->metodo_pagamento()->get();
-        $historico = $registro->historico()->select('vl_valor','updated_at')->orderBy('updated_at','desc')->get();
+        $historico = $registro->historico()->select('vl_valor', 'updated_at')->orderBy('updated_at', 'desc')->get();
         return view("registro.show", [
             "registro" => $registro,
             "metodos" => $metodos ?? new Collection(),
@@ -100,8 +100,12 @@ class RegistroController extends Controller
         //Associar metodos na tabela associativa
         $registro->metodo_pagamento()->sync($request->metodos);
 
+        //Incluindo feedback
+        $request->session()
+            ->flash('criar_registro', $registro->cd_registro);
+
         //Redirecionar
-        return redirect(route("registro.show", ["registro" => $registro]));
+        return redirect(route("registro.index"));
     }
     public function edit(Registro $registro)
     {
@@ -131,12 +135,20 @@ class RegistroController extends Controller
         $data = $request->validate(registroRules());
         $registro->update($data);
         $registro->metodo_pagamento()->sync($request->metodos);
-        return redirect(route("registro.show", ["registro" => $registro]));
+
+        $request->session()
+            ->flash('atualizar_registro', $registro->cd_registro);
+
+        return redirect(route("registro.index"));
     }
-    public function destroy(Registro $registro)
+    public function destroy(Registro $registro, Request $request)
     {
         $this->authorize("use", $registro);
         $registro->delete();
+
+        $request->session()
+            ->flash('remover_registro', $registro->cd_registro);
+
         return redirect(route("registro.index"));
     }
 }

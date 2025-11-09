@@ -142,7 +142,12 @@ class MetaController extends Controller
             $meta->categoria()->sync($request->categorias);
             $meta->registro()->sync($request->registros);
         }
-        return redirect(route('meta.show', ["meta" => $meta]));
+
+        //Incluindo feedback
+        $request->session()
+            ->flash('criar_meta', $meta->cd_meta);
+
+        return redirect(route('meta.index'));
     }
 
     public function edit(Metas $meta)
@@ -257,7 +262,6 @@ class MetaController extends Controller
                 fn ($objetivo) => (int) $objetivo,
                 array_column($objetivosNoForm, 'cd_objetivo_meta')
             );
-            //Verifica se o conjunto de objetivos enviados é o mesmo presente na base
             $codigosRemover = array_diff(
                 $meta->objetivos()->pluck('cd_objetivo_meta')->toArray(),
                 $codigosPresentes
@@ -270,14 +274,23 @@ class MetaController extends Controller
             }
         }
 
+        //Incluindo feedback
+        $request->session()
+            ->flash('atualizar_meta', $meta->cd_meta);
+
         //Redirecionando
-        return redirect(route('meta.show', $meta->cd_meta));
+        return redirect(route('meta.index'));
     }
 
-    public function destroy(Metas $meta)
+    public function destroy(Metas $meta, Request $request)
     {
         $this->authorize("use", $meta);
         $meta->delete();
+
+        //Incluindo feedback
+        $request->session()
+            ->flash('remover_meta', $meta->cd_meta);
+
         return redirect(route('meta.index'));
     }
 
