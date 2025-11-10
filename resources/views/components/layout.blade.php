@@ -8,7 +8,8 @@
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
     @auth<link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
     <link rel="stylesheet" href="{{ asset('css/resumo.css') }}"></link>@endauth
-    @guest<link rel="stylesheet" href="{{ asset('css/guest.css') }}"></link>@endguest
+    @guest<link rel="stylesheet" href="{{ asset('css/guest.css') }}"></link>
+    <link rel="stylesheet" href="{{ asset('css/loginCadastro.css') }}">@endguest
     <link rel="stylesheet" href="{{ asset('css/meta.css') }}"></link>
     <link rel="stylesheet" href="{{ asset('css/components/accountPanel.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/sideBar.css') }}"></link>
@@ -31,6 +32,18 @@
     </header>
 
     @guest
+    @if(request()->is('/register/create') || request()->is('/login/create'))
+        <section class="flex-grow-1 d-flex align-items-center justify-content-center">
+            {{ $slot }}
+        </section>
+
+        <footer
+            class="footer py-3 border-top mt-0 footer-custom"
+        >
+            @include("components.nav.footer")
+        </footer>
+    @endif
+        
         <section class="flex-grow-1">
             {{ $slot }}
         </section>

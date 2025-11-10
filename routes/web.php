@@ -8,7 +8,7 @@ use App\Http\Controllers\Registro\RegistroController;
 use App\Http\Controllers\RelatorioController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'guest']);
+Route::get('/', [HomeController::class, 'guest'])->name('guest.home');
 Route::get('/home', [HomeController::class, 'user'])->middleware('auth')->name('home');
 
 Route::get("/about", function () {
@@ -92,3 +92,8 @@ Route::controller(LoginController::class)->group(function () {
     Route::post("login", "store");
     Route::delete("login", "destroy");
 });
+
+//Termos de uso
+Route::get('/termos-de-uso', function () {
+    return view('components.conta.termos');
+})->name('termos.show');
