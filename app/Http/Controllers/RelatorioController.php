@@ -13,8 +13,8 @@ class RelatorioController extends Controller
     {
         $rendaPorCategoria = Registro::relatorioTotalPorCategoria(1, '2024');
         $despesaPorCategoria = Registro::relatorioTotalPorCategoria(2, '2024');
-        $rendaPorMes = Registro::relatorioTotalPorMes(1, '2024');
-        $despesaPorMes = Registro::relatorioTotalPorMes(2, '2024');
+        $rendaPorMes = Registro::relatorioTotalPorMes(1, '2025');
+        $despesaPorMes = Registro::relatorioTotalPorMes(2, '2025');
         return view('relatorio.index', [
             "rendaPorCategoria" => $rendaPorCategoria,
             "despesaPorCategoria" => $despesaPorCategoria,

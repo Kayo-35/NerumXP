@@ -260,18 +260,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateRegistroArray(modalidade) {
         //Registros vem da template blade, minha IDE por exemplo, acha que é um valor indefinido por isso
         registrosFiltrados = registros.filter((registro) => {
-            if (categoriasSelecionadas.length > 0) {
-                //Verifica se a filtragem deve incluir as categorias
-                return (
-                    registro.cd_modalidade == modalidade &&
+            if (categoriasSelecionadas.length > 0 && registro.cd_categoria != null) {
+                return registro.cd_modalidade == modalidade &&
                     categoriasSelecionadas.includes(
-                        registro.cd_categoria.toString(),
+                        registro.cd_categoria != null ? registro.cd_categoria.toString() : 'teste',
                     )
-                );
-            } else {
-                //Caso contrário apenas filtre por modalidade
-                return registro.cd_modalidade.toString() == modalidade;
             }
+            //Caso contrário apenas filtre por modalidade
+            return registro.cd_modalidade.toString() == modalidade;
         });
     }
 

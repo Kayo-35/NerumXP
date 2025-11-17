@@ -102,7 +102,7 @@
                       <x-helper.categoria :cdCategoria="$registro->cd_categoria"/>
                     </div>
                     <div class="col-12 col-md-2">
-                      <span class="badge {{ $registro->cd_tipo_registro == 1 ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}}"
+                      <span class="badge {{ $registro->ic_pago == 1 ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger'}}"
                         >{{ $registro->ic_pago == 1 ? 'PAGO' : 'NÃO PAGO' }}</span
                       >
                     </div>

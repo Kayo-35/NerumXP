@@ -11,9 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     //Responsável por criar novas seções para objetivos
     adicionaObjetivo.addEventListener('click', () => {
         let secaoObjetivo = document.querySelector('#secaoObj');
-        numeroDeObjetivos = document.querySelectorAll('input[type="checkbox"]').length;
+        numeroDeObjetivos = secaoObjetivo.querySelectorAll('input[type="checkbox"]').length;
         novoObj = objetivoTemplate(numeroDeObjetivos + 1);
         secaoObjetivo.appendChild(novoObj);
+
+        contabilizaObjetivos();
+
         let checkBox = novoObj.querySelector('input[type="checkbox"');
         checkBox.addEventListener('input', () => {
             atribuiCheck(checkBox)
@@ -35,14 +38,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function contabilizaObjetivos() {
+        let secaoObjetivo = document.querySelector('#secaoObj');
+        let numObj = secaoObjetivo.querySelectorAll('input[type="checkbox"]').length;
+        let objetivos = secaoObjetivo.querySelectorAll('label');
+        let buttons = secaoObjetivo.querySelectorAll('button');
+        let setObj = secaoObjetivo.querySelectorAll(':scope > div');
+
+        //Renumerando as legendas e ids
+        for (let i = 0; i < numObj; i++) {
+            setObj[i].id = `${i + 1}obj`;
+            buttons[i].id = `remove${i + 1}`;
+            objetivos[i].innerHTML = `Objetivo ${i + 1}`;
+        }
+    }
+
     function removeObjetivos() {
         let removeBotoes = document.querySelectorAll('[id^="remove"]');
-        removeBotoes.forEach((removeObj) => {
+        removeBotoes.forEach((removeObj, key) => {
             removeObj.addEventListener('click', () => {
-                numObj = removeObj.id.match(/\d+/)[0];
-                let objetivoRemover = document.querySelector(`[id^='${numObj}']`);
+                let objetivoRemover = removeObj.closest('[id$="obj"]');
+                console.log(objetivoRemover);
                 if (objetivoRemover != undefined) objetivoRemover.remove();
+                contabilizaObjetivos();
             });
+            return;
         });
     }
 
@@ -73,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
             <div class="col-1 d-flex align-items-center">
-                <button type="button" id="remove${numeroObjetivo} "class="btn btn-lg btn-outline-danger">
+                <button type="button" id="remove${numeroObjetivo}" class="btn btn-lg btn-outline-danger">
                     <i class="bi bi-trash"></i>
                 </button>
             </div>`;
