@@ -6,13 +6,18 @@
     <title>NerumXP - Organize sua vida financeira</title>
     <meta name="description" content="Controle seus ganhos, acompanhe gastos e alcance metas com o NerumXP. Relatórios visuais e planos para todos.">
     @vite(['resources/css/app.css','resources/css/geral.css','resources/js/app.js'])
-    @auth<link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
-    <link rel="stylesheet" href="{{ asset('css/resumo.css') }}"></link>@endauth
-    @guest<link rel="stylesheet" href="{{ asset('css/guest.css') }}"></link>
-    <link rel="stylesheet" href="{{ asset('css/loginCadastro.css') }}">@endguest
     <link rel="stylesheet" href="{{ asset('css/meta.css') }}"></link>
     <link rel="stylesheet" href="{{ asset('css/components/accountPanel.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/sideBar.css') }}"></link>
+
+    @auth
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}"></link>
+        <link rel="stylesheet" href="{{ asset('css/resumo.css') }}"></link>
+    @endauth
+    @guest
+        <link rel="stylesheet" href="{{ asset('css/guest.css') }}"></link>
+        <link rel="stylesheet" href="{{ asset('css/loginCadastro.css') }}">
+    @endguest
     @if(request()->is("registro"))
         <link rel="stylesheet" href="{{ asset('css/registro/card.css')}}"></link>
         <link rel="stylesheet" href="{{ asset('css/registro/registro.css')}}"></link>
@@ -67,18 +72,13 @@
     @endauth
     <!-- Scripts js -->
     @if(request()->is('registro/create*'))
-        <script src="{{ asset("js/registro/create.js") }}"></script>
+        <script src="{{ asset('js/registro/create.js') }}"></script>
     @endif
     @if(request()->is('registro/*/edit'))
-        <script src="{{ asset("js/registro/edit.js") }}"></script>
+        <script src="{{ asset('js/registro/edit.js') }}"></script>
     @endif
 
     <!--Chart.js-->
-    @guest
-        @if(request()->is('register/create'))
-            <script src="{{ asset("js/contas/create.js") }}"></script>
-        @endif
-    @endguest
     @auth
         @if(request()->is('home'))
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

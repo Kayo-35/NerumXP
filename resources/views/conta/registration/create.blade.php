@@ -1,5 +1,5 @@
-<x-layout>
-    <div class="container">
+<x-base>
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <!-- Card de Cadastro -->
@@ -76,4 +76,4 @@
             </div>
         </div>
     </div>
-</x-layout>
+</x-base>
