@@ -199,3 +199,6 @@
         </div>
     </form>
 </div>
+@if(request()->is('meta/*/edit'))
+    <script src="{{ asset('js/metas/createGenerica.js')}}"></script>
+@endif

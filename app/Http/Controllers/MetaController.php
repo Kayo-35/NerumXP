@@ -160,7 +160,7 @@ class MetaController extends Controller
 
         if ($tipoMeta != $cdTipoGenerico) {
             //Obtem os codigos dos tipos de meta a serem inclusos no painel para edição
-            $arrayTipos = match ($tipoMeta->cd_tipo_meta) {
+            $arrayTipos = match ($tipoMeta) {
                 1, 2 => [1, 2], //O usuário pode alterar o tipo geral, mas não se é de renda ou despesa
                 default => [3, 4, 5, 6],
             };

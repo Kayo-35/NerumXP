@@ -96,7 +96,6 @@
 
         @if(request()->is('meta/*/edit'))
             <script src="{{ asset("js/metas/edit.js") }}"></script>
-            <script src="{{ asset("js/metas/createGenerica.js") }}"></script>
         @endif
 
         @if(request()->is('relatorio*'))

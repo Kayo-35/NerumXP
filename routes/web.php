@@ -16,58 +16,60 @@ Route::get("/about", function () {
 });
 
 //Registros
-Route::middleware("auth")
+Route::prefix('registro')
+    ->middleware("auth")
     ->controller(RegistroController::class)
     ->group(function () {
-        Route::get("registro/", "index")->name("registro.index");
+        Route::get("/", "index")->name("registro.index");
 
-        Route::get("registro/create", "create")->name("registro.create");
+        Route::get("/create", "create")->name("registro.create");
 
-        Route::get("registro/{registro}", "show")
+        Route::get("/{registro}", "show")
             ->whereNumber("registro")
             ->name("registro.show");
 
-        Route::post("registro/", "store")->name("registro.store");
+        Route::post("/", "store")->name("registro.store");
 
-        Route::get("registro/{registro}/edit", "edit")
+        Route::get("/{registro}/edit", "edit")
             ->whereNumber("registro")
             ->name("registro.edit");
 
-        Route::put("registro/{registro}", "update")
+        Route::put("/{registro}", "update")
             ->whereNumber("registro")
             ->name("registro.put");
 
-        Route::delete("registro/{registro}", "destroy")
+        Route::delete("/{registro}", "destroy")
             ->whereNumber("registro")
             ->name("registro.destroy");
     });
 
 //Metas
-Route::middleware("auth")
+Route::prefix('meta')
+    ->middleware("auth")
     ->controller(MetaController::class)
     ->group(function () {
-        Route::get('meta/', "index")
+        Route::get('/', "index")
             ->name("meta.index");
 
-        Route::get("meta/create", "create")
+        Route::get("/create", "create")
             ->name("meta.create");
 
-        Route::get("meta/{meta}", "show")
+        Route::get("/{meta}", "show")
             ->whereNumber("meta")
             ->name("meta.show");
 
-        Route::get("meta/{meta}/edit", 'edit')
+        Route::get("/{meta}/edit", 'edit')
             ->whereNumber('meta')
             ->name("meta.edit");
 
-        Route::post("meta/", "store")
+        Route::post("/", "store")
             ->name("meta.store");
 
-        Route::put("meta/{meta}", "update")
+        Route::put("/{meta}", "update")
             ->whereNumber("meta")
             ->name("meta.put");
 
-        Route::delete("meta/{meta}", "destroy")
+        Route::delete("/{meta}", "destroy")
             ->whereNumber("meta")
             ->name("meta.destroy");
     });

@@ -138,29 +138,43 @@
                                 <h6 class="mb-0">Registros Associados:</h6>
                             </div>
                             <ul class="list-group list-group-flush">
-                                @foreach ($meta->registro()->get() as $registro)
-                                <li
-                                    class="list-group-item d-flex justify-content-between align-items-center">
-                                    <a
-                                        class="link-secondary"
-                                        href="{{ route("registro.show", $registro) }}">
-                                        <div>
-                                            @if ($registro->cd_tipo_registro == 2)
-                                            <i
-                                                class="bi bi-x-circle text-danger me-2"></i>
-                                            @else
-                                            <i
-                                                class="bi bi-check-circle text-success me-2"></i>
-                                            @endif
-                                            {{ $registro->nm_registro }}
-                                        </div>
-                                    </a>
-                                    <span class="badge bg-primary rounded-pill">
-                                        R$
-                                        {{ str_replace(".", ",", $registro->vl_valor) }}
-                                    </span>
-                                </li>
-                                @endforeach
+                                @unless($meta->registro()->get()->count() === 0)
+                                    @foreach ($meta->registro()->get() as $registro)
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a
+                                            class="link-secondary"
+                                            href="{{ route("registro.show", $registro) }}">
+                                            <div>
+                                                @if ($registro->cd_tipo_registro == 2)
+                                                <i
+                                                    class="bi bi-x-circle text-danger me-2"></i>
+                                                @else
+                                                <i
+                                                    class="bi bi-check-circle text-success me-2"></i>
+                                                @endif
+                                                {{ $registro->nm_registro }}
+                                            </div>
+                                        </a>
+                                        <span class="badge bg-primary rounded-pill">
+                                            R$
+                                            {{ str_replace(".", ",", $registro->vl_valor) }}
+                                        </span>
+                                    </li>
+                                    @endforeach
+                                @else
+                                    <div class="p-2">
+                                        <x-helper.nothing
+                                            icon="bi-file-earmark-plus"
+                                            title="Nenhum Registro associado"
+                                            text="Não há registros associados a essa meta"
+                                            labelIcon="Edite"
+                                            route="{{ route('meta.edit',$meta->cd_meta) }}"
+                                            label="Edite sua meta e adicione registros!"
+                                            marginTop='mt-0'
+                                        />
+                                    </div>
+                                @endunless
                             </ul>
                         </div>
                     </div>
