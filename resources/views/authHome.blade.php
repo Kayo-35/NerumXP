@@ -1,5 +1,5 @@
 <x-layout>
-  
+
   @if($resumo[0]->vl_debito !== null && $resumo[0]->vl_superavit !== null)
     <div class="container-fluid">
       <div class="row g-4">
@@ -147,4 +147,9 @@
     />
   @endif
 
+  @push('scriptsAuth')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('js/registro/grafico.js') }}"></script>
+    <script src="{{ asset("js/metas/resumo.js") }}"></script>
+  @endpush
 </x-layout>

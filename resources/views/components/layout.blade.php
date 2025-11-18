@@ -27,6 +27,7 @@
     @endif
 </head>
 <body class="{{ Auth::check() ? 'bg-light-green' : 'bg-white' }} d-flex flex-column min-vh-100">
+    {{-- Navbars --}}
     <header>
         @guest
             @include("components.nav.navbar")
@@ -36,6 +37,7 @@
         @endauth
     </header>
 
+    {{-- Seções principais --}}
     @guest
         <section class="flex-grow-1">
             {{ $slot }}
@@ -60,48 +62,13 @@
         </footer>
     @endauth
 
-    <!-- Scripts js -->
-    @if(request()->is('registro/create*'))
-        <script src="{{ asset("js/registro/create.js") }}"></script>
-    @endif
-    @if(request()->is('registro/*/edit'))
-        <script src="{{ asset("js/registro/edit.js") }}"></script>
-    @endif
-
-    <!--Chart.js-->
+    {{-- Scripts --}}
     @guest
-        @if(request()->is('register/create'))
-            <script src="{{ asset("js/contas/create.js") }}"></script>
-        @endif
+        @stack('scriptsGuest')
     @endguest
+
     @auth
-        @if(request()->is('home'))
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="{{ asset('js/registro/grafico.js') }}"></script>
-            <script src="{{ asset("js/metas/resumo.js") }}"></script>
-        @endif
-
-        @if(request()->is('meta'))
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="{{ asset("js/metas/resumo.js") }}"></script>
-        @endif
-
-        @if(request()->is('meta/create'))
-            @if(request()->query->all()['tipo'][0] != 7)
-                <script src="{{ asset("js/metas/create.js") }}"></script>
-            @else
-                <script src="{{ asset("js/metas/createGenerica.js") }}"></script>
-            @endif
-        @endif
-
-        @if(request()->is('meta/*/edit'))
-            <script src="{{ asset("js/metas/edit.js") }}"></script>
-        @endif
-
-        @if(request()->is('relatorio*'))
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script src="{{ asset("js/relatorios/categoria.js") }}"></script>
-        @endif
+        @stack('scriptsAuth')
     @endauth
 </body>
 </html>

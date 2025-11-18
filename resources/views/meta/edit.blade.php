@@ -20,4 +20,7 @@
             :meta=$meta
         />
     @endif
+    @push('scriptsAuth')
+        <script src="{{ asset("js/metas/edit.js") }}"></script>
+    @endpush
 </x-layout>

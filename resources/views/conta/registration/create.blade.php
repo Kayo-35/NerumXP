@@ -60,4 +60,7 @@
         </div>
     </div>
 </div>
+@push('scriptsGuest')
+    <script src="{{ asset("js/contas/create.js") }}"></script>
+@endpush
 </x-layout>

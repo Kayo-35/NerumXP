@@ -14,4 +14,7 @@
         :localizacaos=$localizacaos
         :realizadores=$realizadores
     />
+    @push('scriptsAuth')
+        <script src="{{ asset("js/registro/edit.js") }}"></script>
+    @endpush
 </x-layout>
