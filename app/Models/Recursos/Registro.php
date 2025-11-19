@@ -214,7 +214,7 @@ class Registro extends Model
         return $registros->get();
     }
 
-    public static function relatorioTotalPorCategoria(int $tipoRegistro, string $ano): array
+    public static function relatorioTotalPorCategoria(int $tipoRegistro, string $dataInicio, string $dataFim): array
     {
         $dados = DB::table('registro AS r')
             ->join('categoria AS c', 'r.cd_categoria', '=', 'c.cd_categoria')
@@ -224,7 +224,7 @@ class Registro extends Model
             )
             ->where('r.cd_tipo_registro', '=', $tipoRegistro)
             ->where('cd_usuario', '=', Auth::user()->cd_usuario)
-            ->whereYear('created_at', $ano)
+            ->whereBetween('created_at', [$dataInicio, $dataFim])
             ->groupBy('c.nm_categoria')
             ->get();
 
@@ -232,7 +232,7 @@ class Registro extends Model
         return $resultado->all();
     }
 
-    public static function relatorioTotalPorMes(int $tipoRegistro, string $ano): array
+    public static function relatorioTotalPorMes(int $tipoRegistro, string $dataInicio, string $dataFim): array
     {
         $dados = DB::table('registro AS r')
             ->select(
@@ -241,7 +241,7 @@ class Registro extends Model
                 DB::raw('SUM(r.vl_valor) as totalMensal')
             )->where('cd_usuario', '=', Auth::user()->cd_usuario)
             ->where('cd_tipo_registro', '=', $tipoRegistro)
-            ->whereYear('created_at', $ano)
+            ->whereBetween('created_at', [$dataInicio, $dataFim])
             ->groupBy('mes', 'ordemMes')
             ->orderBy('ordemMes', 'asc')
             ->get();

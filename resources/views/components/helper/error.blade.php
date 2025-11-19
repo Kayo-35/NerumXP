@@ -1,4 +1,4 @@
-@props([ "campo", "nome" ])
+@props([ "campo" ])
 @error($campo)
     <div class="alert alert-danger m-1 h-50 d-flex align-items-center" {{ $attributes }}>
         <i class="bi bi-exclamation-triangle">

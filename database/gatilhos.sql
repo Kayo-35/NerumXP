@@ -33,19 +33,20 @@ CREATE TRIGGER tr_historico_metas_ai
     FOR EACH ROW
 BEGIN
     -- Para metas de valor Fixo
-    IF(NEW.vl_valor_meta is not null AND NEW.vl_valor_progresso is not null) THEN
+    IF(NEW.vl_valor_meta is not null OR NEW.vl_valor_progresso is not null) THEN
         INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,created_at,updated_at) VALUES
         (NEW.cd_meta,NEW.vl_valor_meta,NEW.vl_valor_progresso,NOW(),NOW());
     ELSE
         -- Para metas de valor percentual
-        IF(NEW.pc_meta is not null AND NEW.pc_progresso is not null) THEN
-            INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,created_at,updated_at) VALUES
-            (NEW.cd_meta,NEW.vl_valor_meta,NEW.vl_valor_progresso,NOW(),NOW());
+        IF(NEW.pc_meta is not null OR NEW.pc_progresso is not null) THEN
+            INSERT INTO historico_metas(cd_meta,pc_alvo,pc_progresso,created_at,updated_at) VALUES
+            (NEW.cd_meta,NEW.pc_meta,NEW.pc_progresso,NOW(),NOW());
         END IF;
     END IF;
 END
 delimiter ;
 
+-- HISTORICO NÃO ESTÁ FUNCIONAL!! REVER ERROS!
 delimiter $$
 CREATE TRIGGER tr_historico_metas_au
     AFTER UPDATE ON metas
@@ -61,31 +62,29 @@ BEGIN
     IF(NEW.vl_valor_meta <> OLD.vl_valor_meta) THEN
         SET vl_alvo_var = NEW.vl_valor_meta;
     ELSE
-        SET vl_alvo_var = NULL;
+        SET vl_alvo_var = OLD.vl_valor_meta;
     END IF;
 
     IF(NEW.vl_valor_progresso <> OLD.vl_valor_progresso) THEN
         SET vl_progresso_var = NEW.vl_valor_progresso;
     ELSE
-        SET vl_progresso_var = NULL;
+        SET vl_progresso_var = OLD.vl_valor_progresso;
     END IF;
 
     IF(NEW.pc_meta <> OLD.pc_meta) THEN
         SET pc_alvo_var = NEW.pc_meta;
     ELSE
-        SET pc_alvo_var = NULL;
+        SET pc_alvo_var = OLD.pc_meta;
     END IF;
 
     IF(NEW.pc_progresso <> OLD.pc_progresso) THEN
         SET pc_progresso_var = NEW.pc_progresso;
     ELSE
-        SET pc_progresso_var = NULL;
+        SET pc_progresso_var = OLD.pc_progresso;
     END IF;
-
-    IF(pc_progresso_var is not null OR pc_alvo_var is not null OR vl_progresso_var is not null OR vl_alvo_var is not null) THEN
-        INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,pc_alvo,pc_progresso,created_at,updated_at) VALUES
-        (NEW.cd_meta,vl_alvo_var,vl_progresso_var,pc_alvo_var,pc_progresso_var,NEW.created_at,NEW.updated_at);
-    END IF;
+    
+    INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,pc_alvo,pc_progresso,created_at,updated_at) VALUES
+    (NEW.cd_meta,vl_alvo_var,vl_progresso_var,pc_alvo_var,pc_progresso_var,NEW.created_at,NEW.updated_at);
 END
 delimiter ;
 

@@ -40,8 +40,8 @@ class RegistroFactory extends Factory
                 ->format("Y-m-d"),
             "ds_descricao" => fake()->text(255),
             //Para testes geração de datas aleatórias é melhor
-            "created_at" => fake()->dateTimeBetween("-2 years", "now"),
-            "updated_at" => fake()->dateTimeBetween("-2 years", "now"),
+            "created_at" => fake()->dateTimeBetween("-1 years", "now"),
+            "updated_at" => fake()->dateTimeBetween("-1 years", "now"),
         ];
     }
     public function flutuante()
@@ -58,7 +58,7 @@ class RegistroFactory extends Factory
                     "qt_meses_incidencia" =>
                         $capitalizacao[array_rand($capitalizacao)],
                     "dt_vencimento" => fake()
-                        ->dateTimeBetween("-2 years", "5 years")
+                        ->dateTimeBetween("-1 years", "5 years")
                         ->format("Y-m-d"),
                 ];
             }

@@ -85,7 +85,7 @@ new Chart(rendaDespesa, {
         plugins: {
             title: {
                 display: true,
-                text: 'Renda vs Despesa 2024',
+                text: 'Renda vs Despesa',
                 font: {
                     size: 30
                 }

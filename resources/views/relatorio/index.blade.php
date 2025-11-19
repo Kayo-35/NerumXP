@@ -11,12 +11,26 @@
                         <div class="row align-items-end g-3">
                             <div class="col-md-5 col-sm-12">
                                 <label for="dt_inicio" class="form-label fw-bold text-success">Data de Início</label>
-                                <input type="date" class="form-control shadow-sm border-success" id="dt_inicio" name="dt_inicio" required>
+                                <input 
+                                    type="date" 
+                                    class="form-control shadow-sm border-success" 
+                                    id="dt_inicio" 
+                                    name="dt_inicio" 
+                                    value="{{ old('dt_inicio') }}"
+                                    required
+                                >
                             </div>
 
                             <div class="col-md-5 col-sm-12">
                                 <label for="dt_fim" class="form-label fw-bold text-success">Data de Fim</label>
-                                <input type="date" class="form-control shadow-sm border-success" id="dt_fim" name="dt_fim" required>
+                                <input 
+                                    type="date" 
+                                    class="form-control shadow-sm border-success" 
+                                    id="dt_fim" 
+                                    name="dt_fim" 
+                                    value="{{ old('dt_fim') }}"
+                                    required
+                                >
                             </div>
 
                             <div class="col-md-2 col-sm-12">
@@ -27,6 +41,8 @@
                         </div>
                     </form>
                 </div>
+                <x-helper.error campo="dt_inicio"></x-error>
+                <x-helper.error campo="dt_fim"></x-error>
             </div>
         </div>
     </div>
@@ -71,20 +87,20 @@
 
                 </div>
             </div>
-        @endunless
-        <div class="col-12 mt-5">
-            <div class="card shadow-lg border-0 rounded-4">
+            <div class="col-12 mt-5">
+                <div class="card shadow-lg border-0 rounded-4">
 
-                <div class="card-header bg-white border-bottom p-3">
-                    <h5 class="mb-0 text-dark opacity-75 fw-normal">📈 Visão Geral de Renda e Despesa</h5>
+                    <div class="card-header bg-white border-bottom p-3">
+                        <h5 class="mb-0 text-dark opacity-75 fw-normal">📈 Visão Geral de Renda e Despesa</h5>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <canvas id="rendaDespesa"></canvas>
+                    </div>
                 </div>
-
-                <div class="card-body p-4">
-                    <canvas id="rendaDespesa"></canvas>
-                </div>
-
             </div>
         </div>
+        @endunless
     </div>
     @push('scriptsAuth')
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
