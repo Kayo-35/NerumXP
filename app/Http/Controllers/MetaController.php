@@ -53,7 +53,7 @@ class MetaController extends Controller
             )
             ->get();
         if ($meta->cd_tipo_meta < 7) {
-            $historico = $meta->historico()->get();
+            $historico = $meta->relatorioHistorico($meta);
             return view("meta.show", [
                 "meta" => $meta,
                 "registrosMeta" => $registrosMeta,

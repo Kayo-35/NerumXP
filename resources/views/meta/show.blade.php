@@ -168,8 +168,8 @@
                             Histórico da Meta
                         </h5>
                     </div>
-                    @if($historico->count() === 1)
-                        <div class="row mb-4">
+                    @if(count($historico) === 1)
+                        <div class="row mb-4 p-3">
                             <div class="col-12">
                                 <div class="card border-0 shadow-sm bg-light">
                                     <div
@@ -198,34 +198,7 @@
                         </div>
                     @else
                         <div class="card-body">
-                            <div class="row g-4">
-                                <div class="col-md-4">
-                                    <div class="milestone-card bg-success bg-opacity-10 p-4 text-center">
-                                        <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
-                                        <h5 class="text-success mb-2 fw-bold">25% Alcançado</h5>
-                                        <p class="text-secondary mb-0">Março 2024</p>
-                                        <small class="text-success fw-bold">✓ Concluído</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="milestone-card bg-primary bg-opacity-10 p-4 text-center">
-                                        <i class="bi bi-hourglass-split text-primary fs-1 mb-3"></i>
-                                        <h5 class="text-primary mb-2 fw-bold">50% Meta</h5>
-                                        <p class="text-secondary mb-0">Dezembro 2024</p>
-                                        <small class="text-primary fw-bold">⏳ Em progresso</small>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="milestone-card bg-warning bg-opacity-10 p-4 text-center">
-                                        <i class="bi bi-flag-fill text-warning fs-1 mb-3"></i>
-                                        <h5 class="text-warning mb-2 fw-bold">Meta Final</h5>
-                                        <p class="text-secondary mb-0">
-                                            {{ date('d/m/Y',strtotime($meta->dt_termino)) }}
-                                        </p>
-                                        <small class="text-warning fw-bold">🎯 Objetivo</small>
-                                    </div>
-                                </div>
-                            </div>
+                            <canvas id="grafico_historico"></canvas>
                         </div>
                     @endif
                 </div>
@@ -359,4 +332,11 @@
             </div>
         </div>
     </div>
+    <script>
+        const historico = @json($historico);
+    </script>
+    @stack('scriptsAuth')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="{{ asset('js/metas/historicoChart.js') }}"></script>
+    @endstack
 </x-layout>

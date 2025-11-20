@@ -9,10 +9,11 @@ class HistoricoMetas extends Model
 {
     protected $table = 'historico_metas';
     protected $primaryKey = 'cd_historico_meta';
-    public $timestamps = true;
+    public $timestamps = false;
 
     //Relacionamentos
-    public function meta() {
+    public function meta()
+    {
         return $this->belongsTo(
             Metas::class,
             'cd_meta',
