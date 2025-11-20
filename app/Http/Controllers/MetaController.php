@@ -53,9 +53,11 @@ class MetaController extends Controller
             )
             ->get();
         if ($meta->cd_tipo_meta < 7) {
+            $historico = $meta->historico()->get();
             return view("meta.show", [
                 "meta" => $meta,
-                "registrosMeta" => $registrosMeta
+                "registrosMeta" => $registrosMeta,
+                "historico" => $historico ?? []
             ]);
         } else {
             return view('meta.showGenerica', [
@@ -248,7 +250,7 @@ class MetaController extends Controller
             //Checar se houve alterações nos objetivos associados a meta, atualizando se necessário
             foreach ($objetivosNoForm as $objetivoNoForm) {
                 $descricao = $objetivoNoForm[0] != 'on' ? $objetivoNoForm[0] : $objetivoNoForm[1];
-                if(isset($objetivoNoForm['cd_objetivo_meta'])) {
+                if (isset($objetivoNoForm['cd_objetivo_meta'])) {
                     $objetivoNaBase = Objetivo::find($objetivoNoForm['cd_objetivo_meta']);
                     $status = $objetivoNoForm[0] == 'on' ? 1 : 0;
                     $objetivoNaBase->update([
@@ -263,7 +265,7 @@ class MetaController extends Controller
                         'dt_conclusao' => count($objetivoNoForm) < 1 ? null : date('Y/m/d H:m:s'),
                         'ic_status' => count($objetivoNoForm) > 1 ? true : false
                     ]);
-                    
+
                     array_push($objetivos, $objetivo->cd_objetivo_meta);
                 }
             }
@@ -272,13 +274,13 @@ class MetaController extends Controller
             $codigosPresentes = array_map(
                 fn ($objetivo) => (int) $objetivo,
                 array_column($objetivosNoForm, 'cd_objetivo_meta')
-            );       
-     
+            );
+
             $codigosRemover = array_diff(
                 $meta->objetivos()->pluck('cd_objetivo_meta')->toArray(),
                 $codigosPresentes
             );
-            
+
             $codigosRemover = array_diff($codigosRemover, $objetivos);
 
             if (!empty($codigosRemover)) {

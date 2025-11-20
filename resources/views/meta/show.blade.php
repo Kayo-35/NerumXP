@@ -66,7 +66,11 @@
                                     <label class="form-label text-secondary fw-bold mb-2">Valor Alvo</label>
                                     <h2 class="text-primary mb-3 fw-bold">
                                         {{ isset($meta->vl_valor_meta) ? 'R$' : ''}}
-                                        {{ number_format($meta->vl_valor_meta, thousands_separator: '.', decimal_separator: ',') ?? number_format($meta->pc_meta,2,',')."%"}}
+                                        @isset($meta->vl_valor_meta)
+                                            {{ number_format($meta->vl_valor_meta, thousands_separator: '.', decimal_separator: ',') }}
+                                        @else
+                                            {{ number_format($meta->pc_meta, 2, ',')."%" }}
+                                        @endisset
                                     </h2>
                                 </div>
                             </div>
@@ -75,7 +79,11 @@
                                     <label class="form-label text-secondary fw-bold mb-2">Valor Atual</label>
                                     <h2 class="text-warning mb-3 fw-bold">
                                         {{ isset($meta->vl_valor_meta) ? 'R$' : ''}}
-                                        {{ number_format($meta->vl_valor_progresso, decimal_separator: ',') ?? number_format($meta->pc_progresso,2,',')."%"}}
+                                        @isset($meta->vl_valor_progresso)
+                                            {{ number_format($meta->vl_valor_progresso, thousands_separator: '.', decimal_separator: ',') }}
+                                        @else
+                                            {{ number_format($meta->pc_progresso, 2, ',')."%" }}
+                                        @endisset
                                     </h2>
                                 </div>
                             </div>
@@ -157,39 +165,69 @@
                     <div class="card-header bg-transparent border-0">
                         <h5 class="card-title mb-0 text-dark fw-bold">
                             <i class="bi bi-calendar-event-fill me-2 text-info"></i>
-                            Cronograma e Marcos
+                            Histórico da Meta
                         </h5>
                     </div>
-                    <div class="card-body">
-                        <div class="row g-4">
-                            <div class="col-md-4">
-                                <div class="milestone-card bg-success bg-opacity-10 p-4 text-center">
-                                    <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
-                                    <h5 class="text-success mb-2 fw-bold">25% Alcançado</h5>
-                                    <p class="text-secondary mb-0">Março 2024</p>
-                                    <small class="text-success fw-bold">✓ Concluído</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="milestone-card bg-primary bg-opacity-10 p-4 text-center">
-                                    <i class="bi bi-hourglass-split text-primary fs-1 mb-3"></i>
-                                    <h5 class="text-primary mb-2 fw-bold">50% Meta</h5>
-                                    <p class="text-secondary mb-0">Dezembro 2024</p>
-                                    <small class="text-primary fw-bold">⏳ Em progresso</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="milestone-card bg-warning bg-opacity-10 p-4 text-center">
-                                    <i class="bi bi-flag-fill text-warning fs-1 mb-3"></i>
-                                    <h5 class="text-warning mb-2 fw-bold">Meta Final</h5>
-                                    <p class="text-secondary mb-0">
-                                        {{ date('d/m/Y',strtotime($meta->dt_termino)) }}
-                                    </p>
-                                    <small class="text-warning fw-bold">🎯 Objetivo</small>
+                    @if($historico->count() === 1)
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="card border-0 shadow-sm bg-light">
+                                    <div
+                                        class="card-header bg-secondary bg-opacity-10 border-0"
+                                    >
+                                        <h5 class="card-title mb-0 text-secondary">
+                                            <i class="bi bi-percent me-2"></i>
+                                            Evolução do historico
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="text-center py-3">
+                                            <i
+                                                class="bi bi-lock text-secondary fs-1 mb-2"
+                                            ></i>
+                                            <h6 class="text-secondary mb-1">
+                                                Aguardando alterações...
+                                            </h6>
+                                            <small class="text-secondary">
+                                                Essa meta ainda não foi atualizada desde sua criação.
+                                            </small>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="card-body">
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="milestone-card bg-success bg-opacity-10 p-4 text-center">
+                                        <i class="bi bi-check-circle-fill text-success fs-1 mb-3"></i>
+                                        <h5 class="text-success mb-2 fw-bold">25% Alcançado</h5>
+                                        <p class="text-secondary mb-0">Março 2024</p>
+                                        <small class="text-success fw-bold">✓ Concluído</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="milestone-card bg-primary bg-opacity-10 p-4 text-center">
+                                        <i class="bi bi-hourglass-split text-primary fs-1 mb-3"></i>
+                                        <h5 class="text-primary mb-2 fw-bold">50% Meta</h5>
+                                        <p class="text-secondary mb-0">Dezembro 2024</p>
+                                        <small class="text-primary fw-bold">⏳ Em progresso</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="milestone-card bg-warning bg-opacity-10 p-4 text-center">
+                                        <i class="bi bi-flag-fill text-warning fs-1 mb-3"></i>
+                                        <h5 class="text-warning mb-2 fw-bold">Meta Final</h5>
+                                        <p class="text-secondary mb-0">
+                                            {{ date('d/m/Y',strtotime($meta->dt_termino)) }}
+                                        </p>
+                                        <small class="text-warning fw-bold">🎯 Objetivo</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

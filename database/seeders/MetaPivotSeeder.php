@@ -3,10 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Categorizadores\Gerais\Categoria;
-use App\Models\Personas\User;
 use App\Models\Recursos\Metas;
 use App\Models\Recursos\Registro;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -32,7 +30,6 @@ class MetaPivotSeeder extends Seeder
         //Mesmo principio, mas registros tem de ser os das categorias selecionadas :)
         $metas->each(function ($meta) use ($registros) {
             $tiposRenda = [1, 2];
-            $categoriaRegistro = $meta->categoria()->pluck('categoria.cd_categoria')->toArray();
 
             $cd_tipo_registro = in_array($meta->cd_tipo_meta, $tiposRenda) ? 1 : 2;
 

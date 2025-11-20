@@ -26,7 +26,7 @@ class Registro extends Model
     //Definições básicas
     protected $table = "registro";
     protected $primaryKey = "cd_registro";
-    public $timestamps = true; //Apenas em período de testes!!!
+    public $timestamps = false; //Apenas em período de testes!!!
     protected $fillable = [
         "cd_usuario",
         "cd_tipo_registro",
