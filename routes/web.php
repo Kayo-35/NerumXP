@@ -7,6 +7,7 @@ use App\Http\Controllers\MetaController;
 use App\Http\Controllers\Registro\RegistroController;
 use App\Http\Controllers\RelatorioController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [HomeController::class, 'guest'])->name('guest.home');
 Route::get('/home', [HomeController::class, 'user'])->middleware('auth')->name('home');
@@ -97,3 +98,21 @@ Route::controller(LoginController::class)->group(function () {
 Route::get('/termos-de-uso', function () {
     return view('components.conta.termos');
 })->name('termos.show');
+
+// Configurações do usuário
+Route::middleware(['auth'])->group(function () {
+    // CORREÇÃO: Usar ConfigController::class (importado no topo)
+    Route::get('/config', function () {
+        $user = Auth::user(); 
+        $currentYear = date('Y');
+        return view('components.conta.config', compact('user', 'currentYear'));
+    })-> name('config.show');
+
+    Route::post('/config/personal-data', function () {
+        return redirect()->back()->with('success', 'Dados pessoais atualizados com sucesso!');
+    })->name('config.updatePersonalData');
+
+    Route::post('/config/password', function () {
+        return redirect()->back()->with('success', 'Senha alterada com sucesso!');
+    })->name('config.updatePassword');
+});

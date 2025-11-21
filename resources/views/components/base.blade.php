@@ -9,6 +9,7 @@
         content="Controle seus ganhos, acompanhe gastos e alcance metas com o NerumXP. Relatórios visuais e planos para todos.">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/termos.css') }}">
+    @stack('styles')
     @if(request()->is("register/create") || request()->is("login/create"))
         <link rel="stylesheet" href="{{ asset('css/loginCadastro.css') }}">
     @endif
@@ -18,6 +19,7 @@
     <main>
         {{ $slot }}
     </main>
+    @stack('scripts')
     @guest
         @if(request()->is('register/create'))
             <script src="{{ asset("js/contas/create.js") }}"></script>

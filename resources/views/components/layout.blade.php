@@ -22,6 +22,9 @@
         <link rel="stylesheet" href="{{ asset('css/registro/card.css')}}"></link>
         <link rel="stylesheet" href="{{ asset('css/registro/registro.css')}}"></link>
     @endif
+    @if(request()->is("registro/create") || request()->is("registro/*/edit"))
+        <link rel="stylesheet" href="{{ asset('css/registro/form.css') }}"></link>
+    @endif
     @if(request()->is("meta/*"))
         <link rel="stylesheet" href="{{ asset('css/meta.show.css') }}"></link>
     @endif

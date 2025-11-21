@@ -7,8 +7,8 @@
     aria-controls="accountInfoCollapse">
     
     <!-- Ícone e Nome do Usuário -->
-    <i class="bi bi-person-circle fs-3 me-2"></i>
-    <span class="menu-text fw-bold" title="{{ Auth::user()->nm_usuario }}">{{ Auth::user()->nm_usuario }}</span>
+    <i class="bi bi-house-fill fs-3 me-2"></i>
+    <span class="menu-text fw-bold" title="Minha Conta">Minha Conta</span>
     
     <!-- Ícone de seta para indicar colapsível -->
     <i class="bi bi-chevron-down ms-auto collapse-icon"></i>
@@ -16,7 +16,8 @@
 
 <!-- Conteúdo colapsável -->
 <div class="collapse account-panel-collapse" id="accountInfoCollapse">
-    <div class="account-info-content p-2">
+    <!-- Removida a classe 'p-2' para evitar conflito com o padding definido no CSS -->
+    <div class="account-info-content">
         <!-- Informações da Conta -->
         <div class="info-item">
             <div class="info-icon">
@@ -30,11 +31,11 @@
 
         <div class="info-item">
             <div class="info-icon">
-                <i class="bi bi-star"></i>
+                <i class="bi bi-person-circle"></i>
             </div>
             <div class="info-content">
-                <div class="info-label">Plano</div>
-                <p class="info-value" title="Assinatura {{ Auth::user()->assinatura->nm_assinatura }}">Assinatura {{ Auth::user()->assinatura->nm_assinatura }}</p>
+                <div class="info-label">Nome</div>
+                <p class="info-value" title="{{ Auth::user()->nm_usuario }}">{{ Auth::user()->nm_usuario }}</p>
             </div>
         </div>
 
@@ -47,6 +48,12 @@
                 <p class="info-value" title="{{ Auth::user()->assinatura->nm_assinatura }}">{{ Auth::user()->assinatura->nm_assinatura }}</p>
             </div>
         </div>
+
+        <!-- Botão de Configurações -->
+        <a href="{{ route('config.show') }}" class="btn btn-sm btn-outline-info w-100 mt-2">
+            <i class="bi bi-gear me-1"></i>
+            Configurações
+        </a>
         
         <!-- Botão de Logout -->
         <form action="/login" method="POST" class="mt-2">

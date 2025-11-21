@@ -1,0 +1,429 @@
+:root {
+  --primary-color: #4caf50;
+  --secondary-color: #2196f3;
+  --danger-color: #f44336;
+  --warning-color: #ff9800;
+  --light-bg: #f5f7fa;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Header */
+.header {
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: var(--card-shadow);
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.header-subtitle {
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+}
+
+/* Tabs Navigation */
+.nav-tabs {
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 2rem;
+}
+
+.nav-tabs .nav-link {
+  color: #666;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 1rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--primary-color);
+  background-color: transparent;
+  border-bottom-color: var(--primary-color);
+}
+
+.nav-link i {
+  margin-right: 0.5rem;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1.5rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card-title i {
+  font-size: 1.5rem;
+}
+
+.card-title.text-success i {
+  color: var(--primary-color);
+}
+
+.card-title.text-info i {
+  color: var(--secondary-color);
+}
+
+.card-title.text-danger i {
+  color: var(--danger-color);
+}
+
+.card-title.text-warning i {
+  color: var(--warning-color);
+}
+
+.card-title.text-purple i {
+  color: #9c27b0;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-text {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Form Controls */
+.form-label {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+/* Buttons */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+  border-color: #45a049;
+}
+
+.btn-success {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-success:hover {
+  background-color: #45a049;
+  border-color: #45a049;
+}
+
+.btn-info {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-info:hover {
+  background-color: #0b7dda;
+  border-color: #0b7dda;
+}
+
+.btn-outline-danger:hover {
+  background-color: #f44336;
+  border-color: #f44336;
+  color: white;
+}
+
+/* Checkboxes */
+.form-check-input {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.form-check-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+/* Settings Row */
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-label {
+  flex: 1;
+}
+
+.settings-label h6 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.settings-label p {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Subscription Card */
+.subscription-highlight {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.subscription-stat {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.subscription-stat p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.subscription-stat h4 {
+  margin: 0;
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* Credit Card Style */
+.credit-card {
+  background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.credit-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.credit-card-label {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.credit-card-number {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+  font-family: "Courier New", monospace;
+}
+
+.credit-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.credit-card-expiry {
+  font-size: 0.85rem;
+}
+
+.credit-card-expiry-label {
+  opacity: 0.9;
+  display: block;
+  font-size: 0.75rem;
+}
+
+.credit-card-expiry-date {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.credit-card-brand {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Footer */
+.footer {
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 3rem;
+  padding: 2rem 0;
+  text-align: center;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.footer-links {
+  margin-top: 1rem;
+}
+
+.footer-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  margin: 0 1rem;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #45a049;
+}
+
+/* Para garantir que o campo de ano fique bem na direita */
+.settings-control {
+  /* Define uma largura ideal para campos de ano ou controles compactos */
+  width: 100px;
+}
+
+/* Remove as setas (spinners) do input type="number" em alguns navegadores (opcional) */
+.settings-control input[type="number"]::-webkit-inner-spin-button,
+.settings-control input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.settings-control input[type="number"] {
+  -moz-appearance: textfield; /* Para Firefox */
+}
+
+/* Opcional: Ajuste para o Bootstrap: O text-end alinha o valor do ano à direita */
+.settings-control .form-control {
+    text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .nav-tabs .nav-link {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-link i {
+    margin-right: 0.25rem;
+  }
+
+  .subscription-stat {
+    margin-bottom: 1rem;
+  }
+
+  .settings-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-row .form-check {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}
