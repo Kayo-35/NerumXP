@@ -130,7 +130,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="formaPagamento" class="form-label">Forma de Pagamento</label>
-                                    <select class="form-select" id="formaPagamento" name="cd_forma">
+                                    <select class="form-select" id="formaPagamento" name="cd_forma_pagamento">
                                         <option value="">Selecione a forma</option>
                                         @foreach($formas as $forma)
                                             <option value="{{ $forma['cd_forma'] }}"
@@ -258,7 +258,7 @@
 
                                 <div class="col-md-6 mb-3">
                                     <label for="juros" class="form-label">Tipo de Juros</label>
-                                    <select class="form-select Flutuante" id="juros" name="cd_tipo_juro" disabled>
+                                    <select class="form-select Flutuante" id="juros" name="cd_tipo_juro">
                                         <option value="">Selecione o tipo...</option>
                                         @foreach($juros as $juro)
                                             <option value="{{ $juro['cd_tipo_juro'] }}"
@@ -276,7 +276,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text">%</span>
                                         <input type="number" class="form-control Flutuante" id="taxa_juros" name="pc_taxa_juros"
-                                               placeholder="0.00" step="0.01" min="0" disabled
+                                               placeholder="0.00" step="0.01" min="0"
                                                value="{{ isset($registro) ? $registro->pc_taxa_juros : '' }}">
                                     </div>
                                     <x-helper.error campo="pc_taxa_juros"/>
@@ -286,10 +286,17 @@
                                     <label for="incidencia" class="form-label">Período de Capitalização</label>
                                     <div class="input-group">
                                         <span class="input-group-text">Meses</span>
-                                        <input type="number" class="form-control Flutuante" id="incidencia" name="qt_meses_incidencia" min="0" disabled
+                                        <input type="number" class="form-control Flutuante" id="incidencia" name="qt_meses_incidencia" min="0"
                                                value="{{ old('qt_meses_incidencia', $registro->qt_meses_incidencia ?? '') }}">
                                     </div>
                                     <x-helper.error campo="qt_meses_incidencia"/>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="dataVencimento" class="form-label">Data de Pagamento</label>
+                                    <input type="date" class="form-control" id="dataVencimento" name="dt_vencimento"
+                                           value="{{ old('dt_vencimento', $registro->dt_vencimento ?? '') }}">
+                                    <x-helper.error campo="dt_vencimento"/>
                                 </div>
                             </div>
                         </div>
