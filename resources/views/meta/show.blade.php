@@ -332,11 +332,11 @@
             </div>
         </div>
     </div>
+    @push('scriptsAuth')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="{{ asset('js/metas/historicoChart.js') }}"></script>
+    @endpush
     <script>
         const historico = @json($historico);
     </script>
-    @stack('scriptsAuth')
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="{{ asset('js/metas/historicoChart.js') }}"></script>
-    @endstack
 </x-layout>

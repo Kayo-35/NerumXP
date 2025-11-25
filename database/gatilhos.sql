@@ -46,12 +46,16 @@ BEGIN
         
     -- Inserindo entrada de histórico
     if (cd_tipo_meta_var < 5) then
-        INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,created_at,updated_at) VALUES
-        (NEW.cd_meta,NEW.vl_valor_meta,NEW.vl_valor_progresso,NOW(),NOW());
+        if(NEW.vl_valor_meta is not null and NEW.vl_valor_progresso is not null) then
+            INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,created_at,updated_at) VALUES
+            (NEW.cd_meta,NEW.vl_valor_meta,NEW.vl_valor_progresso,NOW(),NOW());
+        end if;
     else
         if(cd_tipo_meta_var < 7) then
-            INSERT INTO historico_metas(cd_meta,pc_meta,pc_progresso,created_at,updated_at) VALUES
-            (NEW.cd_meta,NEW.pc_meta,NEW.pc_progresso,NOW(),NOW());       
+            if(NEW.pc_meta is not null and NEW.pc_progresso is not null) then
+                INSERT INTO historico_metas(cd_meta,pc_alvo,pc_progresso,created_at,updated_at) VALUES
+                (NEW.cd_meta,NEW.pc_meta,NEW.pc_progresso,NOW(),NOW());
+            end if;
         end if;
     end if;
 END
@@ -62,12 +66,7 @@ CREATE TRIGGER tr_historico_metas_au
     AFTER UPDATE ON metas
     FOR EACH ROW
 BEGIN
-    -- Para metas de valor Fixo
-    DECLARE vl_alvo_var DECIMAL(9,2);
-    DECLARE vl_progresso_var DECIMAL(9,2);
-    DECLARE pc_alvo_var DECIMAL(6,3);
-    DECLARE pc_progresso_var DECIMAL(6,3);
-    DECLARE cd_tipo_meta_var INT,
+    DECLARE cd_tipo_meta_var INT;
     
     select
         cd_tipo_meta
@@ -78,39 +77,60 @@ BEGIN
     where
         cd_meta = NEW.cd_meta;
         
-    -- Checando sequencialmente que valor atribuir a cada variavel
-    
     IF(cd_tipo_meta_var < 5) THEN
-        IF(NEW.vl_valor_meta <> OLD.vl_valor_meta) THEN
-            SET vl_alvo_var = NEW.vl_valor_meta;
+        -- Se ambos foram alterados simultâneamente
+        IF(
+            NEW.vl_valor_meta <> OLD.vl_valor_meta and NEW.vl_valor_progresso <> OLD.vl_valor_progresso OR
+            OLD.vl_valor_meta is null AND OLD.vl_valor_progresso is null
+        ) THEN
+            INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,created_at,updated_at) VALUES
+            (NEW.cd_meta,NEW.vl_valor_meta,NEW.vl_valor_progresso,NEW.created_at,NOW());
         ELSE
-            SET vl_alvo_var = OLD.vl_alvo_var;
-        END IF;
-    
-        IF(NEW.vl_valor_progresso <> OLD.vl_valor_progresso) THEN
-            SET vl_progresso_var = NEW.vl_valor_progresso;
-        ELSE
-            SET vl_progresso_var = OLD.vl_valor_progresso;
-        END IF;   
-        
-        INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,created_at,updated_at) VALUES
-        (NEW.cd_meta,vl_alvo_var,vl_progresso_var,NEW.created_at,NEW.updated_at);
-    ELSE
-        IF(cd_tipo_meta_var < 7)THEN
-            IF(NEW.pc_meta <> OLD.pc_meta) THEN
-                SET pc_alvo_var = NEW.pc_meta;
-            ELSE
-                SET pc_alvo_var = OLD.pc_meta;
-            END IF;
-        
-            IF(NEW.pc_progresso <> OLD.pc_progresso) THEN
-                SET pc_progresso_var = NEW.pc_progresso;
-            ELSE
-                SET pc_progresso_var = OLD.pc_progresso;
+            -- Se apenas o alvo
+            IF(
+                NEW.vl_valor_meta <> OLD.vl_valor_meta OR 
+                OLD.vl_valor_meta is null AND NEW.vl_valor_meta is not null
+            ) THEN
+                INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,created_at,updated_at) VALUES
+                (NEW.cd_meta,NEW.vl_valor_meta,OLD.vl_valor_progresso,NEW.created_at,NOW());
             END IF;
             
-            INSERT INTO historico_metas(cd_meta,pc_alvo,pc_progresso,created_at,updated_at) VALUES
-            (NEW.cd_meta,pc_alvo_var,pc_progresso_var,NEW.created_at,NEW.updated_at);
+            -- Se apenas o progresso
+            IF(NEW.vl_valor_progresso <> OLD.vl_valor_progresso) THEN
+                IF(NEW.vl_valor_meta is not null) THEN
+                    INSERT INTO historico_metas(cd_meta,vl_alvo,vl_progresso,created_at,updated_at) VALUES
+                    (NEW.cd_meta,OLD.vl_valor_meta,NEW.vl_valor_progresso,NEW.created_at,NOW());               
+                END IF;
+            END IF;       
+        END IF;
+
+    ELSE
+        IF(cd_tipo_meta_var < 7)THEN
+            -- Se ambos foram alterados simultâneamente
+            IF(
+                NEW.pc_meta <> OLD.pc_meta and NEW.pc_progresso <> OLD.pc_progresso OR
+                OLD.pc_meta is null AND OLD.pc_progresso is null
+            ) THEN
+                INSERT INTO historico_metas(cd_meta,pc_alvo,pc_progresso,created_at,updated_at) VALUES
+                (NEW.cd_meta,NEW.pc_meta,NEW.pc_progresso,NEW.created_at,NOW());
+            ELSE
+                -- Se apenas o alvo
+                IF(
+                    NEW.pc_meta <> OLD.pc_meta OR 
+                    OLD.pc_meta is null AND NEW.pc_meta is not null
+                ) THEN
+                    INSERT INTO historico_metas(cd_meta,pc_alvo,pc_progresso,created_at,updated_at) VALUES
+                    (NEW.cd_meta,NEW.pc_meta,OLD.pc_progresso,NEW.created_at,NOW());
+                END IF;
+                -- Se apenas o progresso
+                IF(NEW.pc_progresso <> OLD.pc_progresso) THEN
+                    IF(NEW.pc_meta is not null) THEN
+                        INSERT INTO historico_metas(cd_meta,pc_alvo,pc_progresso,created_at,updated_at) VALUES
+                        (NEW.cd_meta,OLD.pc_meta,NEW.pc_progresso,NEW.created_at,NOW());
+                    END IF;
+                END IF;           
+            END IF;
+
         END IF;
     END IF;
 END

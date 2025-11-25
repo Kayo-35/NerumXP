@@ -16,15 +16,16 @@ class RelatorioController extends Controller
             "dt_inicio" => 'date',
             "dt_fim" => 'date'
         ]);
-        
-        $inicioPadrao = '2024-01-01';
-        $fimPadrao = '2024-12-31';
-        
+
+        $anoPadrao = Auth::user()->dt_ano_relatorio;
+        $inicioPadrao = "{$anoPadrao}-01-01";
+        $fimPadrao = "{$anoPadrao}-12-31";
+
         $request->flash();
-        
+
         $rendaPorCategoria = Registro::relatorioTotalPorCategoria(1, $validos['dt_inicio'] ?? $inicioPadrao, $validos['dt_fim'] ?? $fimPadrao);
         $despesaPorCategoria = Registro::relatorioTotalPorCategoria(2, $validos['dt_inicio'] ?? $inicioPadrao, $validos['dt_fim'] ?? $fimPadrao);
-        $rendaPorMes = Registro::relatorioTotalPorMes(1, $validos['dt_inicio'] ?? $inicioPadrao , $validos['dt_fim'] ?? $fimPadrao);
+        $rendaPorMes = Registro::relatorioTotalPorMes(1, $validos['dt_inicio'] ?? $inicioPadrao, $validos['dt_fim'] ?? $fimPadrao);
         $despesaPorMes = Registro::relatorioTotalPorMes(2, '2025-01-01' ?? $inicioPadrao, '2025-12-31' ?? $fimPadrao);
         return view('relatorio.index', [
             "rendaPorCategoria" => $rendaPorCategoria,

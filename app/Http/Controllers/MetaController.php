@@ -6,6 +6,7 @@ use App\Models\Categorizadores\Gerais\Categoria;
 use App\Models\Categorizadores\Metas\Tipo_Meta;
 use App\Models\Categorizadores\Registros\Modalidade;
 use App\Models\Categorizadores\Gerais\Nivel_imp;
+use App\Models\Recursos\HistoricoMetas;
 use App\Models\Recursos\Metas;
 use App\Models\Recursos\Objetivo;
 use App\Models\Recursos\Registro;
@@ -20,8 +21,12 @@ class MetaController extends Controller
     public function index()
     {
         //Obtem todas as metas associadas ao usuário
-        $metas = Metas::where('cd_usuario', '=', Auth::user()->cd_usuario)
-            ->orderBy('cd_tipo_meta', 'desc')
+        $metas = Metas::where('cd_usuario', '=', Auth::user()->cd_usuario);
+
+        if (!(Auth::user()->ic_mostrar_meta_arquivada)) {
+            $metas = $metas->where('ic_status', true);
+        }
+        $metas = $metas->orderBy('cd_tipo_meta', 'desc')
             ->orderBy('cd_nivel_imp', 'desc')
             ->paginate(9);
 

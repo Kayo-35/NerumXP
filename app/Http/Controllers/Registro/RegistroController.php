@@ -39,8 +39,15 @@ class RegistroController extends Controller
             $registros = empty($registros) ? [] : $registros;
             $request->flash();
         } else {
-            $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario)
-                ->orderBy("ic_status", 'desc')
+            $registros = Registro::where("cd_usuario", Auth::user()->cd_usuario);
+
+            //Caso o usuário não deseja exibir
+            if (!Auth::user()->ic_mostrar_registro_arquivado) {
+                $registros = $registros->where('ic_status', true)
+                    ->orderBy('ic_status', 'asc');
+            }
+
+            $registros = $registros->orderBy("updated_at", 'desc')
                 ->orderBy("cd_nivel_imp", "desc")
                 ->orderBy("nm_registro", "asc")
                 ->paginate(9);

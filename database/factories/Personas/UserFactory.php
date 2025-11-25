@@ -18,10 +18,10 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'cd_assinatura' => fake()->numberBetween(1,3),
+            'cd_assinatura' => fake()->numberBetween(1, 3),
             'password' => Hash::make('12345678'), //bcrypt(...)
             'email' => fake()->email(),
-            'email_verified_at' => fake()->dateTimeBetween('-5 years','now'),
+            'email_verified_at' => fake()->dateTimeBetween('-5 years', 'now'),
             'nm_usuario' => fake()->name(),
             'dt_nascimento' => fake()->date(max: '2007-01-01'),
         ];

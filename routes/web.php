@@ -1,14 +1,16 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MetaController;
 use App\Http\Controllers\Registro\RegistroController;
 use App\Http\Controllers\RelatorioController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
-Route::get('/', [HomeController::class, 'guest']);
+Route::get('/', [HomeController::class, 'guest'])->name('guest.home');
 Route::get('/home', [HomeController::class, 'user'])->middleware('auth')->name('home');
 
 Route::get("/about", function () {
@@ -94,3 +96,26 @@ Route::controller(LoginController::class)->group(function () {
     Route::post("login", "store");
     Route::delete("login", "destroy");
 });
+
+//Termos de uso
+Route::get('/termos-de-uso', function () {
+    return view('components.conta.termos');
+})->name('termos.show');
+
+// Configurações do usuário
+Route::prefix('/config')
+    ->middleware(['auth'])
+    ->controller(UserController::class)
+    ->group(function () {
+        Route::get('/', 'index')
+            ->name('index.config');
+
+        Route::patch('/atualizar_dados', 'patchDados')
+            ->name('patch_dados.config');
+
+        Route::patch('/alterar_senha', 'patchSenha')
+            ->name('patch_senha.config');
+
+        Route::put('/preferencias', 'updatePreferencias')
+            ->name('update_preferencias.config');
+    });

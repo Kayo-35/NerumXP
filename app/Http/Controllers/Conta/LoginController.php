@@ -9,16 +9,18 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    public function create(){
+    public function create()
+    {
         return view("conta.login.create");
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         //To-do
         $validated = $request->validate([
             "email" => 'email|required',
             "password" => 'required',
         ]);
-        if(!Auth::attempt($validated)) {
+        if (!Auth::attempt($validated)) {
             throw ValidationException::withMessages([
                 "password" => "Credenciais Inválidas"
             ]);
@@ -26,7 +28,8 @@ class LoginController extends Controller
         request()->session()->regenerate();
         return redirect("/home");
     }
-    public function destroy(Request $request) {
+    public function destroy(Request $request)
+    {
         Auth::logout();
 
         $request->session()->invalidate();
