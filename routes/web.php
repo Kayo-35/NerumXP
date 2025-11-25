@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
 use App\Http\Controllers\HomeController;

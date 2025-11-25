@@ -19,7 +19,7 @@ function registroRules(): array
             "integer",
             "exists:modalidade,cd_modalidade",
         ],
-        "cd_forma" => [
+        "cd_forma_pagamento" => [
             "nullable",
             "integer",
             "exists:forma_pagamento,cd_forma",
@@ -48,6 +48,10 @@ function registroRules(): array
             "nullable",
             "numeric",
             "exists:registro_tipo_juros,cd_tipo_juro",
+        ],
+        "dt_vencimento" => [
+            "nullable",
+            "date",
         ],
 
         //Providos manualmente pelos usuários

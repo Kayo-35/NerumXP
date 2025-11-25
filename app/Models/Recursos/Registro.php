@@ -45,6 +45,7 @@ class Registro extends Model
         "ic_pago",
         "ic_status",
         "dt_pagamento",
+        "dt_vencimento",
         "ds_descricao",
         "qt_parcelas",
         "qt_parcelas_pagas",
