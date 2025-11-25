@@ -49,7 +49,7 @@ class Registro extends Model
         "ds_descricao",
         "qt_parcelas",
         "qt_parcelas_pagas",
-        "updated_at"
+        "updated_at",
     ];
     //Relacionamentos
     public function usuario()
@@ -229,7 +229,7 @@ class Registro extends Model
             ->groupBy('c.nm_categoria')
             ->get();
 
-        $resultado = $dados->mapWithKeys(fn ($categoria) => [$categoria->nm_categoria => $categoria->total]);
+        $resultado = $dados->mapWithKeys(fn($categoria) => [$categoria->nm_categoria => $categoria->total]);
         return $resultado->all();
     }
 
@@ -247,7 +247,7 @@ class Registro extends Model
             ->orderBy('ordemMes', 'asc')
             ->get();
 
-        $resultado = $dados->mapWithKeys(fn ($mes) => [ucfirst($mes->mes) => (float) $mes->totalMensal])->all();
+        $resultado = $dados->mapWithKeys(fn($mes) => [ucfirst($mes->mes) => (float) $mes->totalMensal])->all();
 
         $meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         $resultado = array_map(function ($mes) use ($resultado) {

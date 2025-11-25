@@ -16,7 +16,7 @@ let dadosPizza;
 if (assinatura > 1) {
     dadosPizza = {
         // `labels` são os nomes das categorias (fatias).
-        labels: ['Renda','Juros','Despesa','Juros'],
+        labels: ['Renda', 'Juros', 'Despesa', 'Juros'],
         datasets: [{
             data: [renda, jurosRenda, despesa, jurosDespesa], // Os valores para cada fatia.
             backgroundColor: [
@@ -31,7 +31,7 @@ if (assinatura > 1) {
 } else {
     dadosPizza = {
         // `labels` são os nomes das categorias (fatias).
-        labels: ['Renda','Despesa'],
+        labels: ['Renda', 'Despesa'],
         datasets: [{
             data: [renda, despesa], // Os valores para cada fatia.
             backgroundColor: [
@@ -47,6 +47,7 @@ const configPizza = {
     data: dadosPizza,
     options: {
         responsive: true,
+        devicePixelRatio: 2,
         plugins: {
             title: {
                 display: false,

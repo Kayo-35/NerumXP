@@ -1,6 +1,6 @@
 <div class="container my-4">
         <div class="row justify-content-center">
-            <div class="col-md-8"> <h1 class="mb-4">
+            <div class="col-md-10"> <h1 class="mb-4">
                     <i class="bi bi-cash-coin me-1"></i> {{ $titulo ?? 'Criar registro' }}
                 </h1>
 
@@ -224,20 +224,7 @@
                                     <x-helper.error campo="cd_realizador"/>
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-12 mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="status" name="ic_status" value="1"
-                                            {{ old('ic_status', $registro->ic_status ?? false) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="status">
-                                            <i class="bi bi-toggle-on me-1"></i> Registro ativo
-                                        </label>
-                                    </div>
-                                    <x-helper.error campo="ic_status"/>
-                                </div>
-                            </div>
-                        </div>
+                       </div>
                     </div>
 
                     @if(Auth::user()->cd_assinatura > 1)

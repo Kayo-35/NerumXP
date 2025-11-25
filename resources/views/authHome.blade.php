@@ -9,7 +9,7 @@
         </div>
 
         <!-- Coluna Esquerda -->
-        <div class="col-12 col-lg-7">
+        <div class="col-12 col-lg-7 d-flex flex-column justify-content-evenly">
           <!-- Estatísticas Base -->
           <div class="card shadow-sm border-0 rounded-4 p-3 mb-4">
             <h2 class="text-start mb-3 fw-bold">Estatísticas Base</h2>
@@ -125,12 +125,11 @@
           <input type="number" value="{{Auth::user()->cd_usuario}}" id="assinatura" hidden />
 
           <!-- Balanço Monetário -->
-          <div class="card shadow-sm border-0 p-3 rounded-5">
+          <div class="card shadow-sm border-0 p-3 rounded-5 h-100">
             <h2 class="text-start mb-4">Balanço Monetário</h2>
             <canvas
               id="myChart"
-              class="w-100"
-              style="max-height: 300px"
+              class="w-100 h-100 img-fluid"
             ></canvas>
           </div>
         </div>
@@ -150,6 +149,5 @@
   @push('scriptsAuth')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('js/registro/grafico.js') }}"></script>
-    <script src="{{ asset("js/metas/resumo.js") }}"></script>
   @endpush
 </x-layout>

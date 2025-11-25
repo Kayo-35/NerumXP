@@ -15,7 +15,6 @@ use App\Models\Categorizadores\Registros\Tipo;
 use App\Models\Personas\Realizador;
 use App\Models\Recursos\Registro;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class RegistroController extends Controller
@@ -25,8 +24,8 @@ class RegistroController extends Controller
     {
         //Avaliando se existe requisição para filtragem
         if (
-            !empty($request->all()) &&
-            !array_key_exists("page", $request->query())
+            !empty($request->all())
+            && !array_key_exists("page", $request->query())
         ) {
             //Validation
             $request->boolean("ic_pago");
@@ -43,11 +42,10 @@ class RegistroController extends Controller
 
             //Caso o usuário não deseja exibir
             if (!Auth::user()->ic_mostrar_registro_arquivado) {
-                $registros = $registros->where('ic_status', true)
-                    ->orderBy('ic_status', 'asc');
+                $registros = $registros->where('ic_status', true);
             }
 
-            $registros = $registros->orderBy("updated_at", 'desc')
+            $registros = $registros->orderBy("created_at", 'desc')
                 ->orderBy("cd_nivel_imp", "desc")
                 ->orderBy("nm_registro", "asc")
                 ->paginate(9);
@@ -71,7 +69,7 @@ class RegistroController extends Controller
         return view("registro.show", [
             "registro" => $registro,
             "metodos" => $metodos ?? new Collection(),
-            "historicos" => $historico->all() ?? []
+            "historicos" => $historico->all() ?? [],
         ]);
     }
     public function create(?Request $request)

@@ -36,6 +36,7 @@ function gerarGraficoCategoria(elemento, dados, titulo, modo) {
         },
         options: {
             responsive: true,
+            devicePixelRatio: 2,
             plugins: {
                 legend: {
                     position: 'left',
@@ -82,6 +83,7 @@ new Chart(rendaDespesa, {
     },
     options: {
         responsive: true,
+        devicePixelRatio: 2,
         plugins: {
             title: {
                 display: true,

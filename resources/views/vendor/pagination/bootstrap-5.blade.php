@@ -26,9 +26,9 @@
             </ul>
         </div>
 
-        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
+        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-end">
             <div>
-                <p class="small text-muted">
+                <p class="small text-muted px-3">
                     {!! __('Exibindo') !!}
                     <span class="fw-semibold">{{ $paginator->currentPage()."º" }}</span>
                     {!! __('pagina de') !!}

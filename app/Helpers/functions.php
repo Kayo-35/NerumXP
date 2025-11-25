@@ -56,10 +56,9 @@ function registroRules(): array
 
         //Providos manualmente pelos usuários
         "metodos" => ["nullable", "array"],
-        "metodos.*" => ["integer", "min:1", "max:5"],
+        "metodos.*" => ["integer", "min:1", "max:7"],
         "vl_valor" => ["required", "numeric", "between:0,9999999.99"],
         "ic_pago" => ["boolean"],
-        "ic_status" => ["boolean"],
         "nm_registro" => ["required", "min:4", "max:50"],
         "dt_pagamento" => ["nullable", "date"],
         "qt_parcelas" => ["nullable", "integer", "gt:0"],
@@ -75,7 +74,7 @@ function metaRules(): array
         "nm_meta" => [
             "required",
             "min:4",
-            "max:50"
+            "max:50",
         ],
         "registros" => [
             "nullable",
@@ -84,34 +83,34 @@ function metaRules(): array
         "cd_tipo_meta" => [
             "required",
             "integer",
-            "exists:tipo_metas,cd_tipo_meta"
+            "exists:tipo_metas,cd_tipo_meta",
         ],
         "cd_nivel_imp" => [
             "required",
             "integer",
-            "exists:nivel_imp,cd_nivel_imp"
+            "exists:nivel_imp,cd_nivel_imp",
         ],
         "cd_modalidade" => [
             "required",
             "integer",
-            "exists:modalidade,cd_modalidade"
+            "exists:modalidade,cd_modalidade",
         ],
         "categorias" => [
             "required",
-            "array"
+            "array",
         ],
         "categorias.*" => [
-            Rule::in(Categoria::pluck('cd_categoria')->toArray())
+            Rule::in(Categoria::pluck('cd_categoria')->toArray()),
         ],
         "vl_valor_meta" => [
             "nullable",
             "numeric",
-            "between:0,9999999.99"
+            "between:0,9999999.99",
         ],
         "pc_meta" => [
             "nullable",
             "numeric",
-            "between:0,99.999"
+            "between:0,99.999",
         ],
         "dt_termino" => [
             "required",
@@ -119,8 +118,8 @@ function metaRules(): array
         ],
         "ds_descricao" => [
             "nullable",
-            "max:65535"
-        ]
+            "max:65535",
+        ],
     ];
 }
 
@@ -130,17 +129,17 @@ function metaGenericaRules(): array
         "nm_meta" => [
             "required",
             "min:4",
-            "max:50"
+            "max:50",
         ],
         "cd_nivel_imp" => [
             "required",
             "integer",
-            "exists:nivel_imp,cd_nivel_imp"
+            "exists:nivel_imp,cd_nivel_imp",
         ],
         "cd_tipo_meta" => [
             "required",
             "integer",
-            "exists:tipo_metas,cd_tipo_meta"
+            "exists:tipo_metas,cd_tipo_meta",
         ],
         "dt_termino" => [
             "required",
@@ -150,19 +149,19 @@ function metaGenericaRules(): array
         "ds_descricao" => [
             "nullable",
             "string",
-            "max:65535"
+            "max:65535",
         ],
         "objetivos" => [
             "nullable",
-            "array"
+            "array",
         ],
         "objetivos.*" => [
             "array",
         ],
         "objetivos.*.*" => [
             "string",
-            "max: 255"
-        ]
+            "max: 255",
+        ],
     ];
 }
 

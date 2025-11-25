@@ -52,11 +52,12 @@
                 @endforeach
             @endif
         </div>
+        <div class="d-flex justify-content-end me-5">
             @if (method_exists($registros, "links") && !$registros->isEmpty())
                 <div class="d-flex justify-content-center mt-4">
                     {{ $registros->links() }}
                 </div>
             @endif
-            <!-- Paginação com bootstrap-->
+        </div>
     </section>
 </x-layout>
