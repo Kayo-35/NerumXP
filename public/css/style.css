@@ -1,13 +1,133 @@
-.footer-icon {
-    color: #6c757d;
-    transition: color 0.3s ease;
-    text-decoration: none;
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Public+Sans:wght@300;400;500&family=Source+Sans+Pro:wght@400;500&family=DM+Sans:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&family=Roboto+Mono:wght@500&display=swap');
+
+/* ================= GLOBAL ================= */
+.navbar-gradient {
+  background: linear-gradient(90deg, rgba(0, 151, 178, 1) 0%, rgba(88, 152, 61, 1) 100%);
 }
 
-.footer-icon:hover {
-    color: #007bff;
+.navbar-brand-custom {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-weight: 500;
+  color: #fff;
 }
 
-#painelFiltragem {
-    margin-bottom: 300px;
+.nav-custom {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  color: #fff !important;
+}
+
+.btn-cta {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  color: #fff !important;
+  letter-spacing: 0.5px;
+}
+
+/* ================= HERO ================= */
+.hero-section {
+  background-color: #e9f5eb;
+  color: #1b1e23;
+}
+
+.hero-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #1e3c3a; /* tom escuro e elegante */
+}
+
+.hero-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+/* ================= SECTIONS ================= */
+.section-gradient {
+  background: linear-gradient(90deg, rgba(0, 151, 178, 1) 0%, rgba(88, 152, 61, 1) 100%);
+}
+
+.section-light {
+  background-color: #e9f5eb;
+}
+
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* ================= CARDS ================= */
+.card-custom {
+  border: 1px solid #A3A3A3;
+}
+
+.card-title-custom {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #1e3c3a; /* tom escuro e elegante */
+}
+
+.card-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-weight: 450;
+  color: #1a1a1a;
+}
+
+.card-text-custom {
+  font-family: 'Inter', sans-serif;
+  font-weight: 450;
+  color: #4d4d4d;
+}
+
+.card-header-success {
+  background-color: #28A745;
+  color: #FFFFFF;
+}
+
+.icon-success {
+  color: #28A745;
+}
+
+/* ================= FAQ ================= */
+.accordion-question {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.accordion-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  color: #4d4d4d;
+}
+
+/* ================= FOOTER ================= */
+.footer-custom {
+  background-color: #41464B;
+  color: #FFFFFF;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.social-link {
+  color: #28A745;
+  margin-left: 12px;
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+}
+
+.social-link:hover {
+  color: #20C997;
+}
+
+.footer-custom p {
+  color: #CCCCCC;
+}
+
+@media (min-width: 992px) {
+  .footer-custom {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+  }
 }

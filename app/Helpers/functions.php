@@ -77,15 +77,15 @@ function metaRules(): array
             "nullable",
             "array",
         ],
-        "cd_nivel_imp" => [
-            "required",
-            "integer",
-            "exists:nivel_imp,cd_nivel_imp"
-        ],
         "cd_tipo_meta" => [
             "required",
             "integer",
             "exists:tipo_metas,cd_tipo_meta"
+        ],
+        "cd_nivel_imp" => [
+            "required",
+            "integer",
+            "exists:nivel_imp,cd_nivel_imp"
         ],
         "cd_modalidade" => [
             "required",
@@ -120,6 +120,48 @@ function metaRules(): array
     ];
 }
 
+function metaGenericaRules(): array
+{
+    return [
+        "nm_meta" => [
+            "required",
+            "min:4",
+            "max:50"
+        ],
+        "cd_nivel_imp" => [
+            "required",
+            "integer",
+            "exists:nivel_imp,cd_nivel_imp"
+        ],
+        "cd_tipo_meta" => [
+            "required",
+            "integer",
+            "exists:tipo_metas,cd_tipo_meta"
+        ],
+        "dt_termino" => [
+            "required",
+            "date",
+            Rule::date()->after(today()),
+        ],
+        "ds_descricao" => [
+            "nullable",
+            "string",
+            "max:65535"
+        ],
+        "objetivos" => [
+            "nullable",
+            "array"
+        ],
+        "objetivos.*" => [
+            "array",
+        ],
+        "objetivos.*.*" => [
+            "string",
+            "max: 255"
+        ]
+    ];
+}
+
 function indexFiltersRules(): array
 {
     return [
@@ -137,4 +179,30 @@ function indexFiltersRules(): array
         "nivel_imp" => ["nullable", "array"],
         "modalidade" => ["nullable", "integer"],
     ];
+}
+
+function saudacao(): string
+{
+    $horario = date('H:i:s');
+
+    if ($horario >= '05:00:00' && $horario < '12:00:00') {
+        return 'Bom dia, ';
+    } elseif ($horario >= '12:00:00' && $horario < '18:00:00') {
+        return 'Boa tarde, ';
+    } else {
+        return 'Boa noite, ';
+    }
+}
+
+function emojiSaudacao(): string
+{
+    $horario = date('H:i:s');
+
+    if ($horario >= '05:00:00' && $horario < '12:00:00') {
+        return ' ☀️';
+    } elseif ($horario >= '12:00:00' && $horario < '18:00:00') {
+        return ' 🌅';
+    } else {
+        return ' 🌙';
+    }
 }

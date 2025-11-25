@@ -49,7 +49,7 @@ BEGIN
             set total_var = total_var + c_vl_valor;
             ITERATE flutuantes_loop;
         END IF;
-        
+
         -- Número de incrementos de juros impostos sobre o registro
         SET incremento_var = FLOOR(qt_meses_var / c_qt_meses_incidencia);
         IF incremento_var < 1 THEN
@@ -159,18 +159,18 @@ CREATE FUNCTION sfRDFixaTotal(
     cd_tipo_registro_param INT,
     dt_inicio_param DATE,
     dt_termino_param DATE
-) RETURNS DECIMAL(9,2) 
-DETERMINISTIC 
+) RETURNS DECIMAL(9,2)
+DETERMINISTIC
 READS SQL DATA
 BEGIN
     DECLARE total_var DECIMAL(9,2);
-    
+
     select
         sum(vl_valor)
-    into 
+    into
         total_var
     from
-        registro 
+        registro
     where
         cd_usuario = cd_usuario_param and
         cd_tipo_registro = cd_tipo_registro_param and
@@ -191,15 +191,19 @@ BEGIN
     DECLARE somatorio_var DECIMAL(12,2) DEFAULT 0;
     select
         sum(vl_valor)
-    into 
+    into
         somatorio_var
     from
-        registro 
+        registro
     where
         cd_registro in (select cd_registro from metas_registro where cd_meta = cd_meta_param);
-    
+
+    if somatorio_var is null then
+        SET somatorio_var = 0;
+    end if;
+
     RETURN somatorio_var;
-END
+END$$
 DELIMITER ;
 
 DELIMITER $$
@@ -210,13 +214,13 @@ DETERMINISTIC
 READS SQL DATA
 BEGIN
     DECLARE somatorio_var DECIMAL(12,2) DEFAULT 0;
-    select 
-        sum(vl_valor) 
-    into 
+    select
+        sum(vl_valor)
+    into
         somatorio_var
-    from registro 
+    from registro
     where cd_categoria = cd_categoria_param;
-    
+
     RETURN somatorio_var;
 END
 DELIMITER ;

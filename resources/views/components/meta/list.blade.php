@@ -14,9 +14,13 @@
                     <div class="category-icon revenue-bg text-white me-3">
                         <i class="bi bi-arrow-up-circle"></i>
                     </div>
-                @else
+                @elseif($meta->cd_tipo_meta < 7)
                     <div class="category-icon expense-bg text-white me-3">
                         <i class="bi bi-arrow-down-circle"></i>
+                    </div>
+                @else
+                    <div class="category-icon bg-secondary text-white me-3">
+                        <i class="bi bi-slash-circle-fill"></i>
                     </div>
                 @endif
                 <div class="flex-grow-1">
@@ -29,13 +33,15 @@
                         @endfor
                     </div>
                 </div>
-                <div class="text-end m-2">
-                    @foreach ($meta->categoria()->get() as $categoria)
-                        <x-helper.categoria
-                            class="text-primary-emphasis"
-                            cdCategoria="{{ $categoria->cd_categoria }}"></x-helper.categoria>
-                    @endforeach
-                </div>
+                @if($meta->cd_tipo_meta < 7)
+                    <div class="text-end m-2">
+                        @foreach ($meta->categoria()->get() as $categoria)
+                            <x-helper.categoria
+                                class="text-primary-emphasis"
+                                cdCategoria="{{ $categoria->cd_categoria }}"></x-helper.categoria>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </button>
     </h2>
@@ -46,39 +52,59 @@
         <div class="accordion-body">
             <div class="row g-3">
                 <div class="col-12">
-                    @isset($meta->vl_valor_meta)
-                        <h6 class="text-secondary">
-                            Meta: R$
-                            {{ str_replace(".", ",", $meta->vl_valor_meta) }}
-                        </h6>
-                        <h6 class="text-secondary">
-                            Atual: R$
-                            {{ str_replace(".", ",", $meta->vl_valor_progresso) }}
-                        </h6>
-                        <div class="progress mb-3">
-                            <div
-                                class="progress-bar bg-primary"
-                                style="
-                                    width: {{ number_format(($meta->vl_valor_progresso / $meta->vl_valor_meta) * 100) . "%" }};
-                                    "></div>
-                        </div>
+                    @if($meta->cd_tipo_meta < 7)
+                        @isset($meta->vl_valor_meta)
+                            <h6 class="text-secondary">
+                                Meta: R$
+                                {{ str_replace(".", ",", $meta->vl_valor_meta) }}
+                            </h6>
+                            <h6 class="text-secondary">
+                                Atual: R$
+                                {{ str_replace(".", ",", $meta->vl_valor_progresso) }}
+                            </h6>
+                            <div class="progress mb-3">
+                                <div
+                                    class="progress-bar bg-primary"
+                                    style="
+                                        width: {{ number_format(($meta->vl_valor_progresso / $meta->vl_valor_meta) * 100) . "%" }};
+                                        "></div>
+                            </div>
+                        @else
+                            <h6 class="text-secondary">
+                                Meta: {{ number_format($meta->pc_meta, 2) }}% do
+                                total
+                            </h6>
+                            <h6 class="text-secondary">
+                                Atual: {{ number_format($meta->pc_progresso, 2) }}%
+                                alcançados
+                            </h6>
+                            <div class="progress mb-3">
+                                <div
+                                    class="progress-bar bg-primary"
+                                    style="
+                                            width: {{ number_format($meta->pc_progresso) }}%;
+                                        "></div>
+                            </div>
+                        @endisset
                     @else
-                        <h6 class="text-secondary">
-                            Meta: {{ number_format($meta->pc_meta, 2) }}% do
-                            total
-                        </h6>
-                        <h6 class="text-secondary">
-                            Atual: {{ number_format($meta->pc_progresso, 2) }}%
-                            alcançados
-                        </h6>
-                        <div class="progress mb-3">
-                            <div
-                                class="progress-bar bg-primary"
-                                style="
-                                        width: {{ number_format($meta->pc_progresso) }}%;
-                                    "></div>
-                        </div>
-                    @endisset
+                            <h6 class="text-secondary">
+                                Número de objetivos:
+                                {{ $meta->objetivos()->count() }}
+                            </h6>
+                            <h6 class="text-secondary">
+                                Objetivos alcançados:
+                                {{ $meta->objetivos()->where('ic_status','=',1)->count() }}
+                            </h6>
+                            @if($meta->objetivos()->count() > 0)
+                            <div class="progress mb-3">
+                                <div
+                                    class="progress-bar bg-primary"
+                                    style="
+                                        width: {{ number_format($meta->objetivos()->where('ic_status','=',1)->count() / $meta->objetivos()->count() * 100, 2) }}%;
+                                        "></div>
+                            </div>
+                            @endif
+                    @endif
                     <div class="d-flex justify-content-between align-items-center">
                         <a class="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 shadow-sm" href="{{ route('meta.show',["meta" => $meta->cd_meta]) }}">
                           <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10" style="width:2.2rem; height:2.2rem;">
@@ -105,38 +131,97 @@
                     </div>
                 </div>
                 <hr>
-                <div class="col-12">
-                    <div class="card mb-3">
-                        <div class="card-header bg-primary text-light">
-                            <h6 class="mb-0">Registros Associados:</h6>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            @foreach ($meta->registro()->get() as $registro)
-                            <li
-                                class="list-group-item d-flex justify-content-between align-items-center">
-                                <a
-                                    class="link-secondary"
-                                    href="{{ route("registro.show", $registro) }}">
-                                    <div>
-                                        @if ($registro->cd_tipo_registro == 2)
-                                        <i
-                                            class="bi bi-x-circle text-danger me-2"></i>
-                                        @else
-                                        <i
-                                            class="bi bi-check-circle text-success me-2"></i>
-                                        @endif
-                                        {{ $registro->nm_registro }}
+                @if($meta->cd_tipo_meta < 7)
+                    <div class="col-12">
+                        <div class="card mb-3">
+                            <div class="card-header bg-primary text-light">
+                                <h6 class="mb-0">Registros Associados:</h6>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                @unless($meta->registro()->get()->count() === 0)
+                                    @foreach ($meta->registro()->get() as $registro)
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center">
+                                        <a
+                                            class="link-secondary"
+                                            href="{{ route("registro.show", $registro) }}">
+                                            <div>
+                                                @if ($registro->cd_tipo_registro == 2)
+                                                <i
+                                                    class="bi bi-x-circle text-danger me-2"></i>
+                                                @else
+                                                <i
+                                                    class="bi bi-check-circle text-success me-2"></i>
+                                                @endif
+                                                {{ $registro->nm_registro }}
+                                            </div>
+                                        </a>
+                                        <span class="badge bg-primary rounded-pill">
+                                            R$
+                                            {{ str_replace(".", ",", $registro->vl_valor) }}
+                                        </span>
+                                    </li>
+                                    @endforeach
+                                @else
+                                    <div class="p-2">
+                                        <x-helper.nothing
+                                            icon="bi-file-earmark-plus"
+                                            title="Nenhum Registro associado"
+                                            text="Não há registros associados a essa meta"
+                                            labelIcon="Edite"
+                                            route="{{ route('meta.edit',$meta->cd_meta) }}"
+                                            label="Edite sua meta e adicione registros!"
+                                            marginTop='mt-0'
+                                        />
                                     </div>
-                                </a>
-                                <span class="badge bg-primary rounded-pill">
-                                    R$
-                                    {{ str_replace(".", ",", $registro->vl_valor) }}
-                                </span>
-                            </li>
-                            @endforeach
-                        </ul>
+                                @endunless
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                @else
+                    <div class="col-12">
+                        <div class="card mb-3">
+                            <div class="card-header bg-secondary text-light">
+                                <h6 class="mb-0">Objetivos Associados:</h6>
+                            </div>
+                            @if($meta->objetivos()->count() > 0)
+                                <ul class="list-group list-group-flush">
+                                    @foreach ($meta->objetivos()->get() as $objetivo)
+                                        <li
+                                            class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <i class="bi {{ $objetivo->ic_status == 1 ? 'bi-check-circle text-success' : 'bi-ban text-danger' }} fw-bold me-2"></i>
+                                                    {{ $objetivo->ds_descricao }}
+                                                </div>
+                                                <div>
+                                                    <b>Adicionado em: </b>
+                                                    {{ date('d/m/Y',strtotime($objetivo->created_at)) }}
+                                                </div>
+                                                @if($objetivo->ic_status == 1)
+                                                    <div>
+                                                        <b>Concluído em: </b>
+                                                        {{ date('d/m/Y',strtotime($objetivo->dt_conclusao)) }}
+                                                    </div>
+                                                @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <div class="p-2">
+                                    <x-helper.nothing
+                                        icon="bi-file-earmark-plus"
+                                        title="Nenhum objetivo associado"
+                                        text="Não há objetivos associados a essa meta"
+                                        labelIcon="Edite"
+                                        route="{{ route('meta.edit',$meta->cd_meta) }}"
+                                        label="Edite sua meta e adicione objetivos!"
+                                        marginTop='mt-0'
+                                    />
+                                </div>
+                           @endif
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

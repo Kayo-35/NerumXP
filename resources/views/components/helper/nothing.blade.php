@@ -1,7 +1,8 @@
 @props([
-    'title','text','route','label','icon','labelIcon'
+    'title','text','route','label','icon','labelIcon',
+    'marginTop' => 'mt-5'
 ])
-<div class="container-fluid d-flex align-items-center justify-content-center mt-5">
+<div class="container-fluid d-flex align-items-center justify-content-center {{ $marginTop }}">
     <div class="text-center">
         <div class="mb-4">
             <i class="bi {{ $icon }} text-muted" style="font-size: 4rem;"></i>

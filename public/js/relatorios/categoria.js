@@ -5,14 +5,14 @@ const categorias = Object.keys(rendaPorCategoria);
 const valoresRenda = Object.values(rendaPorCategoria);
 const valoresDespesa = Object.values(despesaPorCategoria);
 
-gerarGraficoCategoria(divGraficoDespesa, valoresDespesa, 'Despesa por Categoria');
-gerarGraficoCategoria(divGraficoRenda, valoresRenda, 'Renda Por Categoria');
+gerarGraficoCategoria(divGraficoDespesa, valoresDespesa, 'Despesa por Categoria', 2);
+gerarGraficoCategoria(divGraficoRenda, valoresRenda, 'Renda Por Categoria', 1);
 
-function gerarGraficoCategoria(elemento, dados, titulo) {
+function gerarGraficoCategoria(elemento, dados, titulo, modo) {
     new Chart(elemento, {
         type: 'pie',
         data: {
-            labels: categorias,
+            labels: modo == 1 ? Object.keys(rendaPorCategoria) : Object.keys(despesaPorCategoria),
             datasets: [{
                 data: dados,
                 backgroundColor:
@@ -85,7 +85,7 @@ new Chart(rendaDespesa, {
         plugins: {
             title: {
                 display: true,
-                text: 'Renda vs Despesa 2024',
+                text: 'Renda vs Despesa',
                 font: {
                     size: 30
                 }

@@ -31,7 +31,6 @@ Acesso o diretorio database e extraia as procedures/functions que a aplicação 
 5. Compile os assets:
 
 npm run build
-<<<<<<< HEAD
 
 ## Uso
 
@@ -66,8 +65,6 @@ Este projeto está sob licença MIT. Consulte o arquivo `LICENSE` para mais deta
 
 Para dúvidas e sugestões, abra uma issue no repositório.
 
-=======
-
 ## Uso
 
 ## Estrutura
@@ -100,4 +97,3 @@ Este projeto está sob licença MIT. Consulte o arquivo `LICENSE` para mais deta
 ## Contato
 
 Para dúvidas e sugestões, abra uma issue no repositório.
->>>>>>> test

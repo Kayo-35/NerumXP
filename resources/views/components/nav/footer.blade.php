@@ -1,37 +1,37 @@
 <div class="container">
-    <div class="row align-items-center">
+    <div class="row align-items-center gy-2">
         <div
-            class="col-md-6 text-center text-md-start mb-3 mb-md-0"
+            class="col-md-6 text-center text-md-start"
         >
             <p class="mb-0">
                 &copy; 2025 NerumXP. Todos os direitos reservados.
             </p>
         </div>
         <div class="col-md-6 text-center text-md-end">
-            <div
-                class="d-flex justify-content-center justify-content-md-end"
-                style="gap: 20px"
-            >
+            <div class="social-icons">
                 <a
                     href="#"
-                    class="footer-icon"
+                    class="social-link"
                     aria-label="Facebook"
-                    ><i class="fab fa-facebook mx-2 fs-4"></i
+                    ><i class="bi bi-facebook"></i
                 ></a>
-                <a href="#" class="footer-icon" aria-label="Twitter"
-                    ><i class="fab fa-twitter mx-2 fs-4"></i
+                <a 
+                    href="#" 
+                    class="social-link" 
+                    aria-label="X (Twitter)"
+                    ><i class="bi bi-twitter-x"></i
                 ></a>
                 <a
                     href="#"
-                    class="footer-icon"
+                    class="social-link"
                     aria-label="Instagram"
-                    ><i class="fab fa-instagram mx-2 fs-4"></i
+                    ><i class="bi bi-instagram"></i
                 ></a>
                 <a
                     href="#"
-                    class="footer-icon"
+                    class="social-link"
                     aria-label="LinkedIn"
-                    ><i class="fab fa-linkedin mx-2 fs-4"></i
+                    ><i class="bi bi-linkedin"></i
                 ></a>
             </div>
         </div>

@@ -12,4 +12,7 @@
         :localizacaos=$localizacaos
         :realizadores=$realizadores
     />
+    @push('scriptsAuth')
+        <script src="{{ asset("js/registro/create.js") }}"></script>
+    @endpush
 </x-layout>

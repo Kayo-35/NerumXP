@@ -1,14 +1,16 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Conta\LoginController;
 use App\Http\Controllers\Conta\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MetaController;
 use App\Http\Controllers\Registro\RegistroController;
 use App\Http\Controllers\RelatorioController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
-Route::get('/', [HomeController::class, 'guest']);
+Route::get('/', [HomeController::class, 'guest'])->name('guest.home');
 Route::get('/home', [HomeController::class, 'user'])->middleware('auth')->name('home');
 
 Route::get("/about", function () {
@@ -16,58 +18,60 @@ Route::get("/about", function () {
 });
 
 //Registros
-Route::middleware("auth")
+Route::prefix('registro')
+    ->middleware("auth")
     ->controller(RegistroController::class)
     ->group(function () {
-        Route::get("registro/", "index")->name("registro.index");
+        Route::get("/", "index")->name("registro.index");
 
-        Route::get("registro/create", "create")->name("registro.create");
+        Route::get("/create", "create")->name("registro.create");
 
-        Route::get("registro/{registro}", "show")
+        Route::get("/{registro}", "show")
             ->whereNumber("registro")
             ->name("registro.show");
 
-        Route::post("registro/", "store")->name("registro.store");
+        Route::post("/", "store")->name("registro.store");
 
-        Route::get("registro/{registro}/edit", "edit")
+        Route::get("/{registro}/edit", "edit")
             ->whereNumber("registro")
             ->name("registro.edit");
 
-        Route::put("registro/{registro}", "update")
+        Route::put("/{registro}", "update")
             ->whereNumber("registro")
             ->name("registro.put");
 
-        Route::delete("registro/{registro}", "destroy")
+        Route::delete("/{registro}", "destroy")
             ->whereNumber("registro")
             ->name("registro.destroy");
     });
 
 //Metas
-Route::middleware("auth")
+Route::prefix('meta')
+    ->middleware("auth")
     ->controller(MetaController::class)
     ->group(function () {
-        Route::get('meta/', "index")
+        Route::get('/', "index")
             ->name("meta.index");
 
-        Route::get("meta/create", "create")
+        Route::get("/create", "create")
             ->name("meta.create");
 
-        Route::get("meta/{meta}", "show")
+        Route::get("/{meta}", "show")
             ->whereNumber("meta")
             ->name("meta.show");
 
-        Route::get("meta/{meta}/edit", 'edit')
+        Route::get("/{meta}/edit", 'edit')
             ->whereNumber('meta')
             ->name("meta.edit");
 
-        Route::post("meta/", "store")
+        Route::post("/", "store")
             ->name("meta.store");
 
-        Route::put("meta/{meta}", "update")
+        Route::put("/{meta}", "update")
             ->whereNumber("meta")
             ->name("meta.put");
 
-        Route::delete("meta/{meta}", "destroy")
+        Route::delete("/{meta}", "destroy")
             ->whereNumber("meta")
             ->name("meta.destroy");
     });
@@ -76,8 +80,8 @@ Route::middleware("auth")
 //Relatorios
 Route::middleware("auth")
     ->controller(RelatorioController::class)
-    ->group(function() {
-       Route::get("relatorio/",'index')->name("relatorio.index");
+    ->group(function () {
+        Route::get("relatorio/", 'index')->name("relatorio.index");
     });
 
 //Registration
@@ -92,3 +96,26 @@ Route::controller(LoginController::class)->group(function () {
     Route::post("login", "store");
     Route::delete("login", "destroy");
 });
+
+//Termos de uso
+Route::get('/termos-de-uso', function () {
+    return view('components.conta.termos');
+})->name('termos.show');
+
+// Configurações do usuário
+Route::prefix('/config')
+    ->middleware(['auth'])
+    ->controller(UserController::class)
+    ->group(function () {
+        Route::get('/', 'index')
+            ->name('index.config');
+
+        Route::patch('/atualizar_dados', 'patchDados')
+            ->name('patch_dados.config');
+
+        Route::patch('/alterar_senha', 'patchSenha')
+            ->name('patch_senha.config');
+
+        Route::put('/preferencias', 'updatePreferencias')
+            ->name('update_preferencias.config');
+    });

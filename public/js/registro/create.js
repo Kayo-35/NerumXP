@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // requisição
 
     let modalidade = document.getElementById("modalidade");
+    console.log(modalidade);
     const navigationEntry = performance.getEntriesByType("navigation")[0];
     if (
         navigationEntry &&
@@ -50,4 +51,21 @@ document.addEventListener("DOMContentLoaded", function () {
             campo.disabled = true;
         });
     }
+});
+
+const select = document.getElementById("tipoRegistro");
+const header = document.getElementById("cardHeader");
+
+select.addEventListener("change", function () {
+    // Remove qualquer gradiente anterior
+    header.classList.remove("gradient-renda", "gradient-despesa");
+
+    if (this.value === "1") {
+        // Renda → azul-esverdeado
+        header.classList.add("gradient-renda");
+    } else if (this.value === "2") {
+        // Despesa → laranja-vermelho
+        header.classList.add("gradient-despesa");
+    }
+    // Se nenhuma opção, volta ao branco
 });

@@ -116,6 +116,10 @@ const tiposPercentual = ['5', '6'];
 let painel;
 
 seletorTipoValorMeta.addEventListener('change', () => {
+    habilitaPainel();
+});
+
+function habilitaPainel() {
     if (tiposFixos.includes(seletorTipoValorMeta.value)) {
         painel = painelValorFixo();
     } else if (tiposPercentual.includes(seletorTipoValorMeta.value)) {
@@ -124,8 +128,7 @@ seletorTipoValorMeta.addEventListener('change', () => {
         painel = painelDefault();
     }
     painelInsereValor.innerHTML = painel;
-});
-
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     //Exibição dos registros
@@ -201,7 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             init(false);
         }
-
         updateRegistroArray(seletorModalidade.value);
         addRegistros();
     });
@@ -261,6 +263,11 @@ document.addEventListener('DOMContentLoaded', () => {
     //Esse condicional serve para contabilizar categorias já inseridas quando há recarregamento
     if (categoriasSelecionadas.length == 0) {
         checkCategoriasSelecionadas(painelCategoria);
+    }
+
+    //Garante que novas requisições devido a redirecionamento carreguem o painel, sugestão do Artur durante auditoria :)
+    if (seletorTipoValorMeta.value != '') {
+        habilitaPainel();
     }
 
     updateRegistroArray(seletorModalidade.value);

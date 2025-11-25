@@ -1,7 +1,7 @@
 @props([
     "titulo",
-    "meta",
     "route",
+    "meta",
     "impotancias",
     "tiposMeta",
     "registrosDaMeta",
@@ -150,7 +150,7 @@
                                     <i class="bi bi-file-text text-secondary me-1"></i>
                                     Descrição
                                 </label>
-                                <textarea class="form-control" id="ds_descricao" name="ds_descricao" rows="3"
+                                <textarea class="form-control" id="ds_descricao" name="ds_descricao" rows="6"
                                     placeholder="Descreva os detalhes da sua meta...">{{ old('ds_descricao',$meta->ds_descricao ?? '') }}</textarea>
                             </div>
                         </div>

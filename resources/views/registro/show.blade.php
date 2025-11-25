@@ -280,10 +280,10 @@
                     @isset($registro->ds_descricao)
                         <div class="card-body">
                             <div class="row g-3">
-                                <p class="text-dark mb-3 col-8">
+                                <p class="text-dark mb-3 col-12 col-md-8">
                                     {{ $registro->ds_descricao }}
                                 </p>
-                                <div class="col-4">
+                                <div class="col-12 col-md-4">
                                     <div
                                         class="bg-light p-3 text-center fs-6 rounded"
                                     >
@@ -511,7 +511,7 @@
                                 <div class="p-3">
                                     <div class="container">
                                         <div class="row justify-content-center">
-                                            <div class="row border-bottom py-2 mb-3 bg-light rounded">
+                                            <div class="row border-bottom py-2 mb-3 bg-light rounded d-none d-md-flex">
                                                 <div class="col-2 fw-bold text-uppercase text-primary small">No.</div>
                                                 <div class="col-3 fw-bold text-uppercase text-primary small">Atualizado em:</div>
                                                 <div class="col-3 fw-bold text-uppercase text-primary small text-end">Valor</div>
@@ -520,12 +520,19 @@
 
                                             @foreach($historicos as $key => $historico)
                                                 <div class="row border-bottom py-2 align-items-center mb-2 rounded">
-                                                    <div class="col-2 text-primary fw-bold fs-5">
+                                                    <div class="col-6 col-md-2 text-primary fw-bold fs-5 mb-2 mb-md-0">
+                                                        <span class="d-md-none text-muted small ms-2">No.</span>
                                                         <span class="badge bg-primary">{{ $key + 1 }}</span>
                                                     </div>
-                                                    <div class="col-3 text-muted small fst-italic">{{ date('H:i:s d/m/Y', strtotime($historico->updated_at)) }}</div>
-                                                    <div class="col-3 text-end fw-semibold text-dark fs-5">R$ {{ number_format($historico->vl_valor, 2, ',', '.') }}</div>
-                                                    <div class="col-4 text-end fw-semibold fs-5">
+                                                    <div class="col-6 col-md-3 text-end text-md-start mb-2 mb-md-0">
+                                                        <span class="d-md-none text-muted small d-block">Atualizado em:</span>
+                                                        <span class="text-muted small fst-italic">{{ date('H:i:s d/m/Y', strtotime($historico->updated_at)) }}</span>
+                                                    </div>
+                                                    <div class="col-6 col-md-3 text-end fw-semibold text-dark fs-5 mb-2 mb-md-0">
+                                                        <span class="d-md-none text-muted small d-block">Valor</span>
+                                                        R$ {{ number_format($historico->vl_valor, 2, ',', '.') }}
+                                                    </div>
+                                                    <div class="col-6 col-md-4 text-end fw-semibold fs-5">
                                                         {{--
                                                             As entradas de historico estão ordenadas das mais recentes as mais antigas, a cada iteração uma entrada mais antiga é indicada,
                                                             ou seja para obter a diferença utiliza-se atual - proxima, com a precaução de não se estourar o array.
@@ -536,6 +543,7 @@
                                                             $diff = $historico->vl_valor - ($proximaChave < count($historicos) ? $historicos[$proximaChave]->vl_valor : 0);
                                                             $color = $diff >= 0 ? 'success' : 'danger';
                                                         @endphp
+                                                        <span class="d-md-none text-muted small d-block">Diferença</span>
                                                         <span class="badge bg-{{ $color }} rounded-pill">R$ {{ number_format($diff, 2, ',', '.') }}</span>
                                                     </div>
                                                 </div>

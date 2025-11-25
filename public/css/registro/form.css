@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Public+Sans:wght@300;400;500&family=Source+Sans+Pro:wght@400;500&family=DM+Sans:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&family=Roboto+Mono:wght@500&display=swap');
+
+
+body {
+  background-color: #e9f5eb;
+}
+
+/* Títulos e cabeçalhos */
+h1, h2, h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  width: 20rem;
+  color: #1e3c3a; /* tom escuro e elegante */
+}
+
+.form-label, .form-check-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 575;
+}
+
+.form-select, .placeholder, .form-control, .dropdown-toggle {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+}
+
+.btn-primary, .btn-secondary {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 500;
+  color: #fff !important;
+}
+
+/* Estado padrão */
+#cardHeader {
+  background: white;
+  transition: background 0.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradiente da RENDA */
+#cardHeader.gradient-renda {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 151, 178, 1) 0%,
+    rgba(88, 152, 61, 1) 100%
+  );
+  background-size: 200% 100%;
+  animation: moveGradientSlow 4s ease-out forwards;
+}
+
+/* Gradiente da DESPESA */
+#cardHeader.gradient-despesa {
+  background: linear-gradient(
+    90deg,
+    rgba(219, 105, 48, 1) 0%,
+    rgba(253, 29, 29, 1) 51%,
+    rgba(252, 112, 69, 1) 100%
+  );
+  background-size: 200% 100%;
+  animation: moveGradientSlow 4s ease-out forwards;
+}
+
+/* Animação (direita → esquerda) */
+@keyframes moveGradientSlow {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
