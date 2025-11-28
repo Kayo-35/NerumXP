@@ -58,7 +58,7 @@ BEGIN
             end if;
         end if;
     end if;
-END
+END $$
 delimiter ;
 
 delimiter $$
@@ -133,7 +133,7 @@ BEGIN
 
         END IF;
     END IF;
-END
+END $$
 delimiter ;
 
 delimiter $$
