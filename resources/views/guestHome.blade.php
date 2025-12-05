@@ -104,7 +104,7 @@
                                     <li>Relatórios básicos</li>
                                 </ul>
                                 <br>
-                                <a href="#" class="btn btn-success shadow-sm btn-cta">COMECE AGORA</a>
+                                <a href="#" class="btn btn-success shadow-sm mt-auto btn-cta">ASSINE AGORA</a>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                                     <li>Relatórios com filtragem</li>
                                     <li>10 metas</li>
                                 </ul>
-                                <a href="#" class="btn btn-success shadow-sm btn-cta">Assinar agora</a>
+                                <a href="#" class="btn btn-success shadow-sm mt-auto btn-cta">ASSINE AGORA</a>
                             </div>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                                     <li>20 metas</li>
                                 </ul>
                                 <br>
-                                <a href="#" class="btn btn-success shadow-sm btn-cta">Assinar agora</a>
+                                <a href="#" class="btn btn-success shadow-sm mt-auto btn-cta">ASSINE AGORA</a>
                             </div>
                         </div>
                     </div>

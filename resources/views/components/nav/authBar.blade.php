@@ -49,6 +49,7 @@
         </div>    
     </div>
 </div>
+
 </nav>
 
 <!-- ===== Sidebar (visível apenas em telas grandes) ===== -->

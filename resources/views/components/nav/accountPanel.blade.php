@@ -1,5 +1,5 @@
 <!-- Botão/Link para expandir/colapsar -->
-<a class="nav-link text-white d-flex align-items-center mb-2 shadow-sm account-panel-link"
+<a class="nav-link text-white d-flex align-items-center mb-2 shadow-sm account-panel-link px-3 py-2"
     data-bs-toggle="collapse"
     href="#accountInfoCollapse"
     role="button"
