@@ -16,8 +16,7 @@
                 <p>O sistema <strong>NerumXP - Gerenciamento Financeiro Pessoal</strong> é um projeto acadêmico
                     desenvolvido
                     por um grupo de estudantes da <strong>Escola Técnica Estadual Doutora Ruth Cardoso</strong>.</p>
-                <p>Equipe responsável: <strong>José Roberto, Kallyu Souza, Kayo Almeida Medvedchikoff, Samuel Neris e William
-                        Rezende</strong>.</p>
+                <p>Equipe responsável: <strong>José Roberto de Souza Junior, Kallyu da Silva Souza, Kayo Almeida Medvedchikoff, Samuel Martins Neris dos Santos e William Francisco Rezende</strong>.</p>
                 <p class="mb-0">Embora desenvolvido no contexto educacional, o projeto é tratado com padrões
                     profissionais
                     de qualidade, ética e respeito aos usuários.</p>
