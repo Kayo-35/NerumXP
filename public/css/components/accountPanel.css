@@ -31,7 +31,6 @@
 .account-panel-collapse {
     max-width: 100%;
     box-sizing: border-box;
-    overflow: visible !important;
     padding-right: env(safe-area-inset-right, 0);
     position: relative;
     z-index: 1200;

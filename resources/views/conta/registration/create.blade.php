@@ -6,8 +6,7 @@
                 <div class="card shadow rounded-5">
 
                     <!-- Cabeçalho -->
-                    <br>
-                    <a href="{{ route('guest.home') }}"><img src="{{ asset('img/logo_projeto_fundo_branco.png') }}" width="50" class="d-block mx-auto"></a>
+                    <a href="{{ route('guest.home') }}" class="d-block mt-3"><img src="{{ asset('img/logo_projeto_fundo_branco.png') }}" width="50" class="d-block mx-auto"></a>
                     <div class="text-center">
                         <h3 class="mb-2">Registro de Conta</h3>
                     </div>

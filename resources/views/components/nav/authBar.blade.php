@@ -21,50 +21,35 @@
         aria-expanded="false"
         aria-label="Abrir menu"
     >
-    <x-nav.nav-link
-        :active="request()->is('registro*') ? true : false"
-        :type="request()->is('registro*') ? 'btn' : 'a'"
-        href='{{ route("registro.index") }}'
-    >
-        Registros
-    </x-nav.nav-link>
-    @if(Auth::user()->cd_assinatura > 1)
-		<x-nav.nav-link
-			:active="request()->is('meta*') ? true : false"
-			:type="request()->is('meta*') ? 'btn' : 'a'"
-			href='{{ route("meta.index") }}'
-		>
-			Metas
-		</x-nav-link>
-    @endif
-    <x-nav.nav-link
-        :active="request()->is('relatorio*') ? true : false"
-        :type="request()->is('relatorio*') ? 'btn' : 'a'"
-        href='{{ route("relatorio.index") }}'
-    >
-       Relatórios
-    </x-nav-link>
-</div>
-<x-nav.accountPanel></x-nav.accountPanel>
-    <!-- Menu colapsado no mobile -->
-    <div class="collapse navbar-collapse mt-2" id="mobileMenu">
-        <div class="navbar-nav ms-auto">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mobileMenu">
         @include('components.nav.accountPanel')
-        <a href="{{ route('home')}}" class="nav-link d-flex text-white align-items-center">
-            <i class="bi bi-cup-hot-fill me-2 icon-menu"></i> Resumo
-        </a>
-        <a href="{{ route('registro.index')}}" class="nav-link text-white d-flex align-items-center">
-            <i class="bi bi-receipt me-2 icon-menu"></i> Registros
-        </a>
-        <a href="#" class="nav-link text-white d-flex align-items-center">
-            <i class="bi bi-clipboard-data-fill me-2 icon-menu"></i> Relatórios
-        </a>
-        <a href="{{ route('meta.index')}}" class="nav-link text-white d-flex align-items-center">
-            <i class="bi bi-award-fill me-2 icon-menu"></i> Metas
-        </a>
-        </div>
+        <div class="navbar-nav ms-auto">
+            <a href="{{ route('home') }}" class="nav-link d-flex text-white align-items-center">
+                <i class="bi bi-cup-hot-fill me-2 icon-menu"></i>
+                Resumo
+            </a>
+            
+            <a href="{{ route('registro.index') }}" class="nav-link d-flex text-white align-items-center">
+                <i class="bi bi-receipt me-2 icon-menu"></i>
+                Registros
+            </a>
+
+            <a href="{{ route('relatorio.index') }}" class="nav-link d-flex text-white align-items-center">
+                <i class="bi bi-clipboard-data-fill me-2 icon-menu"></i>
+                Relatórios
+            </a>
+
+            <a href="{{ route('meta.index') }}" class="nav-link d-flex text-white align-items-center">
+                <i class="bi bi-award-fill me-2 icon-menu"></i>
+                Metas
+            </a>
+        </div>    
     </div>
-    </div>
+</div>
+
 </nav>
 
 <!-- ===== Sidebar (visível apenas em telas grandes) ===== -->

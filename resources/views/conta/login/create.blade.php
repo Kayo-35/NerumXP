@@ -3,8 +3,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
             <div class="card shadow rounded-5">
-                <br>
-                <a href="{{ route('guest.home') }}"><img src="{{ asset('img/logo_projeto_fundo_branco.png') }}" width="50" class="d-block mx-auto"></a>
+                <a href="{{ route('guest.home') }}" class="d-block mt-3"><img src="{{ asset('img/logo_projeto_fundo_branco.png') }}" width="50" class="d-block mx-auto"></a>
                 <div class="text-center">
                     <h3 class="mb-0">Login</h3>
                 </div>
@@ -24,8 +23,6 @@
                             <input type="password" class="form-control" id="senha" name="password" required>
                             <x-helper.error campo="password"></x-helper.error>
                         </div>
-
-                        <br>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success btn-lg">

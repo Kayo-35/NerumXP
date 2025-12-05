@@ -72,7 +72,7 @@ BEGIN
 
     RETURN total_var;
 
-END$$
+END $$
 DELIMITER ;
 
 
@@ -150,7 +150,7 @@ BEGIN
 
     RETURN total_var;
 
-END$$
+END $$
 DELIMITER ;
 
 DELIMITER $$
@@ -177,7 +177,7 @@ BEGIN
         cd_modalidade = 1 and
         date(created_at) between dt_inicio_param and dt_termino_param;
     return total_var;
-END$$
+END $$
 DELIMITER ;
 
 -- Gerenciamento de metas e auxiliares
@@ -203,7 +203,7 @@ BEGIN
     end if;
     
     RETURN somatorio_var;
-END$$
+END $$
 DELIMITER ;
 
 DELIMITER $$
@@ -222,5 +222,5 @@ BEGIN
     where cd_categoria = cd_categoria_param;
     
     RETURN somatorio_var;
-END$$
+END $$
 DELIMITER ; 
